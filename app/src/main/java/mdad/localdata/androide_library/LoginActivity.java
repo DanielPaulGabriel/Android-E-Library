@@ -28,7 +28,7 @@ public class LoginActivity extends AppCompatActivity {
     private Button btnLogin;
     private TextView tvRegister;
 
-    private static final String LOGIN_URL = "http://<your_server_url>/loginUser.php";
+    private static final String LOGIN_URL = "http://192.168.86.20/elibrary/users/loginUser.php";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,9 +73,9 @@ public class LoginActivity extends AppCompatActivity {
                             if (jsonObject.getBoolean("success")) {
                                 String role = jsonObject.getString("role");
                                 if (role.equals("user")) {
-                                    startActivity(new Intent(LoginActivity.this, UserDashboardActivity.class));
+                                    startActivity(new Intent(LoginActivity.this, UserBookCatalogueActivity.class));
                                 } else if (role.equals("staff")) {
-                                    startActivity(new Intent(LoginActivity.this, StaffDashboardActivity.class));
+                                    startActivity(new Intent(LoginActivity.this, StaffBookCatalogueActivity.class));
                                 }
                                 finish();
                             } else {

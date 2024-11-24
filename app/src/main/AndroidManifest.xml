@@ -15,6 +15,12 @@
         android:theme="@style/Theme.AndroidELibrary"
         tools:targetApi="31">
         <activity
+            android:name=".StaffBookCatalogueActivity"
+            android:exported="false" />
+        <activity
+            android:name=".UserBookCatalogueActivity"
+            android:exported="false" />
+        <activity
             android:name=".RegisterActivity"
             android:exported="false" />
         <activity
