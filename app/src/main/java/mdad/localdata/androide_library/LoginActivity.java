@@ -1,6 +1,7 @@
 package mdad.localdata.androide_library;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -27,12 +28,25 @@ public class LoginActivity extends AppCompatActivity {
     private EditText etUsername, etPassword;
     private Button btnLogin;
     private TextView tvRegister;
-
-    private static final String LOGIN_URL = "http://192.168.86.20/elibrary/users/loginUser.php";
-
+    private static final String LOGIN_URL = Constants.LOGIN_URL;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Check login status
+        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        boolean isLoggedIn = sharedPreferences.getBoolean("isLoggedIn", false);
+        String userRole = sharedPreferences.getString("userRole", "");
+
+        if (isLoggedIn) {
+            if (userRole.equals("user")) {
+                startActivity(new Intent(this, UserBookCatalogueActivity.class));
+            } else if (userRole.equals("staff")) {
+                startActivity(new Intent(this, StaffBookCatalogueActivity.class));
+            }
+            finish(); // Close the LoginActivity
+        }
+
         setContentView(R.layout.activity_login);
 
         etUsername = findViewById(R.id.etUsername);
@@ -77,6 +91,13 @@ public class LoginActivity extends AppCompatActivity {
                                 } else if (role.equals("staff")) {
                                     startActivity(new Intent(LoginActivity.this, StaffBookCatalogueActivity.class));
                                 }
+
+                                SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+                                SharedPreferences.Editor editor = sharedPreferences.edit();
+                                editor.putBoolean("isLoggedIn", true);
+                                editor.putString("userRole", role); // Save the role (e.g., "user" or "staff")
+                                editor.apply();
+
                                 finish();
                             } else {
                                 Toast.makeText(LoginActivity.this, jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
