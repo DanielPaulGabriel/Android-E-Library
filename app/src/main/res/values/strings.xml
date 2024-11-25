@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Android E-Library</string>
+    <string name="book_cover">Book Cover</string>
+    <string name="back_button">Back Button</string>
 </resources>

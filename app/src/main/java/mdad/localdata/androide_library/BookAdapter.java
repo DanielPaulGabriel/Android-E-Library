@@ -18,6 +18,8 @@ import java.util.List;
 public class BookAdapter extends RecyclerView.Adapter<BookAdapter.BookViewHolder> {
     private Context context;
     private List<Book> bookList;
+
+    private static final String BASE_URL = Constants.BASE_URL;
     public BookAdapter(Context context, List<Book> bookList) {
         this.context = context;
         this.bookList = bookList;
@@ -40,17 +42,25 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.BookViewHolder
 
         // Load the book cover using Glide
         Glide.with(context)
-                .load("http://192.168.86.20"+book.getCoverPath()) // URL or file path of the book cover
+                .load(BASE_URL+book.getCoverPath()) // URL or file path of the book cover
+
                 .placeholder(R.drawable.ic_placeholder) // Placeholder image
                 .error(R.drawable.ic_error) // Error image
                 .into(holder.ivBookCover);
 
         // Handle item click
-        holder.itemView.setOnClickListener(v -> {
-            Intent intent = new Intent(context, BookDetailsActivity.class);
-            intent.putExtra("bookId", book.getBookId());
-            context.startActivity(intent);
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, BookDetailsActivity.class);
+                intent.putExtra("coverUrl",BASE_URL + book.getCoverPath()); // Pass cover URL
+                intent.putExtra("title", book.getTitle());       // Pass book title
+                intent.putExtra("author", book.getAuthor());     // Pass book author
+                intent.putExtra("description", book.getSummary()); // Pass description
+                context.startActivity(intent);
+            }
         });
+
     }
 
     @Override
@@ -69,4 +79,5 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.BookViewHolder
             tvBookAuthor = itemView.findViewById(R.id.tvBookAuthor);
         }
     }
+
 }
