@@ -53,6 +53,7 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.BookViewHolder
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, BookDetailsActivity.class);
+                intent.putExtra("bookId",book.getBookId()); // Pass book id
                 intent.putExtra("coverUrl",BASE_URL + book.getCoverPath()); // Pass cover URL
                 intent.putExtra("title", book.getTitle());       // Pass book title
                 intent.putExtra("author", book.getAuthor());     // Pass book author

@@ -85,6 +85,8 @@ public class LoginActivity extends AppCompatActivity {
                         try {
                             JSONObject jsonObject = new JSONObject(response);
                             if (jsonObject.getBoolean("success")) {
+                                int userId = jsonObject.getInt("user_id");
+                                SharedPrefsManager.saveUserId(LoginActivity.this, userId);
                                 String role = jsonObject.getString("role");
                                 if (role.equals("user")) {
                                     startActivity(new Intent(LoginActivity.this, UserBookCatalogueActivity.class));

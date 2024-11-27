@@ -69,6 +69,18 @@
                 android:textSize="14sp"
                 android:lineSpacingExtra="4dp"
                 android:textColor="@android:color/black" />
+
+            <!-- Borrow Button -->
+            <Button
+                android:id="@+id/btnBorrow"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Borrow"
+                android:layout_marginTop="16dp"
+                android:backgroundTint="@android:color/holo_blue_dark"
+                android:textColor="@android:color/white" />
+
+
         </LinearLayout>
     </RelativeLayout>
 </ScrollView>
