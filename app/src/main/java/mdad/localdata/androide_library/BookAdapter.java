@@ -9,6 +9,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -52,13 +54,27 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.BookViewHolder
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, BookDetailsActivity.class);
+                /*Intent intent = new Intent(context, BookDetailsActivity.class);
                 intent.putExtra("bookId",book.getBookId()); // Pass book id
                 intent.putExtra("coverUrl",BASE_URL + book.getCoverPath()); // Pass cover URL
                 intent.putExtra("title", book.getTitle());       // Pass book title
                 intent.putExtra("author", book.getAuthor());     // Pass book author
                 intent.putExtra("description", book.getSummary()); // Pass description
-                context.startActivity(intent);
+                context.startActivity(intent);*/
+
+                Fragment bookDetailsFragment = BookDetailsFragment.newInstance(
+                        book.getBookId(),
+                        BASE_URL + book.getCoverPath(),
+                        book.getTitle(),
+                        book.getAuthor(),
+                        book.getSummary()
+                );
+
+                ((AppCompatActivity) context).getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragment_container, bookDetailsFragment)
+                        .addToBackStack(null)
+                        .commit();
             }
         });
 

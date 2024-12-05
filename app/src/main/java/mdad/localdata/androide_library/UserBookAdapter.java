@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 
 import java.util.List;
+import java.util.Objects;
 
 public class UserBookAdapter extends RecyclerView.Adapter<UserBookAdapter.UserBooksViewHolder> {
 
@@ -37,7 +38,7 @@ public class UserBookAdapter extends RecyclerView.Adapter<UserBookAdapter.UserBo
         holder.tvBorrowDate.setText("Borrowed: " + book.getBorrow_date());
         holder.tvDueDate.setText("Due: " + book.getDue_date());
 
-        if (book.getReturn_date() == null) {
+        if (Objects.equals(book.getReturn_date(), "null")) {
             holder.tvReturnDate.setText("Not Returned");
         } else {
             holder.tvReturnDate.setText("Returned: " + book.getReturn_date());
@@ -45,7 +46,7 @@ public class UserBookAdapter extends RecyclerView.Adapter<UserBookAdapter.UserBo
 
         // Load book cover image
         Glide.with(holder.itemView.getContext())
-                .load(book.getCoverPath())
+                .load(Constants.BASE_URL+ book.getCoverPath())
                 .placeholder(R.drawable.ic_placeholder)
                 .error(R.drawable.ic_error)
                 .into(holder.ivCover);

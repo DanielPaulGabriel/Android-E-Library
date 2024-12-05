@@ -90,7 +90,8 @@ public class LoginActivity extends AppCompatActivity {
                                 SharedPrefsManager.saveUserId(LoginActivity.this, userId);
                                 String role = jsonObject.getString("role");
                                 if (role.equals("user")) {
-                                    startActivity(new Intent(LoginActivity.this, UserBookCatalogueActivity.class));
+                                    //startActivity(new Intent(LoginActivity.this, UserBookCatalogueActivity.class));
+                                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
                                 } else if (role.equals("staff")) {
                                     startActivity(new Intent(LoginActivity.this, StaffBookCatalogueActivity.class));
                                 }

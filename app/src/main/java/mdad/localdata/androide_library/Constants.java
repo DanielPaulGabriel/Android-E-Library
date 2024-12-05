@@ -18,6 +18,7 @@ public class Constants {
         public static final String EDIT_BOOK_URL = BASE_URL + "/elibrary/books/editBook.php";
         public static final String DELETE_BOOK_URL = BASE_URL + "/elibrary/books/deleteBook.php";
         public static final String GET_ALL_BOOKS_URL = BASE_URL + "/elibrary/books/getAllBooks.php";
+        public static final String GET_BOOK_DETAILS_URL = BASE_URL + "/elibrary/books/getBookDetails.php";
         public static final String GET_USER_BOOKS_URL = BASE_URL + "/elibrary/books/getAllUserBooks.php";
 
 
