@@ -41,6 +41,7 @@
 
             <!-- Book Title -->
             <TextView
+                android:fontFamily="@font/poppinsregular"
                 android:id="@+id/tvBookTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -52,6 +53,7 @@
 
             <!-- Book Author -->
             <TextView
+                android:fontFamily="@font/poppinsregular"
                 android:id="@+id/tvBookAuthor"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -62,6 +64,7 @@
 
             <!-- Book Description -->
             <TextView
+                android:fontFamily="@font/poppinsregular"
                 android:id="@+id/tvBookDescription"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -72,12 +75,20 @@
 
             <!-- Borrow Button -->
             <Button
+                android:fontFamily="@font/poppinsregular"
                 android:id="@+id/btnBorrow"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Borrow"
                 android:layout_marginTop="16dp"
                 android:textColor="@android:color/white" />
+
+            <!-- Divider -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="20dp"
+                android:background="@android:color/darker_gray" />
 
             <!-- RatingBar for User's Rating -->
             <RatingBar
@@ -99,6 +110,7 @@
 
             <!-- Submit Button -->
             <Button
+                android:fontFamily="@font/poppinsregular"
                 android:id="@+id/btnSubmitReview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -114,10 +126,11 @@
 
             <!-- Existing Reviews Title -->
             <TextView
+                android:fontFamily="@font/poppinsregular"
                 android:id="@+id/tvReviewsTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Other Reviews"
+                android:text="Existing Reviews"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 android:layout_marginTop="16dp"

@@ -6,6 +6,7 @@
     android:padding="16dp">
 
     <TextView
+        android:fontFamily="@font/poppinsregular"
         android:id="@+id/tvNoBooks"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

@@ -15,6 +15,7 @@
         android:layout_gravity="center" />
 
     <TextView
+        android:fontFamily="@font/poppinsregular"
         android:id="@+id/tvBookTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -25,6 +26,7 @@
         android:textColor="@android:color/black" />
 
     <TextView
+        android:fontFamily="@font/poppinsregular"
         android:id="@+id/tvBookAuthor"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

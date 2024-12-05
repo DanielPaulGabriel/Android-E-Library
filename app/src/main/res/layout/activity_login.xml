@@ -6,6 +6,7 @@
     android:padding="16dp">
 
     <TextView
+        android:fontFamily="@font/poppinsregular"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Login"
@@ -15,6 +16,7 @@
         android:paddingBottom="24dp" />
 
     <EditText
+        android:fontFamily="@font/poppinsregular"
         android:id="@+id/etUsername"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -23,6 +25,7 @@
         android:minHeight="48dp" />
 
     <EditText
+        android:fontFamily="@font/poppinsregular"
         android:id="@+id/etPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -32,6 +35,7 @@
         android:minHeight="48dp" />
 
     <Button
+        android:fontFamily="@font/poppinsregular"
         android:id="@+id/btnLogin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -44,6 +48,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:clickable="true"
+        android:fontFamily="@font/poppinsregular"
         android:gravity="center"
         android:minHeight="48dp"
         android:text="Don't have an account? Register"

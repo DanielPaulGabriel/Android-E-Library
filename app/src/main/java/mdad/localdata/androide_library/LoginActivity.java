@@ -43,7 +43,7 @@ public class LoginActivity extends AppCompatActivity {
                 //startActivity(new Intent(this, UserBookCatalogueActivity.class));
                 startActivity(new Intent(this, MainActivity.class));
             } else if (userRole.equals("staff")) {
-                startActivity(new Intent(this, StaffBookCatalogueActivity.class));
+                //startActivity(new Intent(this, StaffBookCatalogueActivity.class));
             }
             finish(); // Close the LoginActivity
         }
@@ -93,7 +93,7 @@ public class LoginActivity extends AppCompatActivity {
                                     //startActivity(new Intent(LoginActivity.this, UserBookCatalogueActivity.class));
                                     startActivity(new Intent(LoginActivity.this, MainActivity.class));
                                 } else if (role.equals("staff")) {
-                                    startActivity(new Intent(LoginActivity.this, StaffBookCatalogueActivity.class));
+                                    //startActivity(new Intent(LoginActivity.this, StaffBookCatalogueActivity.class));
                                 }
 
                                 SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);

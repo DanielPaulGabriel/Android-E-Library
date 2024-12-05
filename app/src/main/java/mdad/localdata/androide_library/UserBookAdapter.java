@@ -7,6 +7,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -14,54 +16,100 @@ import com.bumptech.glide.Glide;
 import java.util.List;
 import java.util.Objects;
 
-public class UserBookAdapter extends RecyclerView.Adapter<UserBookAdapter.UserBooksViewHolder> {
+public class UserBookAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+    private static final String BASE_URL = Constants.BASE_URL;
+    private List<ListItem> items; // Updated to hold both books and headers
 
-    private List<UserBook> userBooks;
+    public UserBookAdapter(List<ListItem> items) {
+        this.items = items;
+    }
 
-    public UserBookAdapter(List<UserBook> userBooks) {
-        this.userBooks = userBooks;
+    @Override
+    public int getItemViewType(int position) {
+        return items.get(position).getType();
     }
 
     @NonNull
     @Override
-    public UserBooksViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_user_book, parent, false);
-        return new UserBooksViewHolder(view);
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        if (viewType == ListItem.TYPE_HEADER) {
+            View view = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.item_genre_header, parent, false);
+            return new GenreHeaderViewHolder(view);
+        } else {
+            View view = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.item_user_book, parent, false);
+            return new UserBookViewHolder(view);
+        }
     }
 
     @Override
-    public void onBindViewHolder(@NonNull UserBooksViewHolder holder, int position) {
-        UserBook book = userBooks.get(position);
-        holder.tvTitle.setText(book.getTitle());
-        holder.tvAuthor.setText(book.getAuthor());
-        holder.tvBorrowDate.setText("Borrowed: " + book.getBorrow_date());
-        holder.tvDueDate.setText("Due: " + book.getDue_date());
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+        if (holder instanceof GenreHeaderViewHolder) {
+            GenreHeader genreHeader = (GenreHeader) items.get(position);
+            ((GenreHeaderViewHolder) holder).tvGenre.setText(genreHeader.getGenre());
+        } else if (holder instanceof UserBookViewHolder) {
+            UserBook book = (UserBook) items.get(position);
+            UserBookViewHolder bookHolder = (UserBookViewHolder) holder;
 
-        if (Objects.equals(book.getReturn_date(), "null")) {
-            holder.tvReturnDate.setText("Not Returned");
-        } else {
-            holder.tvReturnDate.setText("Returned: " + book.getReturn_date());
+            bookHolder.tvTitle.setText(book.getTitle());
+            bookHolder.tvAuthor.setText(book.getAuthor());
+            bookHolder.tvBorrowDate.setText("Borrowed: " + book.getBorrow_date());
+            bookHolder.tvDueDate.setText("Due: " + book.getDue_date());
+
+            /*if (Objects.equals(book.getReturn_date(), "null")) {
+                bookHolder.tvReturnDate.setText("Not Returned");
+            } else {
+                bookHolder.tvReturnDate.setText("Returned: " + book.getReturn_date());
+            }*/
+
+            Glide.with(bookHolder.itemView.getContext())
+                    .load(Constants.BASE_URL + book.getCoverPath())
+                    .placeholder(R.drawable.ic_placeholder)
+                    .error(R.drawable.ic_error)
+                    .into(bookHolder.ivCover);
         }
+        /*holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                UserBook book = (UserBook) items.get(position);
+                Fragment borrowedBookDetailsFragment = BookDetailsFragment.newInstance(
+                        book.getBookId(),
+                        BASE_URL + book.getCoverPath(),
+                        book.getTitle(),
+                        book.getAuthor(),
+                        book.getSummary()
+                );
 
-        // Load book cover image
-        Glide.with(holder.itemView.getContext())
-                .load(Constants.BASE_URL+ book.getCoverPath())
-                .placeholder(R.drawable.ic_placeholder)
-                .error(R.drawable.ic_error)
-                .into(holder.ivCover);
+                ((AppCompatActivity) context).getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragment_container, borrowedBookDetailsFragment)
+                        .addToBackStack(null)
+                        .commit();
+            }
+        });*/
     }
+
 
     @Override
     public int getItemCount() {
-        return userBooks.size();
+        return items.size();
     }
 
-    public static class UserBooksViewHolder extends RecyclerView.ViewHolder {
+    public static class GenreHeaderViewHolder extends RecyclerView.ViewHolder {
+        TextView tvGenre;
+
+        public GenreHeaderViewHolder(@NonNull View itemView) {
+            super(itemView);
+            tvGenre = itemView.findViewById(R.id.tvGenre);
+        }
+    }
+
+    public static class UserBookViewHolder extends RecyclerView.ViewHolder {
         TextView tvTitle, tvAuthor, tvBorrowDate, tvDueDate, tvReturnDate;
         ImageView ivCover;
 
-        public UserBooksViewHolder(@NonNull View itemView) {
+        public UserBookViewHolder(@NonNull View itemView) {
             super(itemView);
             tvTitle = itemView.findViewById(R.id.tvBookTitle);
             tvAuthor = itemView.findViewById(R.id.tvBookAuthor);

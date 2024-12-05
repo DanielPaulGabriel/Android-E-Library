@@ -17,6 +17,8 @@ import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
@@ -25,6 +27,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class UserBooksFragment extends Fragment {
@@ -63,6 +67,7 @@ public class UserBooksFragment extends Fragment {
         rootView = inflater.inflate(R.layout.fragment_user_books, container, false);
 
         RecyclerView recyclerView = rootView.findViewById(R.id.recyclerViewUserBooks);
+        recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         TextView tvNoBooks = rootView.findViewById(R.id.tvNoBooks);
 
         // Fetch User ID
@@ -74,51 +79,63 @@ public class UserBooksFragment extends Fragment {
     }
     private void fetchBooks(int userId, RecyclerView recyclerView, TextView tvNoBooks) {
         StringRequest stringRequest = new StringRequest(Request.Method.GET, GET_USER_BOOKS_URL + "?user_id=" + userId,
-                response -> {
-                    try {
-                        Log.e("fetchBooksResponse",response);
-                        JSONObject jsonObject = new JSONObject(response);
-                        if (jsonObject.getBoolean("success")) {
-                            JSONArray booksArray = jsonObject.getJSONArray("borrowed_books");
-                            List<UserBook> books = new ArrayList<>();
-                            for (int i = 0; i < booksArray.length(); i++) {
-                                JSONObject bookJson = booksArray.getJSONObject(i);
-                                UserBook book = new UserBook(
-                                        bookJson.getInt("book_id"),
-                                        bookJson.getString("title"),
-                                        bookJson.getString("author"),
-                                        bookJson.optString("genre", null),
-                                        bookJson.getString("summary"),
-                                        bookJson.getString("cover_path"),
-                                        bookJson.getString("borrow_date"),
-                                        bookJson.getString("due_date"),
-                                        bookJson.optString("return_date", null)
-                                );
-                                books.add(book);
-                            }
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+                            if (jsonObject.getBoolean("success")) {
+                                JSONArray booksArray = jsonObject.getJSONArray("borrowed_books");
+                                List<UserBook> books = new ArrayList<>();
+                                for (int i = 0; i < booksArray.length(); i++) {
+                                    JSONObject bookJson = booksArray.getJSONObject(i);
+                                    books.add(new UserBook(
+                                            bookJson.getInt("book_id"),
+                                            bookJson.getString("title"),
+                                            bookJson.getString("author"),
+                                            bookJson.getString("genre"),
+                                            bookJson.getString("summary"),
+                                            bookJson.getString("cover_path"),
+                                            bookJson.getString("borrow_date"),
+                                            bookJson.getString("due_date"),
+                                            bookJson.optString("return_date", null)
+                                    ));
+                                }
 
-                            if (books.isEmpty()) {
+                                // Group books by genre and add headers
+                                List<ListItem> items = new ArrayList<>();
+                                Collections.sort(books, Comparator.comparing(UserBook::getGenre));
+                                String lastGenre = "";
+                                for (UserBook book : books) {
+                                    if (!book.getGenre().equalsIgnoreCase(lastGenre)) {
+                                        lastGenre = book.getGenre();
+                                        items.add(new GenreHeader(lastGenre));
+                                    }
+                                    items.add(book);
+                                }
+
+                                // Pass the list with headers to the adapter
+                                UserBookAdapter adapter = new UserBookAdapter(items);
+                                recyclerView.setAdapter(adapter);
+                            } else {
                                 tvNoBooks.setVisibility(View.VISIBLE);
                                 recyclerView.setVisibility(View.GONE);
-                            } else {
-                                tvNoBooks.setVisibility(View.GONE);
-                                recyclerView.setVisibility(View.VISIBLE);
-
-                                // Set up RecyclerView
-                                recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-                                UserBookAdapter adapter = new UserBookAdapter(books);
-                                recyclerView.setAdapter(adapter);
                             }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            Toast.makeText(requireContext(), "Error loading books", Toast.LENGTH_SHORT).show();
                         }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                        Toast.makeText(getContext(), "Error parsing data.", Toast.LENGTH_SHORT).show();
                     }
                 },
-                error -> Toast.makeText(getContext(), "Error fetching data: " + error.getMessage(), Toast.LENGTH_SHORT).show()
-        );
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(requireContext(), "Error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
 
-        RequestQueue queue = Volley.newRequestQueue(getContext());
+        RequestQueue queue = Volley.newRequestQueue(requireContext());
         queue.add(stringRequest);
     }
+
 }

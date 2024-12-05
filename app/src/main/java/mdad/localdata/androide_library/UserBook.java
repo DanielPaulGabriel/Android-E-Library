@@ -1,7 +1,6 @@
 package mdad.localdata.androide_library;
 
-public class UserBook {
-    private String user_id;
+public class UserBook implements ListItem{
     private int bookId;
     private String title;
     private String author;
@@ -61,6 +60,11 @@ public class UserBook {
 
     public String getReturn_date() {
         return return_date;
+    }
+
+    @Override
+    public int getType() {
+        return TYPE_BOOK;
     }
 }
 
