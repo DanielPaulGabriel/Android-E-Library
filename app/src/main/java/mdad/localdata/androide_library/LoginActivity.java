@@ -40,7 +40,8 @@ public class LoginActivity extends AppCompatActivity {
 
         if (isLoggedIn) {
             if (userRole.equals("user")) {
-                startActivity(new Intent(this, UserBookCatalogueActivity.class));
+                //startActivity(new Intent(this, UserBookCatalogueActivity.class));
+                startActivity(new Intent(this, MainActivity.class));
             } else if (userRole.equals("staff")) {
                 startActivity(new Intent(this, StaffBookCatalogueActivity.class));
             }

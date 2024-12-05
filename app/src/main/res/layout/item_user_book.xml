@@ -1,0 +1,56 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="8dp">
+
+    <ImageView
+        android:id="@+id/ivBookCover"
+        android:layout_width="80dp"
+        android:layout_height="120dp"
+        android:scaleType="centerCrop"
+        android:contentDescription="Book Cover" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginStart="8dp">
+
+        <TextView
+            android:id="@+id/tvBookTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Book Title"
+            android:textStyle="bold"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/tvBookAuthor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Author"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/tvBorrowDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Borrowed: "
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/tvDueDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Due: "
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/tvReturnDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Return Date"
+            android:textSize="12sp" />
+    </LinearLayout>
+</LinearLayout>

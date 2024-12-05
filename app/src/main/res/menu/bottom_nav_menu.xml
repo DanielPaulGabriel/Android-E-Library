@@ -1,0 +1,18 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/nav_catalog"
+        android:icon="@drawable/ic_catalog"
+        android:title="Catalog" />
+    <item
+        android:id="@+id/nav_borrowed_books"
+        android:icon="@drawable/ic_borrowed_books"
+        android:title="Borrowed Books" />
+    <item
+        android:id="@+id/nav_reviews"
+        android:icon="@drawable/ic_reviews"
+        android:title="Reviews" />
+    <item
+        android:id="@+id/nav_profile"
+        android:icon="@drawable/ic_profile"
+        android:title="Profile" />
+</menu>

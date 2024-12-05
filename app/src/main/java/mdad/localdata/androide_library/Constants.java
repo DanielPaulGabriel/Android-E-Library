@@ -2,7 +2,7 @@ package mdad.localdata.androide_library;
 
 public class Constants {
     // Base URL
-    public static final String BASE_URL = "http://192.168.1.245";
+    public static final String BASE_URL = "http://192.168.86.243";
 
     // Endpoints
         // Users
@@ -18,8 +18,10 @@ public class Constants {
         public static final String EDIT_BOOK_URL = BASE_URL + "/elibrary/books/editBook.php";
         public static final String DELETE_BOOK_URL = BASE_URL + "/elibrary/books/deleteBook.php";
         public static final String GET_ALL_BOOKS_URL = BASE_URL + "/elibrary/books/getAllBooks.php";
+        public static final String GET_USER_BOOKS_URL = BASE_URL + "/elibrary/books/getAllUserBooks.php";
 
-        // Borrowed Books
+
+    // Borrowed Books
         public static final String BORROW_BOOK_URL = BASE_URL + "/elibrary/borrowed_books/borrowBook.php";
         public static final String RETURN_BOOK_URL = BASE_URL + "/elibrary/borrowed_books/returnBook.php";
         public static final String GET_USER__BORROW_HISTORY_URL = BASE_URL + "/elibrary/borrowed_books/getUserBorrowHistory.php";

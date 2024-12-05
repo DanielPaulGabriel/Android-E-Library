@@ -117,7 +117,7 @@ public class BookDetailsActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(String response) {
                         try {
-                            Log.d("BorrowBookResponse", response);
+                            // Log.d("BorrowBookResponse", response);
                             JSONObject jsonObject = new JSONObject(response);
                             if (jsonObject.getBoolean("success")) {
                                 Toast.makeText(BookDetailsActivity.this, jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
@@ -233,7 +233,7 @@ public class BookDetailsActivity extends AppCompatActivity {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        Log.d("fetchServerResponse", response);
+                        // Log.d("fetchServerResponse", response);
                         try {
                             JSONObject jsonObject = new JSONObject(response);
                             if (jsonObject.getBoolean("success")) {
