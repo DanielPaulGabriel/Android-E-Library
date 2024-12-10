@@ -3,6 +3,8 @@ package mdad.localdata.androide_library;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.InputType;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -55,6 +57,28 @@ public class LoginActivity extends AppCompatActivity {
         btnLogin = findViewById(R.id.btnLogin);
         tvRegister = findViewById(R.id.tvRegister);
 
+        etPassword.setOnTouchListener((v, event) -> {
+            if (event.getAction() == MotionEvent.ACTION_UP) {
+                // Check if the touch event is within the bounds of the drawableEnd
+                if (event.getRawX() >= (etPassword.getRight() - etPassword.getCompoundDrawables()[2].getBounds().width())) {
+                    // Toggle password visibility
+                    if (etPassword.getInputType() == InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD) {
+                        // Switch to hidden password
+                        etPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                        etPassword.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_pw_visibility_off, 0);
+                    } else {
+                        // Switch to visible password
+                        etPassword.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+                        etPassword.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_pw_visibility, 0);
+                    }
+                    // Move the cursor to the end of the text
+                    etPassword.setSelection(etPassword.getText().length());
+                    return true;
+                }
+            }
+            return false;
+        });
+
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -86,8 +110,16 @@ public class LoginActivity extends AppCompatActivity {
                         try {
                             JSONObject jsonObject = new JSONObject(response);
                             if (jsonObject.getBoolean("success")) {
+
                                 int userId = jsonObject.getInt("user_id");
                                 SharedPrefsManager.saveUserId(LoginActivity.this, userId);
+
+                                String username = jsonObject.getString("username");
+                                SharedPrefsManager.saveUsername(LoginActivity.this, username);
+
+                                String password = jsonObject.getString("password");
+                                SharedPrefsManager.savePassword(LoginActivity.this,password);
+
                                 String role = jsonObject.getString("role");
                                 if (role.equals("user")) {
                                     //startActivity(new Intent(LoginActivity.this, UserBookCatalogueActivity.class));

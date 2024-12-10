@@ -31,6 +31,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:hint="Password"
+        android:drawableEnd="@drawable/ic_pw_visibility_off"
         android:inputType="textPassword"
         android:minHeight="48dp" />
 

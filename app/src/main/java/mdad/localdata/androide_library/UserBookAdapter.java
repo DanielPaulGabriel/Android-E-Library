@@ -68,26 +68,31 @@ public class UserBookAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     .placeholder(R.drawable.ic_placeholder)
                     .error(R.drawable.ic_error)
                     .into(bookHolder.ivCover);
-        }
-        /*holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                UserBook book = (UserBook) items.get(position);
-                Fragment borrowedBookDetailsFragment = BookDetailsFragment.newInstance(
-                        book.getBookId(),
-                        BASE_URL + book.getCoverPath(),
-                        book.getTitle(),
-                        book.getAuthor(),
-                        book.getSummary()
-                );
+            // Make the item clickable
+            bookHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // Navigate to Borrowed Book Details Fragment
+                    Fragment borrowedBookDetailsFragment = BorrowedBookDetailsFragment.newInstance(
+                            book.getBookId(),
+                            book.getBorrowId(),
+                            Constants.BASE_URL + book.getCoverPath(),
+                            book.getTitle(),
+                            book.getAuthor(),
+                            book.getSummary()
+                    );
 
-                ((AppCompatActivity) context).getSupportFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.fragment_container, borrowedBookDetailsFragment)
-                        .addToBackStack(null)
-                        .commit();
-            }
-        });*/
+                    // Use the FragmentManager to replace the current fragment
+                    ((AppCompatActivity) bookHolder.itemView.getContext())
+                            .getSupportFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.fragment_container, borrowedBookDetailsFragment)
+                            .addToBackStack(null)
+                            .commit();
+                }
+            });
+        }
+
     }
 
 

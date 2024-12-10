@@ -2,6 +2,7 @@ package mdad.localdata.androide_library;
 
 public class UserBook implements ListItem{
     private int bookId;
+    private int borrowId;
     private String title;
     private String author;
     private String genre;
@@ -13,8 +14,9 @@ public class UserBook implements ListItem{
 
 
     // Constructor
-    public UserBook(int bookId, String title, String author, String genre, String summary, String coverPath, String borrow_date, String due_date, String return_date) {
+    public UserBook(int bookId, int borrowId, String title, String author, String genre, String summary, String coverPath, String borrow_date, String due_date, String return_date) {
         this.bookId = bookId;
+        this.borrowId = borrowId;
         this.title = title;
         this.author = author;
         this.genre = genre;
@@ -28,6 +30,10 @@ public class UserBook implements ListItem{
     // Getters
     public int getBookId() {
         return bookId;
+    }
+
+    public int getBorrowId() {
+        return borrowId;
     }
 
     public String getTitle() {

@@ -91,6 +91,7 @@ public class UserBooksFragment extends Fragment {
                                     JSONObject bookJson = booksArray.getJSONObject(i);
                                     books.add(new UserBook(
                                             bookJson.getInt("book_id"),
+                                            bookJson.getInt("borrow_id"),
                                             bookJson.getString("title"),
                                             bookJson.getString("author"),
                                             bookJson.getString("genre"),
