@@ -120,7 +120,7 @@ public class UserBookAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             tvAuthor = itemView.findViewById(R.id.tvBookAuthor);
             tvBorrowDate = itemView.findViewById(R.id.tvBorrowDate);
             tvDueDate = itemView.findViewById(R.id.tvDueDate);
-            tvReturnDate = itemView.findViewById(R.id.tvReturnDate);
+            //tvReturnDate = itemView.findViewById(R.id.tvReturnDate);
             ivCover = itemView.findViewById(R.id.ivBookCover);
         }
     }

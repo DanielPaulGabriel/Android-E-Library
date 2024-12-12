@@ -3,6 +3,10 @@ package mdad.localdata.androide_library;
 public class Review {
     private int reviewId;
     private String username;
+    private int bookId;
+    private String title;
+    private String author;
+    private String coverPath;
     private int rating;
     private String reviewText;
     private String createdAt;
@@ -15,11 +19,18 @@ public class Review {
         this.reviewText = reviewText;
         this.createdAt = createdAt;
     }
+    public Review(int reviewId, int bookId, int rating, String reviewText, String title, String author, String coverPath, String createdAt) {
+        this.reviewId = reviewId;
+        this.bookId = bookId;
+        this.rating = rating;
+        this.reviewText = reviewText;
+        this.title = title;
+        this.author = author;
+        this.coverPath = coverPath;
+        this.createdAt = createdAt;
+    }
 
     // Getters
-    public int getReviewId() {
-        return reviewId;
-    }
 
     public String getUsername() {
         return username;
@@ -35,5 +46,24 @@ public class Review {
 
     public String getCreatedAt() {
         return createdAt;
+    }
+    public int getReviewId() {
+        return reviewId;
+    }
+
+    public int getBookId() {
+        return bookId;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public String getCoverPath() {
+        return coverPath;
     }
 }

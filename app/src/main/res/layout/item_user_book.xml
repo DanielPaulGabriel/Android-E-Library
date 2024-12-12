@@ -51,12 +51,5 @@
             android:text="Due: "
             android:textSize="12sp" />
 
-        <TextView
-            android:fontFamily="@font/poppinsregular"
-            android:id="@+id/tvReturnDate"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Return Date"
-            android:textSize="12sp" />
     </LinearLayout>
 </LinearLayout>

@@ -3,6 +3,7 @@ package mdad.localdata.androide_library;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
@@ -61,4 +62,5 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ReviewView
             ratingBar = itemView.findViewById(R.id.ratingBarReview);
         }
     }
+
 }
