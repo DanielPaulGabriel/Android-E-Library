@@ -12,7 +12,7 @@ public class Review {
     private String createdAt;
 
     // Constructor
-    public Review(int reviewId, String username, int rating, String reviewText, String createdAt) {
+    public Review( int reviewId, String username, int rating, String reviewText, String createdAt) {
         this.reviewId = reviewId;
         this.username = username;
         this.rating = rating;

@@ -33,10 +33,10 @@ import java.util.Map;
 public class ProfileFragment extends Fragment {
 
     private EditText etUsername, etPassword;
-    private Button btnEditCredentials, btnSaveChanges, btnCancel, btnLogout;
+    private Button btnEditCredentials, btnSaveChanges, btnCancel, btnLogout, btnDelete;
 
     private static final String UPDATE_USER_DETAILS_URL = Constants.UPDATE_USER_DETAILS_URL;
-
+    private static final String DELETE_USER_URL = Constants.DELETE_USER_URL;
     @SuppressLint("ClickableViewAccessibility")
     @Nullable
     @Override
@@ -49,6 +49,7 @@ public class ProfileFragment extends Fragment {
         btnSaveChanges = rootView.findViewById(R.id.btnSaveChanges);
         btnLogout = rootView.findViewById(R.id.btnLogout);
         btnCancel = rootView.findViewById(R.id.btnCancel);
+        btnDelete = rootView.findViewById(R.id.btnDelete);
 
         loadUserData();
 
@@ -127,6 +128,10 @@ public class ProfileFragment extends Fragment {
             requireActivity().finish();
         });
 
+        btnDelete.setOnClickListener(v -> {
+            deleteUser();
+        });
+
         return rootView;
     }
 
@@ -174,6 +179,40 @@ public class ProfileFragment extends Fragment {
                 params.put("user_id", String.valueOf(userId));
                 params.put("username", username);
                 params.put("password", password);
+                return params;
+            }
+        };
+
+
+        RequestQueue queue = Volley.newRequestQueue(requireContext());
+        queue.add(stringRequest);
+    }
+
+    private void deleteUser(){
+        int userId = SharedPrefsManager.getUserId(requireContext());
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, DELETE_USER_URL,
+                response -> {
+                    try {
+                        JSONObject jsonObject = new JSONObject(response);
+                        if (jsonObject.getBoolean("success")) {
+                            Toast.makeText(requireContext(), "Profile deleted!", Toast.LENGTH_SHORT).show();
+                            SharedPrefsManager.clearUserData(requireContext());
+                            startActivity(new Intent(requireContext(), LoginActivity.class));
+                            requireActivity().finish();
+                        } else {
+                            Toast.makeText(requireContext(), jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        Toast.makeText(requireContext(), "Error parsing response.", Toast.LENGTH_SHORT).show();
+                    }
+                },
+                error -> Toast.makeText(requireContext(), "Error: " + error.getMessage(), Toast.LENGTH_SHORT).show()) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+                params.put("user_id", String.valueOf(userId));
                 return params;
             }
         };

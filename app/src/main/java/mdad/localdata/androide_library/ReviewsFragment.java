@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -30,6 +31,7 @@ public class ReviewsFragment extends Fragment {
 
     private RecyclerView recyclerView;
     private ReviewAdapter reviewAdapter;
+    private TextView tvNoReviews;
     private List<Review> reviewList = new ArrayList<>();
     private static final String GET_USER_REVIEWS_URL = Constants.GET_USER_REVIEWS_URL;
 
@@ -39,6 +41,8 @@ public class ReviewsFragment extends Fragment {
 
         recyclerView = rootView.findViewById(R.id.recyclerViewUserReviews);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        tvNoReviews = rootView.findViewById(R.id.tvNoReviews);
+
 
         int userId = SharedPrefsManager.getUserId(requireContext());
         if (userId != -1) {
@@ -82,6 +86,10 @@ public class ReviewsFragment extends Fragment {
                                     }
                                 });
                                 recyclerView.setAdapter(adapter);
+                            }
+                            else{
+                                tvNoReviews.setVisibility(View.VISIBLE);
+                                recyclerView.setVisibility(View.GONE);
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();

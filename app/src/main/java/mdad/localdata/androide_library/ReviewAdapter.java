@@ -46,8 +46,10 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ReviewView
         return reviews;
     }
 
-    public void updateReviews(List<Review> reviews) {
-        this.reviews = reviews;
+    public void updateReviews(List<Review> newReviews) {
+        this.reviews.clear();
+        this.reviews.addAll(newReviews);
+        notifyDataSetChanged(); // Notify the adapter to refresh the view
     }
 
     public static class ReviewViewHolder extends RecyclerView.ViewHolder {
