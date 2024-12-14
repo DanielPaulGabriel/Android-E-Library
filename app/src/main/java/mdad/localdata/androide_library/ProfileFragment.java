@@ -1,6 +1,7 @@
 package mdad.localdata.androide_library;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputType;
@@ -87,6 +88,7 @@ public class ProfileFragment extends Fragment {
             btnLogout.setVisibility(View.GONE);
             btnSaveChanges.setVisibility(View.VISIBLE);
             btnCancel.setVisibility(View.VISIBLE);
+            btnDelete.setVisibility(View.GONE);
         });
 
         // Cancel Edit Credentials Button Listener
@@ -99,6 +101,8 @@ public class ProfileFragment extends Fragment {
             btnLogout.setVisibility(View.VISIBLE);
             btnSaveChanges.setVisibility(View.GONE);
             btnCancel.setVisibility(View.GONE);
+            btnDelete.setVisibility(View.VISIBLE);
+
 
             loadUserData();
         });
@@ -118,6 +122,8 @@ public class ProfileFragment extends Fragment {
                 // Show Edit button, hide Save button
                 btnEditCredentials.setVisibility(View.VISIBLE);
                 btnSaveChanges.setVisibility(View.GONE);
+                btnDelete.setVisibility(View.VISIBLE);
+
             }
         });
 
@@ -129,7 +135,12 @@ public class ProfileFragment extends Fragment {
         });
 
         btnDelete.setOnClickListener(v -> {
-            deleteUser();
+            new AlertDialog.Builder(requireContext())
+                    .setTitle("Delete Profile")
+                    .setMessage("Are you sure you want to delete this account?")
+                    .setPositiveButton("Yes", (dialog, which) -> deleteUser())
+                    .setNegativeButton("No", null)
+                    .show();
         });
 
         return rootView;

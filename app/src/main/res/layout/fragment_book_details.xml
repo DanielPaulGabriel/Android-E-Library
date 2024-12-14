@@ -106,9 +106,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
+                android:inputType="textMultiLine"
+                android:lines="5"
+                android:background="@drawable/review_textview"
                 android:hint="Write your book review here ..."
-                android:inputType="text"
-                android:minHeight="48dp" />
+                android:minHeight="48dp"/>
 
             <!-- Submit Button -->
             <Button

@@ -7,6 +7,7 @@ public class Review {
     private String title;
     private String author;
     private String coverPath;
+    private String summary;
     private int rating;
     private String reviewText;
     private String createdAt;
@@ -19,7 +20,7 @@ public class Review {
         this.reviewText = reviewText;
         this.createdAt = createdAt;
     }
-    public Review(int reviewId, int bookId, int rating, String reviewText, String title, String author, String coverPath, String createdAt) {
+    public Review(int reviewId, int bookId, int rating, String reviewText, String title, String author, String coverPath, String summary, String createdAt) {
         this.reviewId = reviewId;
         this.bookId = bookId;
         this.rating = rating;
@@ -27,6 +28,7 @@ public class Review {
         this.title = title;
         this.author = author;
         this.coverPath = coverPath;
+        this.summary = summary;
         this.createdAt = createdAt;
     }
 
@@ -65,5 +67,9 @@ public class Review {
 
     public String getCoverPath() {
         return coverPath;
+    }
+
+    public String getSummary() {
+        return this.summary;
     }
 }

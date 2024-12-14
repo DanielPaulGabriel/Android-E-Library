@@ -81,6 +81,7 @@ public class UserBookCatalogueFragment extends Fragment {
                     try {
                         JSONObject jsonObject = new JSONObject(response);
                         if (jsonObject.getBoolean("success")) {
+                            bookList.clear();
                             JSONArray books = jsonObject.getJSONArray("books");
                             for (int i = 0; i < books.length(); i++) {
                                 JSONObject bookObject = books.getJSONObject(i);
