@@ -2,10 +2,13 @@ package mdad.localdata.androide_library;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.InputType;
 import android.text.TextUtils;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -16,6 +19,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.android.volley.Request;
@@ -24,7 +28,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-
+import androidx.appcompat.app.AppCompatDelegate;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -34,7 +38,7 @@ import java.util.Map;
 public class ProfileFragment extends Fragment {
 
     private EditText etUsername, etPassword;
-    private Button btnEditCredentials, btnSaveChanges, btnCancel, btnLogout, btnDelete;
+    private Button btnEditCredentials, btnSaveChanges, btnCancel, btnLogout, btnDelete, btnToggleTheme;
 
     private static final String UPDATE_USER_DETAILS_URL = Constants.UPDATE_USER_DETAILS_URL;
     private static final String DELETE_USER_URL = Constants.DELETE_USER_URL;
@@ -51,6 +55,7 @@ public class ProfileFragment extends Fragment {
         btnLogout = rootView.findViewById(R.id.btnLogout);
         btnCancel = rootView.findViewById(R.id.btnCancel);
         btnDelete = rootView.findViewById(R.id.btnDelete);
+        btnToggleTheme = rootView.findViewById(R.id.btnToggleTheme);
 
         loadUserData();
 
@@ -89,6 +94,7 @@ public class ProfileFragment extends Fragment {
             btnSaveChanges.setVisibility(View.VISIBLE);
             btnCancel.setVisibility(View.VISIBLE);
             btnDelete.setVisibility(View.GONE);
+            btnToggleTheme.setVisibility(View.GONE);
         });
 
         // Cancel Edit Credentials Button Listener
@@ -102,6 +108,7 @@ public class ProfileFragment extends Fragment {
             btnSaveChanges.setVisibility(View.GONE);
             btnCancel.setVisibility(View.GONE);
             btnDelete.setVisibility(View.VISIBLE);
+            btnToggleTheme.setVisibility(View.VISIBLE);
 
 
             loadUserData();
@@ -123,6 +130,7 @@ public class ProfileFragment extends Fragment {
                 btnEditCredentials.setVisibility(View.VISIBLE);
                 btnSaveChanges.setVisibility(View.GONE);
                 btnDelete.setVisibility(View.VISIBLE);
+                btnToggleTheme.setVisibility(View.VISIBLE);
 
             }
         });
@@ -142,6 +150,22 @@ public class ProfileFragment extends Fragment {
                     .setNegativeButton("No", null)
                     .show();
         });
+        btnToggleTheme.setOnClickListener(v -> {
+            int currentMode = SharedPrefsManager.getThemeMode(requireContext());
+            int newMode = (currentMode == AppCompatDelegate.MODE_NIGHT_YES)
+                    ? AppCompatDelegate.MODE_NIGHT_NO
+                    : AppCompatDelegate.MODE_NIGHT_YES;
+
+            // Save new theme mode
+            SharedPrefsManager.saveThemeMode(requireContext(), newMode);
+
+            // Apply new theme mode
+            AppCompatDelegate.setDefaultNightMode(newMode);
+
+            // Provide feedback
+            String theme = (newMode == AppCompatDelegate.MODE_NIGHT_YES) ? "Dark Mode" : "Light Mode";
+            Toast.makeText(requireContext(), theme + " enabled", Toast.LENGTH_SHORT).show();
+        });
 
         return rootView;
     }
@@ -160,8 +184,31 @@ public class ProfileFragment extends Fragment {
         etPassword.setFocusableInTouchMode(isEnabled);
 
         // Optionally change background to make it visually clear
-        etUsername.setBackgroundResource(isEnabled ? android.R.drawable.edit_text : android.R.color.transparent);
-        etPassword.setBackgroundResource(isEnabled ? android.R.drawable.edit_text : android.R.color.transparent);
+        //etUsername.setBackgroundResource(isEnabled ? android.R.drawable.edit_text : android.R.color.transparent);
+        //etPassword.setBackgroundResource(isEnabled ? android.R.drawable.edit_text : android.R.color.transparent);
+
+        if (isEnabled) {
+            etUsername.setBackgroundResource(android.R.drawable.edit_text);
+            etPassword.setBackgroundResource(android.R.drawable.edit_text);
+
+            // Set text color for editable state
+            etUsername.setTextColor(ContextCompat.getColor(requireContext(), R.color.black));
+            etPassword.setTextColor(ContextCompat.getColor(requireContext(), R.color.black));
+        } else {
+            etUsername.setBackgroundResource(android.R.color.transparent);
+            etPassword.setBackgroundResource(android.R.color.transparent);
+
+            int currentMode = SharedPrefsManager.getThemeMode(requireContext());
+            if(currentMode == AppCompatDelegate.MODE_NIGHT_YES){
+                etUsername.setTextColor(ContextCompat.getColor(requireContext(), R.color.white));
+                etPassword.setTextColor(ContextCompat.getColor(requireContext(), R.color.white));
+            }
+            else{
+                etUsername.setTextColor(ContextCompat.getColor(requireContext(), R.color.black));
+                etPassword.setTextColor(ContextCompat.getColor(requireContext(), R.color.black));
+            }
+
+        }
     }
 
     private void updateProfile(String username, String password) {
@@ -232,4 +279,5 @@ public class ProfileFragment extends Fragment {
         RequestQueue queue = Volley.newRequestQueue(requireContext());
         queue.add(stringRequest);
     }
+
 }

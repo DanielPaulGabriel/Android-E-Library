@@ -31,8 +31,7 @@
                 android:layout_height="wrap_content"
                 android:text="Book Title"
                 android:textStyle="bold"
-                android:textSize="18sp"
-                android:textColor="#333" />
+                android:textSize="18sp" />
 
             <!-- Author Name -->
             <TextView
@@ -41,7 +40,6 @@
                 android:layout_height="wrap_content"
                 android:text="Author Name"
                 android:textSize="14sp"
-                android:textColor="#666"
                 android:layout_marginTop="4dp" />
             <TextView
                 android:id="@+id/tvBookSummary"
@@ -49,7 +47,6 @@
                 android:layout_height="wrap_content"
                 android:text="Book Summary"
                 android:textSize="14sp"
-                android:textColor="#666"
                 android:layout_marginTop="4dp" />
         </LinearLayout>
     </LinearLayout>
@@ -83,6 +80,5 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:backgroundTint="@android:color/holo_red_dark"
         android:text="Cancel" />
 </LinearLayout>

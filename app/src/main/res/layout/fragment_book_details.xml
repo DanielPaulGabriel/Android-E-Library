@@ -2,8 +2,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@android:color/white">
+    android:layout_height="match_parent">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -19,8 +18,7 @@
             android:layout_margin="8dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:src="@drawable/ic_arrow_back"
-            android:contentDescription="@string/back_button"
-            app:tint="@android:color/black" />
+            android:contentDescription="@string/back_button" />
 
         <!-- Content Container -->
         <LinearLayout
@@ -48,7 +46,6 @@
                 android:layout_marginTop="16dp"
                 android:textSize="22sp"
                 android:textStyle="bold"
-                android:textColor="@android:color/black"
                 android:gravity="center" />
 
             <!-- Book Author -->
@@ -59,7 +56,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:textSize="16sp"
-                android:textColor="@android:color/darker_gray"
                 android:gravity="center" />
 
             <!-- Book Description -->
@@ -70,8 +66,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:textSize="14sp"
-                android:lineSpacingExtra="4dp"
-                android:textColor="@android:color/black" />
+                android:lineSpacingExtra="4dp" />
 
             <!-- Borrow Button -->
             <Button
@@ -80,15 +75,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Borrow"
-                android:layout_marginTop="16dp"
-                android:textColor="@android:color/white" />
+                android:layout_marginTop="16dp" />
 
             <!-- Divider -->
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginTop="20dp"
-                android:background="@android:color/darker_gray" />
+                android:background="@android:color/darker_gray"/>
 
             <!-- RatingBar for User's Rating -->
             <RatingBar
@@ -126,7 +120,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginTop="20dp"
-                android:background="@android:color/darker_gray" />
+                android:background="@android:color/darker_gray"/>
 
             <!-- Existing Reviews Title -->
             <TextView
@@ -137,8 +131,7 @@
                 android:text="Existing Reviews"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                android:layout_marginTop="16dp"
-                android:textColor="@android:color/black" />
+                android:layout_marginTop="16dp"/>
 
             <!-- RecyclerView for displaying reviews -->
             <androidx.recyclerview.widget.RecyclerView

@@ -4,6 +4,7 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:padding="12dp"
+    android:layout_marginBottom="8dp"
     android:background="@drawable/user_book_border">
 
     <!-- Main Content Container -->
@@ -12,7 +13,6 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="10dp"
-        android:background="#F8F8F8"
         android:layout_marginBottom="8dp"
         android:elevation="2dp">
 
@@ -45,8 +45,7 @@
                     android:layout_height="wrap_content"
                     android:text="Book Title"
                     android:textStyle="bold"
-                    android:textSize="18sp"
-                    android:textColor="#333" />
+                    android:textSize="18sp" />
 
                 <!-- Author Name -->
                 <TextView
@@ -55,7 +54,6 @@
                     android:layout_height="wrap_content"
                     android:text="Author Name"
                     android:textSize="14sp"
-                    android:textColor="#666"
                     android:layout_marginTop="4dp" />
 
                 <!-- Creation Date -->
@@ -65,7 +63,6 @@
                     android:layout_height="wrap_content"
                     android:text="Created At"
                     android:textSize="13sp"
-                    android:textColor="#999"
                     android:layout_marginTop="4dp" />
             </LinearLayout>
         </LinearLayout>
@@ -86,7 +83,6 @@
             android:layout_height="wrap_content"
             android:text="Review Text"
             android:textSize="14sp"
-            android:textColor="#444"
             android:layout_marginTop="8dp" />
 
         <!-- Action Buttons -->
@@ -101,8 +97,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Edit"
-                android:textColor="@android:color/white" />
+                android:text="Edit" />
 
             <View
                 android:layout_width="8dp"
@@ -114,8 +109,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Delete"
-                android:backgroundTint="@android:color/holo_red_dark"
-                android:textColor="@android:color/white" />
+                android:textColor="@color/white"
+                android:backgroundTint="@android:color/holo_red_dark" />
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

@@ -3,8 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
-    android:background="@android:color/white">
+    android:padding="16dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -20,8 +19,7 @@
             android:layout_margin="8dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:src="@drawable/ic_arrow_back"
-            android:contentDescription="@string/back_button"
-            app:tint="@android:color/black" />
+            android:contentDescription="@string/back_button"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -43,7 +41,6 @@
                 android:layout_marginTop="16dp"
                 android:textSize="22sp"
                 android:textStyle="bold"
-                android:textColor="@android:color/black"
                 android:gravity="center" />
 
             <TextView
@@ -52,7 +49,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:textSize="16sp"
-                android:textColor="@android:color/darker_gray"
                 android:gravity="center" />
 
             <TextView
@@ -61,8 +57,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:textSize="14sp"
-                android:lineSpacingExtra="4dp"
-                android:textColor="@android:color/black" />
+                android:lineSpacingExtra="4dp" />
 
             <Button
                 android:id="@+id/btnReadBook"
