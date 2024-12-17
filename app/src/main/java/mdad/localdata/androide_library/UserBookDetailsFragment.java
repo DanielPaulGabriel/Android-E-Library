@@ -31,28 +31,30 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-public class BorrowedBookDetailsFragment extends Fragment {
+public class UserBookDetailsFragment extends Fragment {
     private static final String RETURN_BOOK_URL = Constants.RETURN_BOOK_URL;
     private static final String ARG_BOOK_ID = "bookId";
     private static final String ARG_BORROW_ID = "borrowId";
     private static final String ARG_COVER_URL = "coverUrl";
+    private static final String ARG_CONTENT_URL = "contentUrl";
     private static final String ARG_TITLE = "title";
     private static final String ARG_AUTHOR = "author";
     private static final String ARG_SUMMARY = "summary";
 
     private int bookId, borrowId;
-    private String coverUrl, title, author, summary;
+    private String coverUrl, contentUrl, title, author, summary;
     private ImageView ivBookCover;
     private TextView tvTitle, tvAuthor, tvSummary;
     private ImageButton btnBack;
     private Button btnRead, btnListen, btnReturn;
 
-    public static BorrowedBookDetailsFragment newInstance(int bookId, int borrowId,  String coverUrl, String title, String author, String summary) {
-        BorrowedBookDetailsFragment fragment = new BorrowedBookDetailsFragment();
+    public static UserBookDetailsFragment newInstance(int bookId, int borrowId, String coverUrl, String contentUrl, String title, String author, String summary) {
+        UserBookDetailsFragment fragment = new UserBookDetailsFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_BOOK_ID, bookId);
         args.putInt(ARG_BORROW_ID, borrowId);
         args.putString(ARG_COVER_URL, coverUrl);
+        args.putString(ARG_CONTENT_URL, contentUrl);
         args.putString(ARG_TITLE, title);
         args.putString(ARG_AUTHOR, author);
         args.putString(ARG_SUMMARY, summary);
@@ -96,6 +98,18 @@ public class BorrowedBookDetailsFragment extends Fragment {
         // Implement button actions (e.g., read, listen, or return the book)
         btnBack.setOnClickListener(v -> requireActivity().getSupportFragmentManager().popBackStack());
         btnReturn.setOnClickListener(v -> returnBook(borrowId));
+        btnRead.setOnClickListener(v ->{
+            Fragment readerViewFragment = ReaderViewFragment.newInstance(
+                            title,
+                            contentUrl);
+            // Use the FragmentManager to replace the current fragment
+            ((AppCompatActivity) requireContext())
+                    .getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragment_container, readerViewFragment)
+                    .addToBackStack(null)
+                    .commit();
+        });
 
         return rootView;
     }

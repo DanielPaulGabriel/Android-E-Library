@@ -45,7 +45,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@android:color/transparent"
-            android:drawableEnd="@drawable/ic_pw_visibility_off"
+            android:drawableEnd="@drawable/ic_not_visible_grey"
             android:focusable="false"
             android:focusableInTouchMode="false"
             android:hint="Enter your password"

@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 
 import java.util.List;
-import java.util.Objects;
 
 public class UserBookAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static final String BASE_URL = Constants.BASE_URL;
@@ -73,10 +72,11 @@ public class UserBookAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 @Override
                 public void onClick(View v) {
                     // Navigate to Borrowed Book Details Fragment
-                    Fragment borrowedBookDetailsFragment = BorrowedBookDetailsFragment.newInstance(
+                    Fragment borrowedBookDetailsFragment = UserBookDetailsFragment.newInstance(
                             book.getBookId(),
                             book.getBorrowId(),
                             Constants.BASE_URL + book.getCoverPath(),
+                            Constants.BASE_URL+ book.getContentPath(),
                             book.getTitle(),
                             book.getAuthor(),
                             book.getSummary()

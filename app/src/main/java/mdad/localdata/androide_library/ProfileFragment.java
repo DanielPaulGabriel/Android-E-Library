@@ -36,7 +36,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ProfileFragment extends Fragment {
-
+    private int currentMode;
     private EditText etUsername, etPassword;
     private Button btnEditCredentials, btnSaveChanges, btnCancel, btnLogout, btnDelete, btnToggleTheme;
 
@@ -48,6 +48,7 @@ public class ProfileFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_profile, container, false);
 
+        currentMode = SharedPrefsManager.getThemeMode(requireContext());
         etUsername = rootView.findViewById(R.id.etUsername);
         etPassword = rootView.findViewById(R.id.etPassword);
         btnEditCredentials = rootView.findViewById(R.id.btnEditCredentials);
@@ -68,11 +69,11 @@ public class ProfileFragment extends Fragment {
                     if (etPassword.getInputType() == InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD) {
                         // Switch to hidden password
                         etPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-                        etPassword.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_pw_visibility_off, 0);
+                        etPassword.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_not_visible_grey, 0);
                     } else {
                         // Switch to visible password
                         etPassword.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
-                        etPassword.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_pw_visibility, 0);
+                        etPassword.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_visible_grey, 0);
                     }
                     // Move the cursor to the end of the text
                     etPassword.setSelection(etPassword.getText().length());
@@ -151,7 +152,17 @@ public class ProfileFragment extends Fragment {
                     .show();
         });
         btnToggleTheme.setOnClickListener(v -> {
-            int currentMode = SharedPrefsManager.getThemeMode(requireContext());
+            /*int newMode;
+            if(currentMode == AppCompatDelegate.MODE_NIGHT_YES){
+                 newMode = AppCompatDelegate.MODE_NIGHT_NO;
+                etPassword.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_not_visible_grey, 0);
+
+
+            }
+            else{
+                newMode =  AppCompatDelegate.MODE_NIGHT_YES;
+                etPassword.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_not_visible_grey, 0);
+            }*/
             int newMode = (currentMode == AppCompatDelegate.MODE_NIGHT_YES)
                     ? AppCompatDelegate.MODE_NIGHT_NO
                     : AppCompatDelegate.MODE_NIGHT_YES;
@@ -198,7 +209,6 @@ public class ProfileFragment extends Fragment {
             etUsername.setBackgroundResource(android.R.color.transparent);
             etPassword.setBackgroundResource(android.R.color.transparent);
 
-            int currentMode = SharedPrefsManager.getThemeMode(requireContext());
             if(currentMode == AppCompatDelegate.MODE_NIGHT_YES){
                 etUsername.setTextColor(ContextCompat.getColor(requireContext(), R.color.white));
                 etPassword.setTextColor(ContextCompat.getColor(requireContext(), R.color.white));

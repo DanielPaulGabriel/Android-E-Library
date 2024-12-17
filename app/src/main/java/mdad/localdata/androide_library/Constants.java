@@ -2,7 +2,7 @@ package mdad.localdata.androide_library;
 
 public class Constants {
     // Base URL
-    public static final String BASE_URL = "http://192.168.86.250";
+    public static final String BASE_URL = "http://192.168.86.248";
 
     // Endpoints
         // Users
