@@ -3,6 +3,7 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal"
     android:background="@drawable/user_book_border"
+    android:layout_marginBottom="8dp"
     android:padding="8dp">
 
     <ImageView
@@ -10,46 +11,58 @@
         android:layout_width="80dp"
         android:layout_height="120dp"
         android:scaleType="centerCrop"
+
         android:contentDescription="Book Cover" />
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_marginStart="8dp">
+        android:layout_height="match_parent"
+        android:layout_marginStart="8dp"
+        android:paddingEnd="16dp">
 
         <TextView
-            android:fontFamily="@font/poppinsregular"
             android:id="@+id/tvBookTitle"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Book Title"
             android:textStyle="bold"
+            android:layout_marginTop="20dp"
             android:textSize="16sp" />
 
         <TextView
-            android:fontFamily="@font/poppinsregular"
             android:id="@+id/tvBookAuthor"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@id/tvBookTitle"
             android:text="Author"
+
             android:textSize="14sp" />
 
         <TextView
-            android:fontFamily="@font/poppinsregular"
             android:id="@+id/tvBorrowDate"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@id/tvBookAuthor"
             android:text="Borrowed: "
             android:textSize="12sp" />
 
         <TextView
-            android:fontFamily="@font/poppinsregular"
             android:id="@+id/tvDueDate"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@id/tvBorrowDate"
             android:text="Due: "
             android:textSize="12sp" />
 
-    </LinearLayout>
+        <!-- Button aligned to the middle of the right end -->
+        <ImageView
+            android:id="@+id/btnBack"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true"
+            android:src="@drawable/ic_arrow_forward"
+            android:contentDescription="@string/back_button"/>
+    </RelativeLayout>
+
 </LinearLayout>

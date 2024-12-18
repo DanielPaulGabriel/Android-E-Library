@@ -1,5 +1,6 @@
 <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp">
@@ -44,14 +45,20 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@android:color/transparent"
-            android:drawableEnd="@drawable/ic_pw_visibility_off"
+            android:drawableEnd="@drawable/ic_not_visible_grey"
             android:focusable="false"
             android:focusableInTouchMode="false"
-            android:fontFamily="@font/poppinsregular"
             android:hint="Enter your password"
             android:inputType="textPassword"
             android:minHeight="48dp"
             android:paddingEnd="8dp" />
+
+        <Button
+            android:id="@+id/btnToggleTheme"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Toggle Theme"/>
 
         <!-- Edit and Save Buttons -->
         <Button
@@ -74,7 +81,6 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:visibility="gone"
-            android:backgroundTint="@android:color/holo_red_dark"
             android:text="Cancel" />
 
         <!-- Logout Button -->
@@ -83,8 +89,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="Logout"
-            android:textColor="@android:color/white" />
+            android:text="Logout" />
         <Button
             android:id="@+id/btnDelete"
             android:layout_width="match_parent"

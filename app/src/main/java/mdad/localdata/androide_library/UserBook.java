@@ -8,13 +8,14 @@ public class UserBook implements ListItem{
     private String genre;
     private String summary;
     private String coverPath;
+    private String contentPath;
     private String borrow_date;
     private String due_date;
     private String return_date;
 
 
     // Constructor
-    public UserBook(int bookId, int borrowId, String title, String author, String genre, String summary, String coverPath, String borrow_date, String due_date, String return_date) {
+    public UserBook(int bookId, int borrowId, String title, String author, String genre, String summary, String coverPath, String contentPath, String borrow_date, String due_date, String return_date) {
         this.bookId = bookId;
         this.borrowId = borrowId;
         this.title = title;
@@ -22,6 +23,7 @@ public class UserBook implements ListItem{
         this.genre = genre;
         this.summary = summary;
         this.coverPath = coverPath;
+        this.contentPath = contentPath;
         this.borrow_date = borrow_date;
         this.due_date = due_date;
         this.return_date = return_date;
@@ -55,7 +57,9 @@ public class UserBook implements ListItem{
     public String getCoverPath() {
         return coverPath;
     }
-
+    public String getContentPath(){
+        return contentPath;
+    }
     public String getBorrow_date() {
         return borrow_date;
     }

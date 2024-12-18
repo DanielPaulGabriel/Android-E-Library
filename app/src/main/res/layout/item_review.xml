@@ -7,23 +7,19 @@
     android:layout_marginBottom="10dp">
 
     <TextView
-        android:fontFamily="@font/poppinsregular"
         android:id="@+id/tvUsername"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Username"
         android:textSize="16sp"
-        android:textStyle="bold"
-        android:textColor="@android:color/black" />
+        android:textStyle="bold" />
 
     <TextView
-        android:fontFamily="@font/poppinsregular"
         android:id="@+id/tvCreatedAt"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Date"
-        android:textSize="12sp"
-        android:textColor="@android:color/darker_gray" />
+        android:textSize="12sp" />
 
     <RatingBar
         android:id="@+id/ratingBarReview"
@@ -34,11 +30,9 @@
         android:isIndicator="true" />
 
     <TextView
-        android:fontFamily="@font/poppinsregular"
         android:id="@+id/tvReviewText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Review Text"
-        android:textSize="14sp"
-        android:textColor="@android:color/black" />
+        android:textSize="14sp" />
 </LinearLayout>

@@ -52,7 +52,7 @@ public class BookDetailsFragment extends Fragment {
     private String author;
     private String description;
     private ImageView ivBookCover;
-    private TextView tvBookTitle, tvBookAuthor, tvBookDescription;
+    private TextView tvBookTitle, tvBookAuthor, tvBookDescription, tvReviewsTitle;
     private ImageButton btnBack;
     private Button btnBorrow, btnSubmitReview;
     private RatingBar bookRatingBar;
@@ -104,6 +104,7 @@ public class BookDetailsFragment extends Fragment {
         bookRatingBar = rootView.findViewById(R.id.bookRatingBar);
         editReviewText = rootView.findViewById(R.id.editReviewText);
         btnSubmitReview = rootView.findViewById(R.id.btnSubmitReview);
+        tvReviewsTitle = rootView.findViewById(R.id.tvReviewsTitle);
 
         // Retrieve Id of logged in user
         userId = SharedPrefsManager.getUserId(requireContext());
@@ -272,6 +273,11 @@ public class BookDetailsFragment extends Fragment {
                                 recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
                                 reviewAdapter = new ReviewAdapter(reviews);
                                 recyclerView.setAdapter(reviewAdapter);
+                                if (reviews.isEmpty()) {
+                                    tvReviewsTitle.setText("No Book Reviews Found");
+                                }
+                                else{
+                                    tvReviewsTitle.setText("Existing Reviews");                                }
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();

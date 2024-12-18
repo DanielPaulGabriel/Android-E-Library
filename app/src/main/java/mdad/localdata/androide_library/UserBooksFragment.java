@@ -97,6 +97,7 @@ public class UserBooksFragment extends Fragment {
                                             bookJson.getString("genre"),
                                             bookJson.getString("summary"),
                                             bookJson.getString("cover_path"),
+                                            bookJson.getString("content_path"),
                                             bookJson.getString("borrow_date"),
                                             bookJson.getString("due_date"),
                                             bookJson.optString("return_date", null)

@@ -20,10 +20,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:textSize="14sp"
+        android:textSize="13.5sp"
         android:textStyle="bold"
         android:gravity="center"
-        android:textColor="@android:color/black" />
+        android:ellipsize="end"
+        android:maxLines="1"/>
 
     <TextView
         android:fontFamily="@font/poppinsregular"
@@ -33,5 +34,6 @@
         android:layout_marginTop="4dp"
         android:textSize="12sp"
         android:gravity="center"
-        android:textColor="@android:color/darker_gray" />
+        android:ellipsize="end"
+        android:maxLines="1"/>
 </LinearLayout>
