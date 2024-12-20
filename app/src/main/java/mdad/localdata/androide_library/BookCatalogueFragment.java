@@ -2,7 +2,6 @@ package mdad.localdata.androide_library;
 
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,8 +14,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.appcompat.widget.SearchView;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import org.json.JSONArray;
@@ -25,7 +22,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserBookCatalogueFragment extends Fragment {
+public class BookCatalogueFragment extends Fragment {
 
     private RecyclerView recyclerView;
     private BookAdapter bookAdapter;
@@ -33,13 +30,13 @@ public class UserBookCatalogueFragment extends Fragment {
     private List<Book> filteredList = new ArrayList<>();
     private static final String BOOKS_URL = Constants.GET_ALL_BOOKS_URL;
 
-    public UserBookCatalogueFragment() {
+    public BookCatalogueFragment() {
         // Required empty public constructor
     }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_user_book_catalogue, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_book_catalogue, container, false);
 
         recyclerView = rootView.findViewById(R.id.recyclerViewBooks);
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));

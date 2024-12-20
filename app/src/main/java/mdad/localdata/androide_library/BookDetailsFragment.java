@@ -1,9 +1,15 @@
 package mdad.localdata.androide_library;
 
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.NotificationCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -36,6 +42,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 public class BookDetailsFragment extends Fragment {
 
@@ -127,8 +134,9 @@ public class BookDetailsFragment extends Fragment {
 
         return rootView;
     }
+
     private void borrowBook(int bookId, int userId) {
-        StringRequest stringRequest = new StringRequest(Request.Method.POST,BORROW_URL ,
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, BORROW_URL,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -139,6 +147,8 @@ public class BookDetailsFragment extends Fragment {
                                 Toast.makeText(requireContext(), jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
                                 btnBorrow.setEnabled(false);
                                 btnBorrow.setText("Borrowed");
+                                String due_date = jsonObject.getString("due_date");
+                                sendNotification("Book Borrowed", "Your borrowed book is due on \"" + due_date);
                             } else {
                                 Toast.makeText(requireContext(), jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
                                 //btnBorrow.setEnabled(false);
@@ -275,9 +285,9 @@ public class BookDetailsFragment extends Fragment {
                                 recyclerView.setAdapter(reviewAdapter);
                                 if (reviews.isEmpty()) {
                                     tvReviewsTitle.setText("No Book Reviews Found");
+                                } else {
+                                    tvReviewsTitle.setText("Existing Reviews");
                                 }
-                                else{
-                                    tvReviewsTitle.setText("Existing Reviews");                                }
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -296,4 +306,23 @@ public class BookDetailsFragment extends Fragment {
         queue.add(stringRequest);
     }
 
+    private void sendNotification(String title, String message) {
+        NotificationManager notificationManager = (NotificationManager) requireContext().getSystemService(Context.NOTIFICATION_SERVICE);
+
+        // Create notification channel for Android 8.0 and above
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel channel = new NotificationChannel("book_borrow", "Book Borrow Notifications", NotificationManager.IMPORTANCE_HIGH);
+            notificationManager.createNotificationChannel(channel);
+        }
+
+        Notification notification = new NotificationCompat.Builder(requireContext(), "auto_return")
+                .setContentTitle(title)
+                .setContentText(message)
+                .setSmallIcon(R.drawable.ic_borrowed_books)
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setAutoCancel(true)
+                .build();
+
+        notificationManager.notify(new Random().nextInt(), notification);
+    }
 }

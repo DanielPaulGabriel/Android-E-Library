@@ -1,9 +1,15 @@
 package mdad.localdata.androide_library;
 
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.NotificationCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -30,6 +36,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Random;
 
 public class UserBooksFragment extends Fragment {
     private View rootView;
@@ -85,6 +92,15 @@ public class UserBooksFragment extends Fragment {
                         try {
                             JSONObject jsonObject = new JSONObject(response);
                             if (jsonObject.getBoolean("success")) {
+
+                                JSONArray autoReturnedBooks = jsonObject.optJSONArray("auto_returned_books");
+                                if (autoReturnedBooks != null) {
+                                    for (int i = 0; i < autoReturnedBooks.length(); i++) {
+                                        JSONObject book = autoReturnedBooks.getJSONObject(i);
+                                        sendNotification("Book Auto-Returned", "Your borrowed book \"" + book.getString("title") + "\" has been auto-returned.");
+                                    }
+                                }
+
                                 JSONArray booksArray = jsonObject.getJSONArray("borrowed_books");
                                 List<UserBook> books = new ArrayList<>();
                                 for (int i = 0; i < booksArray.length(); i++) {
@@ -103,7 +119,6 @@ public class UserBooksFragment extends Fragment {
                                             bookJson.optString("return_date", null)
                                     ));
                                 }
-
                                 // Group books by genre and add headers
                                 List<ListItem> items = new ArrayList<>();
                                 Collections.sort(books, Comparator.comparing(UserBook::getGenre));
@@ -138,6 +153,25 @@ public class UserBooksFragment extends Fragment {
 
         RequestQueue queue = Volley.newRequestQueue(requireContext());
         queue.add(stringRequest);
+    }
+    private void sendNotification(String title, String message) {
+        NotificationManager notificationManager = (NotificationManager) requireContext().getSystemService(Context.NOTIFICATION_SERVICE);
+
+        // Create notification channel for Android 8.0 and above
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel channel = new NotificationChannel("auto_return", "Auto Return Notifications", NotificationManager.IMPORTANCE_HIGH);
+            notificationManager.createNotificationChannel(channel);
+        }
+
+        Notification notification = new NotificationCompat.Builder(requireContext(), "auto_return")
+                .setContentTitle(title)
+                .setContentText(message)
+                .setSmallIcon(R.drawable.ic_borrowed_books)
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setAutoCancel(true)
+                .build();
+
+        notificationManager.notify(new Random().nextInt(), notification);
     }
 
 }

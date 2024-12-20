@@ -19,14 +19,14 @@ public class MainActivity extends AppCompatActivity {
 
         // Set default fragment
         if (savedInstanceState == null) {
-            loadFragment(new UserBookCatalogueFragment());
+            loadFragment(new BookCatalogueFragment());
         }
 
         bottomNavigationView.setOnItemSelectedListener(item -> {
             Fragment selectedFragment = null;
 
             if (item.getItemId() == R.id.nav_catalog) {
-                selectedFragment = new UserBookCatalogueFragment();
+                selectedFragment = new BookCatalogueFragment();
             } else if (item.getItemId() == R.id.nav_borrowed_books) {
                 selectedFragment = new UserBooksFragment();
             } else if (item.getItemId() == R.id.nav_reviews) {

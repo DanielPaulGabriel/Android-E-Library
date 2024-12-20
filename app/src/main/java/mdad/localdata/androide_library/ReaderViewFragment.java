@@ -1,5 +1,6 @@
 package mdad.localdata.androide_library;
 
+import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -10,6 +11,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -131,6 +133,9 @@ public class ReaderViewFragment extends Fragment {
                             totalPages = jsonObject.getInt("total_pages");
                             etPageNumber.setText(String.valueOf(pageNumber));
                             tvContent.scrollTo(0, 0);
+                            etPageNumber.clearFocus();
+                            InputMethodManager imm = (InputMethodManager) requireContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                            imm.hideSoftInputFromWindow(etPageNumber.getWindowToken(), 0);
                         } else {
                             Toast.makeText(requireContext(), jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
                         }
@@ -157,7 +162,6 @@ public class ReaderViewFragment extends Fragment {
             }
         }).start();
     }
-
     private File downloadFile(String fileUrl, String fileName) throws Exception {
         URL url = new URL(fileUrl);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -177,7 +181,6 @@ public class ReaderViewFragment extends Fragment {
 
         return file;
     }
-
     private boolean isValidPage(int pageNumber) {
         return pageNumber > 0 && pageNumber <= totalPages;
     }
