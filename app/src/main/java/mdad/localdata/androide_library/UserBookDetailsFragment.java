@@ -69,6 +69,7 @@ public class UserBookDetailsFragment extends Fragment {
             bookId = getArguments().getInt(ARG_BOOK_ID);
             borrowId = getArguments().getInt(ARG_BORROW_ID);
             coverUrl = getArguments().getString(ARG_COVER_URL);
+            contentUrl = getArguments().getString(ARG_CONTENT_URL);
             title = getArguments().getString(ARG_TITLE);
             author = getArguments().getString(ARG_AUTHOR);
             summary = getArguments().getString(ARG_SUMMARY);
@@ -88,6 +89,7 @@ public class UserBookDetailsFragment extends Fragment {
          btnRead = rootView.findViewById(R.id.btnReadBook);
          btnListen = rootView.findViewById(R.id.btnListenBook);
          btnReturn = rootView.findViewById(R.id.btnReturnBook);
+        System.out.println("Book Path: "+ contentUrl);
 
         // Populate data
         Glide.with(this).load(coverUrl).into(ivBookCover);
@@ -101,7 +103,9 @@ public class UserBookDetailsFragment extends Fragment {
         btnRead.setOnClickListener(v ->{
             Fragment readerViewFragment = ReaderViewFragment.newInstance(
                             title,
-                            contentUrl);
+                            contentUrl,
+                            bookId
+                    );
             // Use the FragmentManager to replace the current fragment
             ((AppCompatActivity) requireContext())
                     .getSupportFragmentManager()

@@ -71,6 +71,7 @@ public class UserBookAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             bookHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    System.out.println("Book Path Adapter: "+ Constants.BASE_URL+ book.getContentPath());
                     // Navigate to Borrowed Book Details Fragment
                     Fragment borrowedBookDetailsFragment = UserBookDetailsFragment.newInstance(
                             book.getBookId(),
