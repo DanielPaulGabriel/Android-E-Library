@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,6 +44,7 @@ public class ReaderViewFragment extends Fragment {
     private String bookContent;
     private TextView tvContent, tvTitle;
     private Button btnPrevious, btnNext;
+    private ImageButton btnBack;
     private EditText etPageNumber;
     private int currentPage = 1;
     private int totalPages = 0;
@@ -79,6 +81,7 @@ public class ReaderViewFragment extends Fragment {
         tvTitle = rootView.findViewById(R.id.tvTitle);
         btnPrevious = rootView.findViewById(R.id.btnPrevious);
         btnNext = rootView.findViewById(R.id.btnNext);
+        btnBack = rootView.findViewById(R.id.btnBack);
         etPageNumber = rootView.findViewById(R.id.etPageNumber);
         tvContent.setMovementMethod(new android.text.method.ScrollingMovementMethod());
         tvTitle.setText(bookTitle);
@@ -118,6 +121,7 @@ public class ReaderViewFragment extends Fragment {
             }
             return true;
         });
+        btnBack.setOnClickListener(v->requireActivity().getSupportFragmentManager().popBackStack());
 
         return rootView;
     }

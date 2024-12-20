@@ -7,10 +7,12 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,6 +40,7 @@ public class ReviewsFragment extends Fragment {
     private ReviewAdapter reviewAdapter;
     private TextView tvNoReviews;
     private List<Review> reviewList = new ArrayList<>();
+    private List<Review> filteredReviewList = new ArrayList<>();
     private static final String GET_USER_REVIEWS_URL = Constants.GET_USER_REVIEWS_URL;
     private static final String DELETE_REVIEW_URL = Constants.DELETE_REVIEW_URL;
 
@@ -49,7 +52,27 @@ public class ReviewsFragment extends Fragment {
         recyclerView = rootView.findViewById(R.id.recyclerViewUserReviews);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         tvNoReviews = rootView.findViewById(R.id.tvNoReviews);
+        SearchView searchView = rootView.findViewById(R.id.searchView);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            private final Handler handler = new Handler();
+            private Runnable workRunnable;
 
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                filterReviews(query);
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                if (workRunnable != null) {
+                    handler.removeCallbacks(workRunnable);
+                }
+                workRunnable = () -> filterReviews(newText);
+                handler.postDelayed(workRunnable, 300); // Debounce input
+                return true;
+            }
+        });
 
         int userId = SharedPrefsManager.getUserId(requireContext());
         if (userId != -1) {
@@ -83,7 +106,8 @@ public class ReviewsFragment extends Fragment {
                                             reviewJson.getString("created_at")
                                     ));
                                 }
-                                UserReviewAdapter adapter = new UserReviewAdapter(reviewList, new UserReviewAdapter.OnReviewActionListener() {
+                                filteredReviewList.addAll(reviewList);
+                                UserReviewAdapter adapter = new UserReviewAdapter(filteredReviewList, new UserReviewAdapter.OnReviewActionListener() {
                                     @Override
                                     public void onEditReview(Review review) {
                                         Fragment editReviewFragment = EditReviewFragment.newInstance(
@@ -114,8 +138,7 @@ public class ReviewsFragment extends Fragment {
                                     }
                                 });
                                 recyclerView.setAdapter(adapter);
-                            }
-                            else{
+                            } else {
                                 tvNoReviews.setVisibility(View.VISIBLE);
                                 recyclerView.setVisibility(View.GONE);
                             }
@@ -130,6 +153,7 @@ public class ReviewsFragment extends Fragment {
         RequestQueue queue = Volley.newRequestQueue(requireContext());
         queue.add(stringRequest);
     }
+
     private void deleteReview(Review review) {
         int reviewId = review.getReviewId();
 
@@ -142,6 +166,7 @@ public class ReviewsFragment extends Fragment {
 
                             // Remove the review from the list and refresh the adapter
                             reviewList.remove(review);
+                            filteredReviewList.remove(review);
                             recyclerView.getAdapter().notifyDataSetChanged();
 
                             // Show "No Reviews" message if the list is empty
@@ -170,4 +195,31 @@ public class ReviewsFragment extends Fragment {
         queue.add(stringRequest);
     }
 
+
+    private void filterReviews(String query) {
+        filteredReviewList.clear();
+        if (query.isEmpty()) {
+            filteredReviewList.addAll(reviewList);
+        } else {
+            for (Review review : reviewList) {
+                if (review.getTitle().toLowerCase().contains(query.toLowerCase()) ||
+                        review.getAuthor().toLowerCase().contains(query.toLowerCase())) {
+                    filteredReviewList.add(review);
+                }
+            }
+        }
+
+        if (filteredReviewList.isEmpty()) {
+            tvNoReviews.setVisibility(View.VISIBLE);
+            recyclerView.setVisibility(View.GONE);
+        } else {
+            tvNoReviews.setVisibility(View.GONE);
+            recyclerView.setVisibility(View.VISIBLE);
+            if (reviewAdapter != null) {
+                reviewAdapter.notifyDataSetChanged();
+            }
+        }
+
+        //reviewAdapter.updateReviews(filteredReviewList);
+    }
 }

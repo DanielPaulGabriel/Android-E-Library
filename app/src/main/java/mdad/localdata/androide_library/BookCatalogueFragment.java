@@ -117,7 +117,8 @@ public class BookCatalogueFragment extends Fragment {
         } else {
             for (Book book : bookList) {
                 if (book.getTitle().toLowerCase().contains(query.toLowerCase()) ||
-                        book.getAuthor().toLowerCase().contains(query.toLowerCase())) {
+                        book.getAuthor().toLowerCase().contains(query.toLowerCase()) ||
+                        book.getGenre().toLowerCase().contains(query.toLowerCase())) {
                     filteredList.add(book);
                 }
             }
