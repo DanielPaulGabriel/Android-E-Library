@@ -16,6 +16,7 @@ import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,6 +25,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -39,6 +41,8 @@ public class ReviewsFragment extends Fragment {
     private RecyclerView recyclerView;
     private ReviewAdapter reviewAdapter;
     private TextView tvNoReviews;
+    private SearchView searchView;
+    private Button btnRedirect;
     private List<Review> reviewList = new ArrayList<>();
     private List<Review> filteredReviewList = new ArrayList<>();
     private static final String GET_USER_REVIEWS_URL = Constants.GET_USER_REVIEWS_URL;
@@ -52,7 +56,8 @@ public class ReviewsFragment extends Fragment {
         recyclerView = rootView.findViewById(R.id.recyclerViewUserReviews);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         tvNoReviews = rootView.findViewById(R.id.tvNoReviews);
-        SearchView searchView = rootView.findViewById(R.id.searchView);
+        btnRedirect = rootView.findViewById(R.id.btnRedirect);
+        searchView = rootView.findViewById(R.id.searchView);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             private final Handler handler = new Handler();
             private Runnable workRunnable;
@@ -72,6 +77,20 @@ public class ReviewsFragment extends Fragment {
                 handler.postDelayed(workRunnable, 300); // Debounce input
                 return true;
             }
+        });
+
+        btnRedirect.setOnClickListener(v->{
+            Fragment bookCatalogueFragment = BookCatalogueFragment.newInstance();
+
+            // Use the FragmentManager to replace the current fragment
+            ((AppCompatActivity) requireContext())
+                    .getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragment_container, bookCatalogueFragment)
+                    .addToBackStack(null)
+                    .commit();
+            BottomNavigationView bottomNavigationView = requireActivity().findViewById(R.id.bottom_navigation);
+            bottomNavigationView.setSelectedItemId(R.id.nav_catalog);
         });
 
         int userId = SharedPrefsManager.getUserId(requireContext());
@@ -107,6 +126,9 @@ public class ReviewsFragment extends Fragment {
                                     ));
                                 }
                                 filteredReviewList.addAll(reviewList);
+                                if(!filteredReviewList.isEmpty()){
+                                    searchView.setVisibility(View.VISIBLE);
+                                }
                                 UserReviewAdapter adapter = new UserReviewAdapter(filteredReviewList, new UserReviewAdapter.OnReviewActionListener() {
                                     @Override
                                     public void onEditReview(Review review) {
@@ -140,6 +162,8 @@ public class ReviewsFragment extends Fragment {
                                 recyclerView.setAdapter(adapter);
                             } else {
                                 tvNoReviews.setVisibility(View.VISIBLE);
+                                btnRedirect.setVisibility(View.VISIBLE);
+                                searchView.setVisibility(View.GONE);
                                 recyclerView.setVisibility(View.GONE);
                             }
                         } catch (JSONException e) {
@@ -172,6 +196,8 @@ public class ReviewsFragment extends Fragment {
                             // Show "No Reviews" message if the list is empty
                             if (reviewList.isEmpty()) {
                                 tvNoReviews.setVisibility(View.VISIBLE);
+                                btnRedirect.setVisibility(View.VISIBLE);
+                                searchView.setVisibility(View.GONE);
                                 recyclerView.setVisibility(View.GONE);
                             }
                         } else {
@@ -211,9 +237,13 @@ public class ReviewsFragment extends Fragment {
 
         if (filteredReviewList.isEmpty()) {
             tvNoReviews.setVisibility(View.VISIBLE);
+            btnRedirect.setVisibility(View.VISIBLE);
+            searchView.setVisibility(View.GONE);
             recyclerView.setVisibility(View.GONE);
         } else {
             tvNoReviews.setVisibility(View.GONE);
+            btnRedirect.setVisibility(View.GONE);
+            searchView.setVisibility(View.VISIBLE);;
             recyclerView.setVisibility(View.VISIBLE);
             if (reviewAdapter != null) {
                 reviewAdapter.notifyDataSetChanged();

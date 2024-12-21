@@ -5,6 +5,7 @@
     android:orientation="vertical"
     android:padding="16dp">
     <androidx.appcompat.widget.SearchView
+        android:visibility="gone"
         android:id="@+id/searchView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -20,6 +21,17 @@
         android:gravity="center"
         android:textSize="16sp"
         android:padding="16dp" />
+    <Button
+        android:id="@+id/btnRedirect"
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Browse Books"
+        android:layout_gravity="center"
+        android:layout_below="@id/tvNoBooks"
+        android:layout_marginTop="10dp"
+        />
+
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewUserReviews"

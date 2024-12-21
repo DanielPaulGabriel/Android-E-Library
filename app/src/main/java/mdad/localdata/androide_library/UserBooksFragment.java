@@ -9,6 +9,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -18,6 +19,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,6 +29,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -40,6 +43,8 @@ import java.util.Random;
 
 public class UserBooksFragment extends Fragment {
     private View rootView;
+    private TextView tvNoBooks;
+    private Button btnRedirect;
     private static final String GET_USER_BOOKS_URL = Constants.GET_USER_BOOKS_URL;
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -74,13 +79,30 @@ public class UserBooksFragment extends Fragment {
 
         RecyclerView recyclerView = rootView.findViewById(R.id.recyclerViewUserBooks);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
-        TextView tvNoBooks = rootView.findViewById(R.id.tvNoBooks);
+        tvNoBooks = rootView.findViewById(R.id.tvNoBooks);
+        btnRedirect = rootView.findViewById(R.id.btnRedirect);
+
+        btnRedirect.setOnClickListener(v->{
+            Fragment bookCatalogueFragment = BookCatalogueFragment.newInstance();
+
+            // Use the FragmentManager to replace the current fragment
+            ((AppCompatActivity) requireContext())
+                    .getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragment_container, bookCatalogueFragment)
+                    .addToBackStack(null)
+                    .commit();
+            BottomNavigationView bottomNavigationView = requireActivity().findViewById(R.id.bottom_navigation);
+            bottomNavigationView.setSelectedItemId(R.id.nav_catalog);
+        });
 
         // Fetch User ID
         int userId = SharedPrefsManager.getUserId(getContext());
         if(userId != -1 ){
             fetchBooks(userId, recyclerView, tvNoBooks);
         }
+
+
         return rootView;
     }
     private void fetchBooks(int userId, RecyclerView recyclerView, TextView tvNoBooks) {
@@ -91,6 +113,9 @@ public class UserBooksFragment extends Fragment {
                         try {
                             JSONObject jsonObject = new JSONObject(response);
                             if (jsonObject.getBoolean("success")) {
+
+                                tvNoBooks.setVisibility(View.GONE);
+                                recyclerView.setVisibility(View.VISIBLE);
 
                                 JSONArray autoReturnedBooks = jsonObject.optJSONArray("auto_returned_books");
                                 if (autoReturnedBooks != null) {
@@ -133,6 +158,16 @@ public class UserBooksFragment extends Fragment {
                                 // Pass the list with headers to the adapter
                                 UserBookAdapter adapter = new UserBookAdapter(items);
                                 recyclerView.setAdapter(adapter);
+
+                                if (items.isEmpty()) {
+                                    tvNoBooks.setVisibility(View.VISIBLE);
+                                    btnRedirect.setVisibility(View.VISIBLE);
+                                    recyclerView.setVisibility(View.GONE);
+                                } else {
+                                    tvNoBooks.setVisibility(View.GONE);
+                                    btnRedirect.setVisibility(View.GONE);
+                                    recyclerView.setVisibility(View.VISIBLE);
+                                }
                             } else {
                                 tvNoBooks.setVisibility(View.VISIBLE);
                                 recyclerView.setVisibility(View.GONE);

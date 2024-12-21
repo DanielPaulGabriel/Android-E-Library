@@ -42,10 +42,9 @@ public class LoginActivity extends AppCompatActivity {
 
         if (isLoggedIn) {
             if (userRole.equals("user")) {
-                //startActivity(new Intent(this, UserBookCatalogueActivity.class));
                 startActivity(new Intent(this, MainActivity.class));
             } else if (userRole.equals("staff")) {
-                //startActivity(new Intent(this, StaffBookCatalogueActivity.class));
+                startActivity(new Intent(this, StaffActivity.class));
             }
             finish(); // Close the LoginActivity
         }
@@ -65,11 +64,11 @@ public class LoginActivity extends AppCompatActivity {
                     if (etPassword.getInputType() == InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD) {
                         // Switch to hidden password
                         etPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-                        etPassword.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_pw_visibility_off, 0);
+                        etPassword.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_not_visible_grey, 0);
                     } else {
                         // Switch to visible password
                         etPassword.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
-                        etPassword.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_pw_visibility, 0);
+                        etPassword.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_visible_grey, 0);
                     }
                     // Move the cursor to the end of the text
                     etPassword.setSelection(etPassword.getText().length());
@@ -122,10 +121,9 @@ public class LoginActivity extends AppCompatActivity {
 
                                 String role = jsonObject.getString("role");
                                 if (role.equals("user")) {
-                                    //startActivity(new Intent(LoginActivity.this, UserBookCatalogueActivity.class));
                                     startActivity(new Intent(LoginActivity.this, MainActivity.class));
                                 } else if (role.equals("staff")) {
-                                    //startActivity(new Intent(LoginActivity.this, StaffBookCatalogueActivity.class));
+                                    startActivity(new Intent(LoginActivity.this, StaffActivity.class));
                                 }
 
                                 SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
