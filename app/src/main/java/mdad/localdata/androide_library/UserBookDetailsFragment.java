@@ -114,6 +114,19 @@ public class UserBookDetailsFragment extends Fragment {
                     .addToBackStack(null)
                     .commit();
         });
+        btnListen.setOnClickListener(v ->{
+            Fragment listenerViewFragment = ListenerViewFragment.newInstance(
+                    bookId,
+                    coverUrl
+            );
+            // Use the FragmentManager to replace the current fragment
+            ((AppCompatActivity) requireContext())
+                    .getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragment_container, listenerViewFragment)
+                    .addToBackStack(null)
+                    .commit();
+        });
 
         return rootView;
     }
