@@ -152,17 +152,6 @@ public class ProfileFragment extends Fragment {
                     .show();
         });
         btnToggleTheme.setOnClickListener(v -> {
-            /*int newMode;
-            if(currentMode == AppCompatDelegate.MODE_NIGHT_YES){
-                 newMode = AppCompatDelegate.MODE_NIGHT_NO;
-                etPassword.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_not_visible_grey, 0);
-
-
-            }
-            else{
-                newMode =  AppCompatDelegate.MODE_NIGHT_YES;
-                etPassword.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_not_visible_grey, 0);
-            }*/
             int newMode = (currentMode == AppCompatDelegate.MODE_NIGHT_YES)
                     ? AppCompatDelegate.MODE_NIGHT_NO
                     : AppCompatDelegate.MODE_NIGHT_YES;

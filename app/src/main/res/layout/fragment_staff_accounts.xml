@@ -1,6 +1,5 @@
 <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp">
@@ -8,7 +7,30 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:paddingBottom="16dp">
+
+        <!-- Add Account Button -->
+        <Button
+            android:id="@+id/btnCreateAccount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+
+            android:drawablePadding="8dp"
+            android:text="Add Account"
+            android:padding="12dp" />
+
+        <!-- Staff Accounts RecyclerView -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewStaffAccounts"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="16dp"
+            android:layout_weight="1"
+            android:paddingBottom="16dp"
+            android:scrollbars="vertical" />
 
         <!-- Logout Button -->
         <Button
@@ -16,8 +38,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="Logout" />
+            android:drawablePadding="8dp"
+            android:text="Logout"
+            android:padding="12dp" />
 
-
+        <!-- Toggle Theme Button -->
+        <Button
+            android:id="@+id/btnToggleTheme"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:drawablePadding="8dp"
+            android:text="Toggle Theme"
+            android:padding="12dp" />
     </LinearLayout>
 </ScrollView>
