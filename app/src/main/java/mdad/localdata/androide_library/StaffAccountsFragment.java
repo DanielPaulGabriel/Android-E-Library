@@ -176,7 +176,7 @@ public class StaffAccountsFragment extends Fragment {
     }
 
     private void deleteStaffAccount(int staffId) {
-        int userId = SharedPrefsManager.getUserId(getContext());
+        int userId = SharedPrefsManager.getUserId(requireContext());
         if(userId==staffId){
             Toast.makeText(requireContext(), "You cannot delete your own staff account, Please contact the admin.", Toast.LENGTH_SHORT).show();
         }

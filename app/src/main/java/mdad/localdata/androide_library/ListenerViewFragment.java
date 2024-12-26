@@ -7,8 +7,10 @@ import android.speech.tts.TextToSpeech;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.SeekBar;
@@ -32,6 +34,7 @@ import java.util.Locale;
 public class ListenerViewFragment extends Fragment {
     private ImageView ivBookCover;
     private ImageButton btnBack;
+    private EditText etPageNumber;
     private SeekBar seekBarPage;
     private TextToSpeech tts;
     private Button btnPlayTTS, btnStopTTS;
@@ -83,7 +86,7 @@ public class ListenerViewFragment extends Fragment {
         btnPlayTTS = rootView.findViewById(R.id.btnPlayTTS);
         btnStopTTS = rootView.findViewById(R.id.btnStopTTS);
         ivBookCover = rootView.findViewById(R.id.ivBookCover);
-
+        etPageNumber = rootView.findViewById(R.id.etPageNumber);
         seekBarPage = rootView.findViewById(R.id.seekBarPage);
 
         spinnerLanguage = rootView.findViewById(R.id.spinnerLanguage);
@@ -204,6 +207,17 @@ public class ListenerViewFragment extends Fragment {
             }
         });
 
+        etPageNumber.setOnEditorActionListener((v, actionId, event) -> {
+            int enteredPage = parsePageNumber(etPageNumber.getText().toString());
+            if (isValidPage(enteredPage)) {
+                currentPage = enteredPage;
+                loadPage(currentPage);
+            } else {
+                Toast.makeText(requireContext(), "Invalid page number", Toast.LENGTH_SHORT).show();
+                etPageNumber.setText(String.valueOf(currentPage)); // Reset to the current page
+            }
+            return true;
+        });
 
         return rootView;
     }
@@ -221,7 +235,10 @@ public class ListenerViewFragment extends Fragment {
                             seekBarPage.setMax(totalPages); // Set max here after fetching total pages
                             seekBarPage.setProgress(currentPage - 1); // Pages are 1-based, SeekBar is 0-based
                             setPlayButtonState(true); // Enable play button during loading
-
+                            etPageNumber.setText(String.valueOf(pageNumber));
+                            etPageNumber.clearFocus();
+                            InputMethodManager imm = (InputMethodManager) requireContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                            imm.hideSoftInputFromWindow(etPageNumber.getWindowToken(), 0);
                             // Ensure content is available before starting TTS
                             if (bookContent != null && !bookContent.trim().isEmpty()) {
                                 tts.speak(bookContent, TextToSpeech.QUEUE_FLUSH, null, null);
@@ -268,6 +285,18 @@ public class ListenerViewFragment extends Fragment {
     public void onPause() {
         super.onPause();
         saveProgress();
+    }
+
+    private boolean isValidPage(int pageNumber) {
+        return pageNumber > 0 && pageNumber <= totalPages;
+    }
+
+    private int parsePageNumber(String pageString) {
+        try {
+            return Integer.parseInt(pageString);
+        } catch (NumberFormatException e) {
+            return -1; // Invalid page
+        }
     }
 
 }

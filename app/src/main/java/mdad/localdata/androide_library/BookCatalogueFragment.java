@@ -113,7 +113,8 @@ public class BookCatalogueFragment extends Fragment {
                                     genres.add(genre);
                                 }
                             }
-                            setupGenreChips(genres);
+                            chipGroupGenres.post(() -> setupGenreChips(genres));
+                            //setupGenreChips(genres);
                             filteredList.addAll(bookList);
                             if(filteredList.isEmpty()){
                                 tvNoBooks.setVisibility(View.VISIBLE);
