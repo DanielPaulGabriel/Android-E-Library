@@ -1,10 +1,15 @@
 package mdad.localdata.androide_library;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.Network;
+import android.net.NetworkCapabilities;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
@@ -28,6 +33,7 @@ import java.util.List;
 
 public class BookCatalogueFragment extends Fragment {
     private TextView tvNoBooks;
+    private Button btnRetry;
     private ChipGroup chipGroupGenres;
     private SearchView searchView;
     private RecyclerView recyclerView;
@@ -52,6 +58,7 @@ public class BookCatalogueFragment extends Fragment {
         recyclerView = rootView.findViewById(R.id.recyclerViewBooks);
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
         tvNoBooks = rootView.findViewById(R.id.tvNoBooks);
+        btnRetry = rootView.findViewById(R.id.btnRetry);
         searchView = rootView.findViewById(R.id.searchView);
         chipGroupGenres = rootView.findViewById(R.id.chipGroupGenres);
 
@@ -80,18 +87,28 @@ public class BookCatalogueFragment extends Fragment {
                 return true;
             }
         });
+        btnRetry.setOnClickListener(v->loadBooks());
 
         return rootView;
     }
 
     private void loadBooks() {
+        if (!isNetworkAvailable()) {
+            handleNoData("No internet connection. Please check your connection.");
+            return;
+        }
         StringRequest stringRequest = new StringRequest(Request.Method.GET, BOOKS_URL,
                 response -> {
                     try {
                         JSONObject jsonObject = new JSONObject(response);
                         if (jsonObject.getBoolean("success")) {
+                            if (!isAdded()) return; // Ensure fragment is attached
+
                             tvNoBooks.setVisibility(View.GONE);
+                            btnRetry.setVisibility(View.GONE);
                             recyclerView.setVisibility(View.VISIBLE);
+                            searchView.setVisibility(View.VISIBLE);
+
                             bookList.clear();
                             JSONArray books = jsonObject.getJSONArray("books");
                             List<String> genres = new ArrayList<>();
@@ -113,31 +130,34 @@ public class BookCatalogueFragment extends Fragment {
                                     genres.add(genre);
                                 }
                             }
+
                             chipGroupGenres.post(() -> setupGenreChips(genres));
-                            //setupGenreChips(genres);
                             filteredList.addAll(bookList);
-                            if(filteredList.isEmpty()){
+
+                            if (filteredList.isEmpty()) {
                                 tvNoBooks.setVisibility(View.VISIBLE);
+                                btnRetry.setVisibility(View.VISIBLE);
                                 recyclerView.setVisibility(View.GONE);
                                 searchView.setVisibility(View.GONE);
                             }
-                            bookAdapter = new BookAdapter(getContext(), filteredList);
+
+                            bookAdapter = new BookAdapter(requireContext(), filteredList);
                             recyclerView.setAdapter(bookAdapter);
                         } else {
-                            Toast.makeText(getContext(), jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
-                            tvNoBooks.setVisibility(View.VISIBLE);
-                            recyclerView.setVisibility(View.GONE);
+                            handleNoData("No books available.");
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
-                        Toast.makeText(getContext(), "JSON Parsing Error", Toast.LENGTH_SHORT).show();
+                        handleNoData("JSON Parsing Error.");
                     }
                 },
-                error -> Toast.makeText(getContext(), "Error: " + error.getMessage(), Toast.LENGTH_SHORT).show());
+                error -> handleNoData("Error: Server is offline or unreachable.")
+        );
 
         RequestQueue requestQueue = Volley.newRequestQueue(requireContext());
         requestQueue.add(stringRequest);
     }
+
     private void applyFilters(String query, String genre) {
         filteredList.clear();
 
@@ -154,9 +174,11 @@ public class BookCatalogueFragment extends Fragment {
 
         if (filteredList.isEmpty()) {
             tvNoBooks.setVisibility(View.VISIBLE);
+            btnRetry.setVisibility(View.VISIBLE);
             recyclerView.setVisibility(View.GONE);
         } else {
             tvNoBooks.setVisibility(View.GONE);
+            btnRetry.setVisibility(View.GONE);
             recyclerView.setVisibility(View.VISIBLE);
         }
 
@@ -203,6 +225,26 @@ public class BookCatalogueFragment extends Fragment {
             }
         }
         return "All"; // Default to "All" if no chip is selected
+    }
+    private void handleNoData(String message) {
+        if (!isAdded()) return; // Ensure fragment is attached
+        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show();
+        tvNoBooks.setVisibility(View.VISIBLE);
+        btnRetry.setVisibility(View.VISIBLE);
+        recyclerView.setVisibility(View.GONE);
+        searchView.setVisibility(View.GONE);
+    }
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager =
+                (ConnectivityManager) requireContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (connectivityManager != null) {
+            Network network = connectivityManager.getActiveNetwork();
+            NetworkCapabilities networkCapabilities = connectivityManager.getNetworkCapabilities(network);
+            return networkCapabilities != null &&
+                    (networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) ||
+                            networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR));
+        }
+        return false;
     }
 
 }

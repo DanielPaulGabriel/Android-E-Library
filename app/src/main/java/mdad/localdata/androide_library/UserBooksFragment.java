@@ -45,31 +45,29 @@ public class UserBooksFragment extends Fragment {
     private View rootView;
     private TextView tvNoBooks;
     private Button btnRedirect;
+    private RequestQueue requestQueue;
+
     private static final String GET_USER_BOOKS_URL = Constants.GET_USER_BOOKS_URL;
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-    private String mParam1;
-    private String mParam2;
 
     public UserBooksFragment() {
         // Required empty public constructor
     }
 
     public static UserBooksFragment newInstance(String param1, String param2) {
-        UserBooksFragment fragment = new UserBooksFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
+
+        return new UserBooksFragment();
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+        requestQueue = Volley.newRequestQueue(requireContext());
+    }
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (requestQueue != null) {
+            requestQueue.cancelAll(this); // Cancels requests tagged with this fragment
         }
     }
 
@@ -181,12 +179,18 @@ public class UserBooksFragment extends Fragment {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
+                        if (!isAdded()) {
+                            // Fragment is not attached, avoid handling the error
+                            return;
+                        }
                         Toast.makeText(requireContext(), "Error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
 
-        RequestQueue queue = Volley.newRequestQueue(requireContext());
-        queue.add(stringRequest);
+        //RequestQueue queue = Volley.newRequestQueue(requireContext());
+        //queue.add(stringRequest);
+        stringRequest.setTag(this);
+        requestQueue.add(stringRequest);
     }
     private void sendNotification(String title, String message) {
         NotificationManager notificationManager = (NotificationManager) requireContext().getSystemService(Context.NOTIFICATION_SERVICE);
