@@ -141,7 +141,7 @@ public class BookDetailsFragment extends Fragment {
                     @Override
                     public void onResponse(String response) {
                         try {
-                            Log.d("BorrowBookResponse", response);
+                            //Log.d("BorrowBookResponse", response);
                             JSONObject jsonObject = new JSONObject(response);
                             if (jsonObject.getBoolean("success")) {
                                 Toast.makeText(requireContext(), jsonObject.getString("message"), Toast.LENGTH_SHORT).show();

@@ -19,7 +19,7 @@
             android:layout_gravity="center"
 
             android:drawablePadding="8dp"
-            android:text="Add Account"
+            android:text="Add Staff Account"
             android:padding="12dp" />
 
         <!-- Staff Accounts RecyclerView -->

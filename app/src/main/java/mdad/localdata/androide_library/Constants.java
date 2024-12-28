@@ -11,10 +11,9 @@ public class Constants {
         public static final String DELETE_USER_URL = BASE_URL + "/elibrary/users/deleteUser.php";
         public static final String UPDATE_USER_DETAILS_URL = BASE_URL + "/elibrary/users/updateUserDetails.php";
         public static final String GET_ALL_USERS_URL = BASE_URL + "/elibrary/users/getAllUsers.php";
-        public static final String GET_USER_DETAILS_URL = BASE_URL + "/elibrary/books/getUserDetails.php";
-        public static final String GET_ALL_STAFF_URL = BASE_URL + "/elibrary/books/getAllStaff.php";
-        public static final String CREATE_STAFF_URL = BASE_URL + "/elibrary/books/createStaff.php";
-        public static final String EDIT_STAFF_URL = BASE_URL + "/elibrary/books/editStaff.php";
+        public static final String GET_USER_DETAILS_URL = BASE_URL + "/elibrary/users/getUserDetails.php";
+        public static final String CREATE_STAFF_URL = BASE_URL + "/elibrary/users/registerStaff.php";
+        public static final String UPDATE_STAFF_DETAILS_URL = BASE_URL + "/elibrary/users/updateStaffDetails.php";
 
 
     // Books
