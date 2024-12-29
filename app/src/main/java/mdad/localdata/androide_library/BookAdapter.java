@@ -20,11 +20,21 @@ import java.util.List;
 public class BookAdapter extends RecyclerView.Adapter<BookAdapter.BookViewHolder> {
     private Context context;
     private List<Book> bookList;
+    private OnBookActionListener listener;
 
     private static final String BASE_URL = Constants.BASE_URL;
     public BookAdapter(Context context, List<Book> bookList) {
         this.context = context;
         this.bookList = bookList;
+    }
+    // Define the interface for click actions
+    public interface OnBookActionListener {
+        void onBookClick(Book book);
+    }
+
+    // Setter for the listener
+    public void setOnBookActionListener(OnBookActionListener listener) {
+        this.listener = listener;
     }
 
     @NonNull
@@ -51,7 +61,7 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.BookViewHolder
                 .into(holder.ivBookCover);
 
         // Handle item click
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
+       /* holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Fragment bookDetailsFragment = BookDetailsFragment.newInstance(
@@ -68,7 +78,13 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.BookViewHolder
                         .addToBackStack(null)
                         .commit();
             }
-        });
+        }*/
+        holder.itemView.setOnClickListener(v -> {
+            if (listener != null) {
+                listener.onBookClick(book);
+            }
+        }
+        );
 
     }
 

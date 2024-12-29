@@ -19,14 +19,14 @@ public class StaffActivity extends AppCompatActivity {
 
         // Set default fragment
         if (savedInstanceState == null) {
-            loadFragment(new StaffBooksFragment());
+            loadFragment(new StaffBooksCatalogueFragment());
         }
 
         bottomNavigationView.setOnItemSelectedListener(item -> {
             Fragment selectedFragment = null;
 
             if (item.getItemId() == R.id.nav_catalog) {
-                selectedFragment = new StaffBooksFragment();
+                selectedFragment = new StaffBooksCatalogueFragment();
             } else if (item.getItemId() == R.id.nav_reviews) {
                 selectedFragment = new StaffUserActivityFragment();
             } else if (item.getItemId() == R.id.nav_profile) {
