@@ -93,7 +93,7 @@ public class ListenerViewFragment extends Fragment {
         spinnerSpeed = rootView.findViewById(R.id.spinnerSpeed);
 
 
-        Glide.with(this).load(coverUrl).into(ivBookCover);
+        Glide.with(this).load(coverUrl+"?t="+System.currentTimeMillis()).into(ivBookCover);
 
 
         // Fetch the first page

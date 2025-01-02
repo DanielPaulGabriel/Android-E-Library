@@ -118,7 +118,7 @@ public class BookDetailsFragment extends Fragment {
         //System.out.println("BorrowBook user id input:"+ userId);
 
 
-        Glide.with(this).load(coverUrl).into(ivBookCover);
+        Glide.with(this).load(coverUrl+"?t="+System.currentTimeMillis()).into(ivBookCover);
         tvBookTitle.setText(title);
         tvBookAuthor.setText(author);
         tvBookDescription.setText(description);

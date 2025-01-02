@@ -81,18 +81,18 @@ public class UserBookDetailsFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_borrowed_book_details, container, false);
 
-         ivBookCover = rootView.findViewById(R.id.ivBookCover);
-         tvTitle = rootView.findViewById(R.id.tvBookTitle);
-         tvAuthor = rootView.findViewById(R.id.tvBookAuthor);
-         tvSummary = rootView.findViewById(R.id.tvBookSummary);
-         btnBack = rootView.findViewById(R.id.btnBack);
-         btnRead = rootView.findViewById(R.id.btnReadBook);
-         btnListen = rootView.findViewById(R.id.btnListenBook);
-         btnReturn = rootView.findViewById(R.id.btnReturnBook);
+        ivBookCover = rootView.findViewById(R.id.ivBookCover);
+        tvTitle = rootView.findViewById(R.id.tvBookTitle);
+        tvAuthor = rootView.findViewById(R.id.tvBookAuthor);
+        tvSummary = rootView.findViewById(R.id.tvBookSummary);
+        btnBack = rootView.findViewById(R.id.btnBack);
+        btnRead = rootView.findViewById(R.id.btnReadBook);
+        btnListen = rootView.findViewById(R.id.btnListenBook);
+        btnReturn = rootView.findViewById(R.id.btnReturnBook);
         System.out.println("Book Path: "+ contentUrl);
 
         // Populate data
-        Glide.with(this).load(coverUrl).into(ivBookCover);
+        Glide.with(this).load(coverUrl+"?t="+System.currentTimeMillis()).into(ivBookCover);
         tvTitle.setText(title);
         tvAuthor.setText(author);
         tvSummary.setText(summary);
@@ -136,7 +136,6 @@ public class UserBookDetailsFragment extends Fragment {
                     @Override
                     public void onResponse(String response) {
                         try {
-                            Log.d("BorrowBookResponse", response);
                             JSONObject jsonObject = new JSONObject(response);
                             if (jsonObject.getBoolean("success")) {
                                 Toast.makeText(requireContext(), jsonObject.getString("message"), Toast.LENGTH_SHORT).show();

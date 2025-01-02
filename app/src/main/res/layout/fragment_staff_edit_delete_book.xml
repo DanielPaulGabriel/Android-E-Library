@@ -6,9 +6,15 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:gravity="center">
+        android:orientation="vertical">
 
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Title"
+            android:textSize="16sp"
+            android:textStyle="bold" />
         <EditText
             android:id="@+id/etTitle"
             android:layout_width="match_parent"
@@ -16,6 +22,14 @@
             android:hint="Title"
             android:inputType="text" />
 
+        <TextView
+            android:id="@+id/tvAuthor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Author"
+            android:layout_marginTop="16dp"
+            android:textSize="16sp"
+            android:textStyle="bold" />
         <EditText
             android:id="@+id/etAuthor"
             android:layout_width="match_parent"
@@ -23,6 +37,14 @@
             android:hint="Author"
             android:inputType="text" />
 
+        <TextView
+            android:id="@+id/tvGenre"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Genre"
+            android:layout_marginTop="16dp"
+            android:textSize="16sp"
+            android:textStyle="bold" />
         <EditText
             android:id="@+id/etGenre"
             android:layout_width="match_parent"
@@ -30,6 +52,15 @@
             android:hint="Genre"
             android:inputType="text" />
 
+
+        <TextView
+            android:id="@+id/tvQuantity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Quantity"
+            android:layout_marginTop="16dp"
+            android:textSize="16sp"
+            android:textStyle="bold" />
         <EditText
             android:id="@+id/etQuantity"
             android:layout_width="match_parent"
@@ -37,8 +68,64 @@
             android:hint="Quantity"
             android:inputType="number" />
 
+        <TextView
+            android:id="@+id/tvSummary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Summary"
+            android:layout_marginTop="16dp"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+        <EditText
+            android:id="@+id/etSummary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textMultiLine"
+            android:lines="5"
+            android:hint="Summary" />
+
+        <TextView
+            android:id="@+id/tvCover"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Book Cover"
+            android:layout_marginTop="16dp"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+        <ImageView
+            android:id="@+id/ivBookCover"
+            android:layout_width="150dp"
+            android:layout_height="220dp"
+            android:visibility="gone"
+            android:scaleType="centerCrop" />
+        <Button
+            android:id="@+id/btnSelectCover"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Select Cover Image"
+            android:layout_marginTop="8dp" />
+
+        <TextView
+            android:id="@+id/tvContent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Book Content"
+            android:layout_marginTop="8dp"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/btnSelectContent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Select Content File"
+            android:layout_marginTop="8dp" />
+
+
         <Button
             android:id="@+id/btnSave"
+            android:layout_marginTop="16dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Save" />

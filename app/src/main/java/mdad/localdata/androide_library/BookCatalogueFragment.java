@@ -243,6 +243,9 @@ public class BookCatalogueFragment extends Fragment {
     }
     private void handleNoData(String message) {
         if (!isAdded()) return; // Ensure fragment is attached
+        if (message == null || message.trim().isEmpty()) {
+            Toast.makeText(requireContext(), "An unknown error occurred.", Toast.LENGTH_SHORT).show();
+        }
         Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show();
         tvNoBooks.setVisibility(View.VISIBLE);
         btnRetry.setVisibility(View.VISIBLE);

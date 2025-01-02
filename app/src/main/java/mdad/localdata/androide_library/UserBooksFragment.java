@@ -119,7 +119,7 @@ public class UserBooksFragment extends Fragment {
                                 if (autoReturnedBooks != null) {
                                     for (int i = 0; i < autoReturnedBooks.length(); i++) {
                                         JSONObject book = autoReturnedBooks.getJSONObject(i);
-                                        sendNotification("Book Auto-Returned", "Your borrowed book \"" + book.getString("title") + "\" has been auto-returned.");
+                                        sendNotification("Book Returned", "Your borrowed book \"" + book.getString("title") + "\" has been returned.");
                                     }
                                 }
 

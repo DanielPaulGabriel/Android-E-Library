@@ -10,7 +10,7 @@
     <ImageView
         android:id="@+id/ivBookCover"
         android:layout_width="150dp"
-        android:layout_height="220dp"
+        android:layout_height="225dp"
         android:scaleType="centerCrop"
         android:layout_gravity="center" />
 

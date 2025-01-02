@@ -63,7 +63,7 @@ public class UserBookAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             }*/
 
             Glide.with(bookHolder.itemView.getContext())
-                    .load(Constants.BASE_URL + book.getCoverPath())
+                    .load(Constants.BASE_URL + book.getCoverPath()+"?t="+System.currentTimeMillis())
                     .placeholder(R.drawable.ic_placeholder)
                     .error(R.drawable.ic_error)
                     .into(bookHolder.ivCover);

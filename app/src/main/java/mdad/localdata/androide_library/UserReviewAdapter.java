@@ -39,7 +39,7 @@ public class UserReviewAdapter extends RecyclerView.Adapter<UserReviewAdapter.Us
         holder.ratingBar.setRating(review.getRating());
         holder.tvReviewText.setText(review.getReviewText());
         Glide.with(holder.itemView.getContext())
-                .load(Constants.BASE_URL + review.getCoverPath())
+                .load(Constants.BASE_URL + review.getCoverPath()+"?t="+System.currentTimeMillis())
                 .placeholder(R.drawable.ic_placeholder)
                 .error(R.drawable.ic_error)
                 .into(holder.ivBookCover);

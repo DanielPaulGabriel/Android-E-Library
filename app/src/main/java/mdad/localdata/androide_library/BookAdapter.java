@@ -54,8 +54,7 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.BookViewHolder
 
         // Load the book cover using Glide
         Glide.with(context)
-                .load(BASE_URL+book.getCoverPath()) // URL or file path of the book cover
-
+                .load(BASE_URL+book.getCoverPath()+"?t="+System.currentTimeMillis()) // URL or file path of the book cover
                 .placeholder(R.drawable.ic_placeholder) // Placeholder image
                 .error(R.drawable.ic_error) // Error image
                 .into(holder.ivBookCover);

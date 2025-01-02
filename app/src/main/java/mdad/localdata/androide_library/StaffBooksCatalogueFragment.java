@@ -131,7 +131,8 @@ public class StaffBooksCatalogueFragment extends Fragment {
                                         book.getTitle(),
                                         book.getAuthor(),
                                         book.getGenre(),
-                                        book.getQuantity()
+                                        book.getQuantity(),
+                                        book.getSummary()
                                 );
 
                                 requireActivity().getSupportFragmentManager()
@@ -142,7 +143,9 @@ public class StaffBooksCatalogueFragment extends Fragment {
                             });
                             recyclerView.setAdapter(bookAdapter);
                         } else {
-                            Toast.makeText(getContext(), jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
+                            String message =  jsonObject.getString("message");
+                            handleNoData(message);
+                            //Toast.makeText(getContext(), jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
                             tvNoBooks.setVisibility(View.VISIBLE);
                             btnRetry.setVisibility(View.VISIBLE);
                             recyclerView.setVisibility(View.GONE);
@@ -151,7 +154,8 @@ public class StaffBooksCatalogueFragment extends Fragment {
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
-                        Toast.makeText(getContext(), "Error loading books.", Toast.LENGTH_SHORT).show();
+                        handleNoData("Error loading books.");
+                        //Toast.makeText(getContext(), "Error loading books.", Toast.LENGTH_SHORT).show();
                         tvNoBooks.setVisibility(View.VISIBLE);
                         btnRetry.setVisibility(View.VISIBLE);
                         recyclerView.setVisibility(View.GONE);
@@ -160,7 +164,11 @@ public class StaffBooksCatalogueFragment extends Fragment {
                     }
                 },
                 error -> {
-                    Toast.makeText(getContext(), "Error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                    String errorMessage = error.getMessage();
+                    handleNoData(errorMessage);
+                    /*if (isAdded()) {
+                        Toast.makeText(getContext(), "Error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                    }*/
                     tvNoBooks.setVisibility(View.VISIBLE);
                     btnRetry.setVisibility(View.VISIBLE);
                     recyclerView.setVisibility(View.GONE);
@@ -199,6 +207,9 @@ public class StaffBooksCatalogueFragment extends Fragment {
     }
     private void handleNoData(String message) {
         if (!isAdded()) return; // Ensure fragment is attached
+        if (message == null || message.trim().isEmpty()) {
+            Toast.makeText(requireContext(), "An unknown error occurred.", Toast.LENGTH_SHORT).show();
+        }
         Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show();
         tvNoBooks.setVisibility(View.VISIBLE);
         btnRetry.setVisibility(View.VISIBLE);
