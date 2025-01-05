@@ -2,7 +2,7 @@ package mdad.localdata.androide_library;
 
 public class Constants {
     // Base URL
-    public static final String BASE_URL = "http://192.168.86.26";
+    public static final String BASE_URL = "http://192.168.86.27";
 
     // Endpoints
         // Users
@@ -38,6 +38,8 @@ public class Constants {
         public static final String DELETE_REVIEW_URL = BASE_URL + "/elibrary/reviews/deleteReview.php";
         public static final String GET_ALL_BOOK_REVIEWS_URL = BASE_URL + "/elibrary/reviews/getBookReviews.php";
         public static final String GET_USER_REVIEWS_URL = BASE_URL + "/elibrary/reviews/getUserReviews.php";
+        public static final String GET_BOOK_REVIEWS_URL = BASE_URL + "/elibrary/reviews/getBookReviews.php";
+
 
 
 

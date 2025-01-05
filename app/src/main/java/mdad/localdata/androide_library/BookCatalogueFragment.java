@@ -97,6 +97,8 @@ public class BookCatalogueFragment extends Fragment {
             handleNoData("No internet connection. Please check your connection.");
             return;
         }
+        bookList.clear();
+        filteredList.clear();
         StringRequest stringRequest = new StringRequest(Request.Method.GET, BOOKS_URL,
                 response -> {
                     try {

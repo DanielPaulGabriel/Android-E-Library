@@ -62,7 +62,7 @@ public class StaffEditDeleteBookFragment extends Fragment {
     private int quantity;
 
     private EditText etTitle, etAuthor, etGenre, etQuantity, etSummary;
-    private Button btnSave, btnCancel, btnDelete;
+    private Button btnSave, btnCancel, btnBookReviews, btnDelete;
     private ImageView ivBookCover;
     private Uri selectedCoverUri;
     private Uri selectedContentUri;
@@ -114,6 +114,7 @@ public class StaffEditDeleteBookFragment extends Fragment {
         Button btnSelectContent = rootView.findViewById(R.id.btnSelectContent);
         btnSave = rootView.findViewById(R.id.btnSave);
         btnCancel = rootView.findViewById(R.id.btnCancel);
+        btnBookReviews = rootView.findViewById(R.id.btnBookReviews);
         btnDelete = rootView.findViewById(R.id.btnDelete);
 
         // Pre-fill fields with book details
@@ -148,12 +149,23 @@ public class StaffEditDeleteBookFragment extends Fragment {
         });
         // Cancel changes
         btnCancel.setOnClickListener(v -> requireActivity().getSupportFragmentManager().popBackStack());
+        // Book Reviews
+        btnBookReviews.setOnClickListener(v->{
+            Fragment staffBookReviewsFragment = StaffBookReviewsFragment.newInstance(
+                    bookId
+            );
+            requireActivity().getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragment_container, staffBookReviewsFragment)
+                    .addToBackStack(null)
+                    .commit();
+        });
         // Delete book
         btnDelete.setOnClickListener(v -> {
             // Call API to delete book
             new AlertDialog.Builder(requireContext())
-                    .setTitle("Delete Profile")
-                    .setMessage("Are you sure you want to delete this account?")
+                    .setTitle("Delete Book")
+                    .setMessage("Are you sure you want to delete this Book?")
                     .setPositiveButton("Yes", (dialog, which) -> deleteBook(bookId))
                     .setNegativeButton("No", null)
                     .show();
@@ -272,6 +284,7 @@ public class StaffEditDeleteBookFragment extends Fragment {
     }
 
     private void deleteBook(int bookId) {
+        System.out.println("Book ID: "+ bookId);
         StringRequest stringRequest = new StringRequest(com.android.volley.Request.Method.POST, DELETE_BOOK_URL,
                 response -> {
                     try {

@@ -136,6 +136,12 @@
             android:layout_height="wrap_content"
             android:text="Cancel" />
         <Button
+            android:id="@+id/btnBookReviews"
+            android:layout_marginTop="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="See Book Reviews" />
+        <Button
             android:id="@+id/btnDelete"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

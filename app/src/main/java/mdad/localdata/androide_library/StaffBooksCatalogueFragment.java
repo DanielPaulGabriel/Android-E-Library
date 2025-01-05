@@ -94,6 +94,8 @@ public class StaffBooksCatalogueFragment extends Fragment {
     }
 
     private void loadBooks() {
+        bookList.clear();
+        filteredList.clear();
         if (!isNetworkAvailable()) {
             handleNoData("No internet connection. Please check your connection.");
             return;
