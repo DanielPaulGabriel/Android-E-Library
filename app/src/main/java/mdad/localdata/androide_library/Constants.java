@@ -29,7 +29,7 @@ public class Constants {
     // Borrowed Books
         public static final String BORROW_BOOK_URL = BASE_URL + "/elibrary/borrowed_books/borrowBook.php";
         public static final String RETURN_BOOK_URL = BASE_URL + "/elibrary/borrowed_books/returnBook.php";
-        public static final String GET_USER__BORROW_HISTORY_URL = BASE_URL + "/elibrary/borrowed_books/getUserBorrowHistory.php";
+        public static final String GET_USER_BORROW_HISTORY_URL = BASE_URL + "/elibrary/borrowed_books/getUserBorrowHistory.php";
         public static final String GET_OVERDUE_BOOKS_URL = BASE_URL + "/elibrary/borrowed_books/getOverdueBooks.php";
 
         // Reviews

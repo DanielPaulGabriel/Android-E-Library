@@ -1,0 +1,91 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:background="@android:color/white"
+        android:elevation="4dp">
+
+        <!-- User Information Section -->
+        <TextView
+            android:id="@+id/tvUserInfoHeader"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="User Information"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:paddingBottom="8dp" />
+
+        <TextView
+            android:id="@+id/tvUsername"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Username: john_doe"
+            android:textSize="16sp"
+            android:paddingBottom="4dp" />
+
+        <TextView
+            android:id="@+id/tvAccountCreated"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Account Created: 2022-01-01"
+            android:textSize="16sp"
+            android:paddingBottom="8dp" />
+
+        <!-- Borrowed Books Section -->
+        <TextView
+            android:id="@+id/tvBorrowedBooksHeader"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Books Currently Borrowed"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:paddingTop="16dp"
+            android:paddingBottom="8dp" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewBorrowedBooks"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp" />
+
+        <!-- User Reviews Section -->
+        <TextView
+            android:id="@+id/tvUserReviewsHeader"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="User Reviews"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:paddingTop="16dp"
+            android:paddingBottom="8dp" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewUserReviews"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Statistics Section -->
+        <TextView
+            android:id="@+id/tvStatisticsHeader"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Borrowing Statistics"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:paddingTop="16dp"
+            android:paddingBottom="8dp" />
+
+        <com.github.mikephil.charting.charts.BarChart
+            android:id="@+id/barChart"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:layout_marginBottom="16dp" />
+    </LinearLayout>
+</ScrollView>

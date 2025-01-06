@@ -124,15 +124,6 @@ public class ProfileFragment extends Fragment {
             } else {
                 updateProfile(newUsername, newPassword);
 
-                // Disable editing after saving
-                toggleEditing(false);
-
-                // Show Edit button, hide Save button
-                btnEditCredentials.setVisibility(View.VISIBLE);
-                btnSaveChanges.setVisibility(View.GONE);
-                btnDelete.setVisibility(View.VISIBLE);
-                btnToggleTheme.setVisibility(View.VISIBLE);
-
             }
         });
 
@@ -221,6 +212,16 @@ public class ProfileFragment extends Fragment {
                             Toast.makeText(requireContext(), "Profile updated successfully!", Toast.LENGTH_SHORT).show();
                             SharedPrefsManager.saveUsername(requireContext(), username);
                             SharedPrefsManager.savePassword(requireContext(), password);
+                            // Disable editing after saving
+                            toggleEditing(false);
+
+                            // Show Edit button, hide Save button
+                            btnToggleTheme.setVisibility(View.VISIBLE);
+                            btnEditCredentials.setVisibility(View.VISIBLE);
+                            btnDelete.setVisibility(View.VISIBLE);
+                            btnLogout.setVisibility(View.VISIBLE);
+                            btnSaveChanges.setVisibility(View.GONE);
+                            btnCancel.setVisibility(View.GONE);
                         } else {
                             Toast.makeText(requireContext(), jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
                         }
