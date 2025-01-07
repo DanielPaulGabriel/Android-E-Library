@@ -158,11 +158,6 @@ public class StaffBooksCatalogueFragment extends Fragment {
                         e.printStackTrace();
                         handleNoData("Error loading books.");
                         //Toast.makeText(getContext(), "Error loading books.", Toast.LENGTH_SHORT).show();
-                        tvNoBooks.setVisibility(View.VISIBLE);
-                        btnRetry.setVisibility(View.VISIBLE);
-                        recyclerView.setVisibility(View.GONE);
-                        searchView.setVisibility(View.GONE);
-                        fabAddBook.setVisibility(View.GONE);
                     }
                 },
                 error -> {
@@ -171,11 +166,7 @@ public class StaffBooksCatalogueFragment extends Fragment {
                     /*if (isAdded()) {
                         Toast.makeText(getContext(), "Error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
                     }*/
-                    tvNoBooks.setVisibility(View.VISIBLE);
-                    btnRetry.setVisibility(View.VISIBLE);
-                    recyclerView.setVisibility(View.GONE);
-                    searchView.setVisibility(View.GONE);
-                    fabAddBook.setVisibility(View.GONE);
+
                 });
 
         Volley.newRequestQueue(requireContext()).add(stringRequest);
