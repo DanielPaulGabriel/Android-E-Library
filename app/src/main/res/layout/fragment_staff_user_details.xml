@@ -25,15 +25,15 @@
             android:id="@+id/tvUsername"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Username: john_doe"
+            android:text="Username:"
             android:textSize="16sp"
             android:paddingBottom="4dp" />
 
         <TextView
-            android:id="@+id/tvAccountCreated"
+            android:id="@+id/tvCreatedAt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Account Created: 2022-01-01"
+            android:text="Account Created:"
             android:textSize="16sp"
             android:paddingBottom="8dp" />
 

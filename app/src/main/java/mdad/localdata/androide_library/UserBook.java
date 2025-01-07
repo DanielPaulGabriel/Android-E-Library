@@ -28,6 +28,10 @@ public class UserBook implements ListItem{
         this.due_date = due_date;
         this.return_date = return_date;
     }
+    public UserBook(String title, String due_date) {
+        this.title = title;
+        this.due_date = due_date;
+    }
 
     // Getters
     public int getBookId() {

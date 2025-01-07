@@ -31,6 +31,12 @@ public class Review {
         this.summary = summary;
         this.createdAt = createdAt;
     }
+    public Review(String title, int rating, String reviewText) {
+        this.title = title;
+        this.rating = rating;
+        this.reviewText = reviewText;
+
+    }
 
     // Getters
 
