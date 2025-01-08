@@ -82,10 +82,10 @@
             android:paddingTop="16dp"
             android:paddingBottom="8dp" />
 
-        <com.github.mikephil.charting.charts.BarChart
-            android:id="@+id/barChart"
+        <com.github.mikephil.charting.charts.LineChart
+            android:id="@+id/lineChart"
             android:layout_width="match_parent"
-            android:layout_height="300dp"
-            android:layout_marginBottom="16dp" />
+            android:layout_height="450dp"
+            android:layout_marginBottom="32dp" />
     </LinearLayout>
 </ScrollView>

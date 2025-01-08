@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,7 +21,14 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.Legend;
+import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -29,6 +37,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Iterator;
 import java.util.List;
 
 public class StaffUserDetailsFragment extends Fragment {
@@ -43,7 +52,7 @@ public class StaffUserDetailsFragment extends Fragment {
 
     private TextView tvUsername, tvCreatedAt;
     private RecyclerView recyclerViewBorrowedBooks, recyclerViewUserReviews;
-    private BarChart barChart;
+    private LineChart lineChart;
 
     public static StaffUserDetailsFragment newInstance(int userId, String username, String createdAt) {
         StaffUserDetailsFragment fragment = new StaffUserDetailsFragment();
@@ -73,7 +82,7 @@ public class StaffUserDetailsFragment extends Fragment {
         tvCreatedAt = rootView.findViewById(R.id.tvCreatedAt);
         recyclerViewBorrowedBooks = rootView.findViewById(R.id.recyclerViewBorrowedBooks);
         recyclerViewUserReviews = rootView.findViewById(R.id.recyclerViewUserReviews);
-        barChart = rootView.findViewById(R.id.barChart);
+        lineChart = rootView.findViewById(R.id.lineChart);
 
         recyclerViewBorrowedBooks.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerViewUserReviews.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -83,7 +92,7 @@ public class StaffUserDetailsFragment extends Fragment {
 
         fetchBorrowedBooks();
         fetchUserReviews();
-        //fetchBorrowingStatistics();
+        fetchBorrowingStatistics();
 
         return rootView;
     }
@@ -153,8 +162,8 @@ public class StaffUserDetailsFragment extends Fragment {
         Volley.newRequestQueue(requireContext()).add(request);
     }
 
-    /*private void fetchBorrowingStatistics() {
-        String url = Constants.GET_BORROWING_STATISTICS_URL + "?user_id=" + userId;
+    private void fetchBorrowingStatistics() {
+        String url = Constants.GET_BORROWING_STATISTICS + "?user_id=" + userId;
 
         StringRequest request = new StringRequest(Request.Method.GET, url,
                 response -> {
@@ -162,7 +171,7 @@ public class StaffUserDetailsFragment extends Fragment {
                         JSONObject jsonObject = new JSONObject(response);
                         if (jsonObject.getBoolean("success")) {
                             JSONObject statsObject = jsonObject.getJSONObject("stats");
-                            setupBarChart(statsObject);
+                            setupLineChart(statsObject);
                         } else {
                             Toast.makeText(getContext(), jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
                         }
@@ -175,40 +184,77 @@ public class StaffUserDetailsFragment extends Fragment {
 
         Volley.newRequestQueue(requireContext()).add(request);
     }
+    private void setupLineChart(JSONObject statsObject) {
+        List<Entry> entries = new ArrayList<>();
 
-    private void setupBarChart(JSONObject statsObject) {
         try {
-            List<BarEntry> entries = new ArrayList<>();
-            List<String> labels = new ArrayList<>();
+            // Extract data from the statsObject
+            Iterator<String> keys = statsObject.keys();
+            List<String> months = new ArrayList<>();
+            List<Integer> borrowCounts = new ArrayList<>();
 
-            int index = 0;
-            JSONArray monthsArray = statsObject.names();
-            for (int i = 0; i < monthsArray.length(); i++) {
-                String month = monthsArray.getString(i);
-                int count = statsObject.getInt(month);
-                entries.add(new BarEntry(index, count));
-                labels.add(month);
-                index++;
+            while (keys.hasNext()) {
+                String month = keys.next();
+                int borrowCount = statsObject.getInt(month);
+
+                months.add(month);
+                borrowCounts.add(borrowCount);
             }
 
-            BarDataSet dataSet = new BarDataSet(entries, "Books Borrowed");
-            dataSet.setColor(Color.BLUE);
+            // Sort the data by month
+            List<Pair<String, Integer>> sortedData = new ArrayList<>();
+            for (int i = 0; i < months.size(); i++) {
+                sortedData.add(new Pair<>(months.get(i), borrowCounts.get(i)));
+            }
 
-            BarData barData = new BarData(dataSet);
-            barChart.setData(barData);
+            Collections.sort(sortedData, (p1, p2) -> p1.first.compareTo(p2.first));
 
-            XAxis xAxis = barChart.getXAxis();
-            xAxis.setValueFormatter(new IndexAxisValueFormatter(labels));
-            xAxis.setGranularity(1f);
-            xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+            for (int i = 0; i < sortedData.size(); i++) {
+                String month = sortedData.get(i).first;
+                int borrowCount = sortedData.get(i).second;
 
-            barChart.invalidate();
+                // Add data to entries
+                entries.add(new Entry(i, borrowCount));
+            }
+
+            // Setup X-axis labels
+            List<String> xLabels = new ArrayList<>();
+            for (Pair<String, Integer> pair : sortedData) {
+                xLabels.add(pair.first); // Month names
+            }
+
+            LineDataSet dataSet = new LineDataSet(entries, "Books Borrowed");
+            dataSet.setColor(getResources().getColor(R.color.dark_primary)); // Line color
+            dataSet.setCircleColor(getResources().getColor(R.color.dark_primary)); // Point color
+            dataSet.setLineWidth(2f);
+            dataSet.setCircleRadius(4f);
+            dataSet.setDrawValues(false); // Disable value text on points
+
+            LineData lineData = new LineData(dataSet);
+
+            // Set up the chart
+            lineChart.setData(lineData);
+            lineChart.getXAxis().setValueFormatter(new IndexAxisValueFormatter(xLabels));
+            lineChart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
+            lineChart.getXAxis().setDrawGridLines(false);
+            lineChart.getXAxis().setGranularity(1f);
+            lineChart.getXAxis().setGranularityEnabled(true);
+            //lineChart.getXAxis().setLabelRotationAngle(45); // Rotate labels for readability
+            lineChart.getXAxis().setTextSize(10);
+            lineChart.setExtraBottomOffset(10f);
+
+            lineChart.getAxisLeft().setDrawGridLines(false);
+            lineChart.getAxisRight().setEnabled(false); // Disable right Y-axis
+            lineChart.getDescription().setEnabled(false); // Disable description
+            lineChart.getLegend().setEnabled(true);
+            lineChart.getLegend().setVerticalAlignment(Legend.LegendVerticalAlignment.TOP);
+
+            lineChart.animateX(1000);
+            lineChart.invalidate(); // Refresh the chart
         } catch (JSONException e) {
             e.printStackTrace();
-            Toast.makeText(getContext(), "Failed to setup chart", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "Error setting up chart", Toast.LENGTH_SHORT).show();
         }
-    }*/
-
-
+    }
 
 }
