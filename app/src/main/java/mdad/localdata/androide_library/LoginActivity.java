@@ -1,7 +1,11 @@
 package mdad.localdata.androide_library;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.Network;
+import android.net.NetworkCapabilities;
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.MotionEvent;
@@ -88,12 +92,21 @@ public class LoginActivity extends AppCompatActivity {
         tvRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (!isNetworkAvailable()) {
+                    Toast.makeText(LoginActivity.this, "No internet connection. Please check your connection.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
             }
         });
     }
 
     private void loginUser() {
+        if (!isNetworkAvailable()) {
+            Toast.makeText(LoginActivity.this, "No internet connection. Please check your connection.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         final String username = etUsername.getText().toString().trim();
         final String password = etPassword.getText().toString().trim();
 
@@ -159,5 +172,19 @@ public class LoginActivity extends AppCompatActivity {
 
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(stringRequest);
+    }
+
+
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager =
+                (ConnectivityManager) LoginActivity.this.getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (connectivityManager != null) {
+            Network network = connectivityManager.getActiveNetwork();
+            NetworkCapabilities networkCapabilities = connectivityManager.getNetworkCapabilities(network);
+            return networkCapabilities != null &&
+                    (networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) ||
+                            networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR));
+        }
+        return false;
     }
 }

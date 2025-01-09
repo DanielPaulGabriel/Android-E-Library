@@ -62,7 +62,7 @@ public class StaffEditDeleteBookFragment extends Fragment {
     private int quantity;
 
     private EditText etTitle, etAuthor, etGenre, etQuantity, etSummary;
-    private Button btnSave, btnCancel, btnBookReviews, btnDelete;
+    private Button btnSave, btnCancel, btnDelete, btnBookReviews, btnBookStatistics;
     private ImageView ivBookCover;
     private Uri selectedCoverUri;
     private Uri selectedContentUri;
@@ -115,6 +115,7 @@ public class StaffEditDeleteBookFragment extends Fragment {
         btnSave = rootView.findViewById(R.id.btnSave);
         btnCancel = rootView.findViewById(R.id.btnCancel);
         btnBookReviews = rootView.findViewById(R.id.btnBookReviews);
+        btnBookStatistics = rootView.findViewById(R.id.btnBookStatistics);
         btnDelete = rootView.findViewById(R.id.btnDelete);
 
         // Pre-fill fields with book details
@@ -157,6 +158,17 @@ public class StaffEditDeleteBookFragment extends Fragment {
             requireActivity().getSupportFragmentManager()
                     .beginTransaction()
                     .replace(R.id.fragment_container, staffBookReviewsFragment)
+                    .addToBackStack(null)
+                    .commit();
+        });
+        // Book Statistics
+        btnBookReviews.setOnClickListener(v->{
+            Fragment staffBookStatisticsFragment = StaffBookStatisticsFragment.newInstance(
+                    bookId
+            );
+            requireActivity().getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragment_container, staffBookStatisticsFragment)
                     .addToBackStack(null)
                     .commit();
         });

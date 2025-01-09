@@ -1,6 +1,10 @@
 package mdad.localdata.androide_library;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.Network;
+import android.net.NetworkCapabilities;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -112,6 +116,10 @@ public class StaffAccountsFragment extends Fragment {
             Toast.makeText(requireContext(), theme + " enabled", Toast.LENGTH_SHORT).show();
         });
         btnCreateAccount.setOnClickListener(v -> {
+            if (!isNetworkAvailable()) {
+                handleNoData("No internet connection. Please check your connection.");
+                return;
+            }
             // Handle create account
             Fragment createAccountFragment = CreateStaffAccountFragment.newInstance();
             ((AppCompatActivity) requireContext())
@@ -125,6 +133,10 @@ public class StaffAccountsFragment extends Fragment {
     }
 
     private void loadStaffAccounts() {
+        if (!isNetworkAvailable()) {
+            handleNoData("No internet connection. Please check your connection.");
+            return;
+        }
         StringRequest request = new StringRequest(Request.Method.GET, GET_ALL_STAFF_URL +"?role=staff",
                 response -> {
                     try {
@@ -143,6 +155,10 @@ public class StaffAccountsFragment extends Fragment {
                             adapter = new StaffAccountAdapter(staffList, new StaffAccountAdapter.OnAccountActionListener() {
                                 @Override
                                 public void onEdit(StaffAccount account) {
+                                    if (!isNetworkAvailable()) {
+                                        handleNoData("No internet connection. Please check your connection.");
+                                        return;
+                                    }
                                     Fragment editFragment = EditStaffAccountFragment.newInstance(account.getId(), account.getUsername());
                                     ((AppCompatActivity) requireContext())
                                             .getSupportFragmentManager()
@@ -154,6 +170,10 @@ public class StaffAccountsFragment extends Fragment {
 
                                 @Override
                                 public void onDelete(StaffAccount account) {
+                                    if (!isNetworkAvailable()) {
+                                        handleNoData("No internet connection. Please check your connection.");
+                                        return;
+                                    }
                                     new AlertDialog.Builder(requireContext())
                                             .setTitle("Delete Account")
                                             .setMessage("Are you sure you want to delete this account?")
@@ -205,7 +225,29 @@ public class StaffAccountsFragment extends Fragment {
                 }
             };
             Volley.newRequestQueue(requireContext()).add(request);
+
+
         }
 
     }
+
+    private void handleNoData(String message) {
+        if (!isAdded()) return; // Ensure fragment is attached
+        if (message == null || message.trim().isEmpty()) {
+            Toast.makeText(requireContext(), "An unknown error occurred.", Toast.LENGTH_SHORT).show();
+        }
+        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show();
+    }
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager =
+                (ConnectivityManager) requireContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (connectivityManager != null) {
+            Network network = connectivityManager.getActiveNetwork();
+            NetworkCapabilities networkCapabilities = connectivityManager.getNetworkCapabilities(network);
+            return networkCapabilities != null &&
+                    (networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) ||
+                            networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR));
+        }
+        return false;
+        }
 }

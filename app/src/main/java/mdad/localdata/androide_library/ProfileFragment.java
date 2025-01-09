@@ -5,6 +5,9 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.Network;
+import android.net.NetworkCapabilities;
 import android.os.Bundle;
 import android.text.InputType;
 import android.text.TextUtils;
@@ -135,6 +138,10 @@ public class ProfileFragment extends Fragment {
         });
 
         btnDelete.setOnClickListener(v -> {
+            if (!isNetworkAvailable()) {
+                handleNoData("No internet connection. Please check your connection.");
+                return;
+            }
             new AlertDialog.Builder(requireContext())
                     .setTitle("Delete Profile")
                     .setMessage("Are you sure you want to delete this account?")
@@ -279,5 +286,23 @@ public class ProfileFragment extends Fragment {
         RequestQueue queue = Volley.newRequestQueue(requireContext());
         queue.add(stringRequest);
     }
-
+    private void handleNoData(String message) {
+        if (!isAdded()) return; // Ensure fragment is attached
+        if (message == null || message.trim().isEmpty()) {
+            Toast.makeText(requireContext(), "An unknown error occurred.", Toast.LENGTH_SHORT).show();
+        }
+        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show();
+    }
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager =
+                (ConnectivityManager) requireContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (connectivityManager != null) {
+            Network network = connectivityManager.getActiveNetwork();
+            NetworkCapabilities networkCapabilities = connectivityManager.getNetworkCapabilities(network);
+            return networkCapabilities != null &&
+                    (networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) ||
+                            networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR));
+        }
+        return false;
+    }
 }

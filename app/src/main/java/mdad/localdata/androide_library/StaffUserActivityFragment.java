@@ -52,7 +52,6 @@ public class StaffUserActivityFragment extends Fragment {
         btnRetry = rootView.findViewById(R.id.btnRetry);
         btnRetry.setOnClickListener(v-> fetchUsers());
 
-        fetchUsers();
 
         searchView = rootView.findViewById(R.id.searchView);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -75,7 +74,7 @@ public class StaffUserActivityFragment extends Fragment {
                 return true;
             }
         });
-
+        fetchUsers();
 
         return rootView;
     }

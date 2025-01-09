@@ -1,7 +1,11 @@
 package mdad.localdata.androide_library;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.Network;
+import android.net.NetworkCapabilities;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -42,7 +46,7 @@ public class ReviewsFragment extends Fragment {
     private ReviewAdapter reviewAdapter;
     private TextView tvNoReviews;
     private SearchView searchView;
-    private Button btnRedirect;
+    private Button btnRedirect, btnRetry;
     private List<Review> reviewList = new ArrayList<>();
     private List<Review> filteredReviewList = new ArrayList<>();
     private static final String GET_USER_REVIEWS_URL = Constants.GET_USER_REVIEWS_URL;
@@ -57,6 +61,7 @@ public class ReviewsFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         tvNoReviews = rootView.findViewById(R.id.tvNoReviews);
         btnRedirect = rootView.findViewById(R.id.btnRedirect);
+        btnRetry = rootView.findViewById(R.id.btnRetry);
         searchView = rootView.findViewById(R.id.searchView);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             private final Handler handler = new Handler();
@@ -97,11 +102,18 @@ public class ReviewsFragment extends Fragment {
         if (userId != -1) {
             fetchReviews(userId);
         }
-
+        btnRetry.setOnClickListener(v->fetchReviews(userId));
         return rootView;
     }
 
     private void fetchReviews(int userId) {
+        if (!isNetworkAvailable()) {
+            handleNoData("No internet connection. Please check your connection.");
+            return;
+        }
+        tvNoReviews.setVisibility(View.GONE);
+        btnRetry.setVisibility(View.GONE);
+
         StringRequest stringRequest = new StringRequest(Request.Method.GET, GET_USER_REVIEWS_URL + "?user_id=" + userId,
                 new Response.Listener<String>() {
                     @Override
@@ -251,5 +263,30 @@ public class ReviewsFragment extends Fragment {
         }
 
         //reviewAdapter.updateReviews(filteredReviewList);
+    }
+
+    private void handleNoData(String message) {
+        if (!isAdded()) return; // Ensure fragment is attached
+        if (message == null || message.trim().isEmpty()) {
+            Toast.makeText(requireContext(), "An unknown error occurred.", Toast.LENGTH_SHORT).show();
+        }
+        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show();
+        tvNoReviews.setVisibility(View.VISIBLE);
+        btnRetry.setVisibility(View.VISIBLE);
+        btnRedirect.setVisibility(View.GONE);
+        recyclerView.setVisibility(View.GONE);
+        searchView.setVisibility(View.GONE);
+    }
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager =
+                (ConnectivityManager) requireContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (connectivityManager != null) {
+            Network network = connectivityManager.getActiveNetwork();
+            NetworkCapabilities networkCapabilities = connectivityManager.getNetworkCapabilities(network);
+            return networkCapabilities != null &&
+                    (networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) ||
+                            networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR));
+        }
+        return false;
     }
 }

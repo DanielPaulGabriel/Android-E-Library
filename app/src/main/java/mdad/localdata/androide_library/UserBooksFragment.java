@@ -4,6 +4,9 @@ import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.Network;
+import android.net.NetworkCapabilities;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -43,8 +46,9 @@ import java.util.Random;
 
 public class UserBooksFragment extends Fragment {
     private View rootView;
+    private RecyclerView recyclerView;
     private TextView tvNoBooks;
-    private Button btnRedirect;
+    private Button btnRedirect, btnRetry;
     private RequestQueue requestQueue;
 
     private static final String GET_USER_BOOKS_URL = Constants.GET_USER_BOOKS_URL;
@@ -75,10 +79,11 @@ public class UserBooksFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_user_books, container, false);
 
-        RecyclerView recyclerView = rootView.findViewById(R.id.recyclerViewUserBooks);
+        recyclerView = rootView.findViewById(R.id.recyclerViewUserBooks);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         tvNoBooks = rootView.findViewById(R.id.tvNoBooks);
         btnRedirect = rootView.findViewById(R.id.btnRedirect);
+        btnRetry = rootView.findViewById(R.id.btnRetry);
 
         btnRedirect.setOnClickListener(v->{
             Fragment bookCatalogueFragment = BookCatalogueFragment.newInstance();
@@ -99,11 +104,16 @@ public class UserBooksFragment extends Fragment {
         if(userId != -1 ){
             fetchBooks(userId, recyclerView, tvNoBooks);
         }
-
+        btnRetry.setOnClickListener(v->fetchBooks(userId, recyclerView, tvNoBooks));
 
         return rootView;
     }
     private void fetchBooks(int userId, RecyclerView recyclerView, TextView tvNoBooks) {
+        if (!isNetworkAvailable()) {
+            handleNoData("No internet connection. Please check your connection.");
+            return;
+        }
+
         StringRequest stringRequest = new StringRequest(Request.Method.GET, GET_USER_BOOKS_URL + "?user_id=" + userId,
                 new Response.Listener<String>() {
                     @Override
@@ -113,6 +123,7 @@ public class UserBooksFragment extends Fragment {
                             if (jsonObject.getBoolean("success")) {
 
                                 tvNoBooks.setVisibility(View.GONE);
+                                btnRetry.setVisibility(View.GONE);
                                 recyclerView.setVisibility(View.VISIBLE);
 
                                 JSONArray autoReturnedBooks = jsonObject.optJSONArray("auto_returned_books");
@@ -168,6 +179,7 @@ public class UserBooksFragment extends Fragment {
                                 }
                             } else {
                                 tvNoBooks.setVisibility(View.VISIBLE);
+                                btnRetry.setVisibility(View.VISIBLE);
                                 recyclerView.setVisibility(View.GONE);
                             }
                         } catch (JSONException e) {
@@ -210,6 +222,28 @@ public class UserBooksFragment extends Fragment {
                 .build();
 
         notificationManager.notify(new Random().nextInt(), notification);
+    }
+    private void handleNoData(String message) {
+        if (!isAdded()) return; // Ensure fragment is attached
+        if (message == null || message.trim().isEmpty()) {
+            Toast.makeText(requireContext(), "An unknown error occurred.", Toast.LENGTH_SHORT).show();
+        }
+        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show();
+        tvNoBooks.setVisibility(View.VISIBLE);
+        btnRetry.setVisibility(View.VISIBLE);
+        recyclerView.setVisibility(View.GONE);
+    }
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager =
+                (ConnectivityManager) requireContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (connectivityManager != null) {
+            Network network = connectivityManager.getActiveNetwork();
+            NetworkCapabilities networkCapabilities = connectivityManager.getNetworkCapabilities(network);
+            return networkCapabilities != null &&
+                    (networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) ||
+                            networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR));
+        }
+        return false;
     }
 
 }

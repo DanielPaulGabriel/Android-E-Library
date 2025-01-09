@@ -94,12 +94,12 @@ public class StaffBooksCatalogueFragment extends Fragment {
     }
 
     private void loadBooks() {
-        bookList.clear();
-        filteredList.clear();
         if (!isNetworkAvailable()) {
             handleNoData("No internet connection. Please check your connection.");
             return;
         }
+        bookList.clear();
+        filteredList.clear();
         StringRequest stringRequest = new StringRequest(Request.Method.GET, BOOKS_URL,
                 response -> {
                     try {

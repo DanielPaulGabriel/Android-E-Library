@@ -1,0 +1,50 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:background="@android:color/white"
+        android:elevation="4dp">
+
+        <!-- User Information Section -->
+        <TextView
+            android:id="@+id/tvTotalMonthBorrows"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Total Borrows This Month: "
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:paddingBottom="8dp" />
+
+        <TextView
+            android:id="@+id/tvTopBorrowingMonth"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="This Book Was Borrowed The Most In:"
+            android:textSize="16sp"
+            android:paddingBottom="8dp" />
+
+
+        <!-- Statistics Section -->
+        <TextView
+            android:id="@+id/tvStatisticsHeader"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Borrowing Statistics"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:paddingTop="16dp"
+            android:paddingBottom="8dp" />
+
+        <com.github.mikephil.charting.charts.LineChart
+            android:id="@+id/lineChart"
+            android:layout_width="match_parent"
+            android:layout_height="450dp"
+            android:layout_marginBottom="32dp" />
+    </LinearLayout>
+</ScrollView>
