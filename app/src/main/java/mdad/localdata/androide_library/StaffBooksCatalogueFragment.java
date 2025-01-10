@@ -128,18 +128,19 @@ public class StaffBooksCatalogueFragment extends Fragment {
                             filteredList.addAll(bookList);
                             bookAdapter = new BookAdapter(getContext(), filteredList);
                             bookAdapter.setOnBookActionListener(book -> {
-                                Fragment editDeleteBookFragment = StaffEditDeleteBookFragment.newInstance(
+                                Fragment staffBookDetailsFragment = StaffBookDetailsFragment.newInstance(
                                         book.getBookId(),
                                         book.getTitle(),
                                         book.getAuthor(),
                                         book.getGenre(),
                                         book.getQuantity(),
-                                        book.getSummary()
+                                        book.getSummary(),
+                                        book.getCoverPath()
                                 );
 
                                 requireActivity().getSupportFragmentManager()
                                         .beginTransaction()
-                                        .replace(R.id.fragment_container, editDeleteBookFragment)
+                                        .replace(R.id.fragment_container, staffBookDetailsFragment)
                                         .addToBackStack(null)
                                         .commit();
                             });

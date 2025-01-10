@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,6 +35,7 @@ public class StaffBookReviewsFragment extends Fragment {
     private RecyclerView recyclerView;
     private StaffBookReviewsAdapter adapter;
     private TextView tvNoReviews;
+    private ImageButton btnBack;
 
     public StaffBookReviewsFragment() {
         // Required empty public constructor
@@ -61,8 +63,11 @@ public class StaffBookReviewsFragment extends Fragment {
         recyclerView = rootView.findViewById(R.id.recyclerViewBookReviews);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         tvNoReviews = rootView.findViewById(R.id.tvNoReviews);
+        btnBack = rootView.findViewById(R.id.btnBack);
 
         loadReviews();
+
+        btnBack.setOnClickListener(v->requireActivity().getSupportFragmentManager().popBackStack());
 
         return rootView;
     }

@@ -24,6 +24,7 @@ public class Constants {
         public static final String GET_BOOK_DETAILS_URL = BASE_URL + "/elibrary/books/getBookDetails.php";
         public static final String GET_USER_BOOKS_URL = BASE_URL + "/elibrary/books/getAllUserBooks.php";
         public static final String GET_BOOK_TEXT_URL = BASE_URL + "/elibrary/books/getBookText.php";
+        public static final String GET_BOOK_STATISTICS_URL = BASE_URL + "/elibrary/books/getBookStatistics.php";
 
 
     // Borrowed Books

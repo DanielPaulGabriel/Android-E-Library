@@ -57,9 +57,8 @@ public class StaffEditDeleteBookFragment extends Fragment {
     private static final String ARG_SUMMARY = "summary";
 
 
-    private int bookId;
+    private int bookId, quantity;
     private String title, author, genre, summary;
-    private int quantity;
 
     private EditText etTitle, etAuthor, etGenre, etQuantity, etSummary;
     private Button btnSave, btnCancel, btnDelete, btnBookReviews, btnBookStatistics;
@@ -67,7 +66,6 @@ public class StaffEditDeleteBookFragment extends Fragment {
     private Uri selectedCoverUri;
     private Uri selectedContentUri;
     private static final String EDIT_BOOK_URL = Constants.EDIT_BOOK_URL;
-    private static final String DELETE_BOOK_URL = Constants.DELETE_BOOK_URL;
 
     public StaffEditDeleteBookFragment() {
         // Required empty constructor
@@ -114,9 +112,7 @@ public class StaffEditDeleteBookFragment extends Fragment {
         Button btnSelectContent = rootView.findViewById(R.id.btnSelectContent);
         btnSave = rootView.findViewById(R.id.btnSave);
         btnCancel = rootView.findViewById(R.id.btnCancel);
-        btnBookReviews = rootView.findViewById(R.id.btnBookReviews);
-        btnBookStatistics = rootView.findViewById(R.id.btnBookStatistics);
-        btnDelete = rootView.findViewById(R.id.btnDelete);
+
 
         // Pre-fill fields with book details
         etTitle.setText(title);
@@ -150,38 +146,6 @@ public class StaffEditDeleteBookFragment extends Fragment {
         });
         // Cancel changes
         btnCancel.setOnClickListener(v -> requireActivity().getSupportFragmentManager().popBackStack());
-        // Book Reviews
-        btnBookReviews.setOnClickListener(v->{
-            Fragment staffBookReviewsFragment = StaffBookReviewsFragment.newInstance(
-                    bookId
-            );
-            requireActivity().getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.fragment_container, staffBookReviewsFragment)
-                    .addToBackStack(null)
-                    .commit();
-        });
-        // Book Statistics
-        btnBookReviews.setOnClickListener(v->{
-            Fragment staffBookStatisticsFragment = StaffBookStatisticsFragment.newInstance(
-                    bookId
-            );
-            requireActivity().getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.fragment_container, staffBookStatisticsFragment)
-                    .addToBackStack(null)
-                    .commit();
-        });
-        // Delete book
-        btnDelete.setOnClickListener(v -> {
-            // Call API to delete book
-            new AlertDialog.Builder(requireContext())
-                    .setTitle("Delete Book")
-                    .setMessage("Are you sure you want to delete this Book?")
-                    .setPositiveButton("Yes", (dialog, which) -> deleteBook(bookId))
-                    .setNegativeButton("No", null)
-                    .show();
-        });
 
         return rootView;
     }
@@ -293,36 +257,5 @@ public class StaffEditDeleteBookFragment extends Fragment {
         System.out.println("File Name: "+ fileName);
         builder.addFormDataPart(formFieldName, fileName,
                 RequestBody.create(readBytesFromUri(uri), MediaType.parse(mimeType)));
-    }
-
-    private void deleteBook(int bookId) {
-        System.out.println("Book ID: "+ bookId);
-        StringRequest stringRequest = new StringRequest(com.android.volley.Request.Method.POST, DELETE_BOOK_URL,
-                response -> {
-                    try {
-                        JSONObject jsonObject = new JSONObject(response);
-                        if (jsonObject.getBoolean("success")) {
-                            Toast.makeText(requireContext(), "Book deleted!", Toast.LENGTH_SHORT).show();
-                            requireActivity().getSupportFragmentManager().popBackStack();
-                        } else {
-                            Toast.makeText(requireContext(), jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
-                        }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                        Toast.makeText(requireContext(), "Error parsing response.", Toast.LENGTH_SHORT).show();
-                    }
-                },
-                error -> Toast.makeText(requireContext(), "Error: " + error.getMessage(), Toast.LENGTH_SHORT).show()) {
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<>();
-                params.put("book_id", String.valueOf(bookId));
-                return params;
-            }
-        };
-
-
-        RequestQueue queue = Volley.newRequestQueue(requireContext());
-        queue.add(stringRequest);
     }
 }
