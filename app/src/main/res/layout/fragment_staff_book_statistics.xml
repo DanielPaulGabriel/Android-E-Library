@@ -55,8 +55,8 @@
             android:paddingTop="16dp"
             android:paddingBottom="8dp" />
 
-        <com.github.mikephil.charting.charts.LineChart
-            android:id="@+id/lineChart"
+        <com.github.mikephil.charting.charts.BarChart
+            android:id="@+id/barChart"
             android:layout_width="match_parent"
             android:layout_height="450dp"
             android:layout_marginBottom="32dp" />

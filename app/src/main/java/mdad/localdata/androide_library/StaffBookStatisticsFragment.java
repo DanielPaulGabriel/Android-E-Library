@@ -15,8 +15,12 @@ import androidx.fragment.app.Fragment;
 import com.android.volley.Request;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
@@ -34,7 +38,7 @@ public class StaffBookStatisticsFragment extends Fragment {
     private int bookId;
 
     private TextView tvTotalMonthBorrows, tvTopBorrowingMonth;
-    private LineChart lineChart;
+    private BarChart barChart;
     private ImageButton btnBack;
 
     private static final String GET_BOOK_STATISTICS_URL = Constants.GET_BOOK_STATISTICS_URL;
@@ -65,7 +69,7 @@ public class StaffBookStatisticsFragment extends Fragment {
 
         tvTotalMonthBorrows = rootView.findViewById(R.id.tvTotalMonthBorrows);
         tvTopBorrowingMonth = rootView.findViewById(R.id.tvTopBorrowingMonth);
-        lineChart = rootView.findViewById(R.id.lineChart);
+        barChart = rootView.findViewById(R.id.barChart);
         btnBack = rootView.findViewById(R.id.btnBack);
 
         btnBack.setOnClickListener(v->requireActivity().getSupportFragmentManager().popBackStack());
@@ -94,7 +98,7 @@ public class StaffBookStatisticsFragment extends Fragment {
 
                             // Populate LineChart
                             JSONObject monthlyData = statsObject.getJSONObject("monthlyData");
-                            setupLineChart(monthlyData);
+                            setupBarChart(monthlyData);
                         } else {
                             Toast.makeText(getContext(), jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
                         }
@@ -108,7 +112,7 @@ public class StaffBookStatisticsFragment extends Fragment {
         Volley.newRequestQueue(requireContext()).add(request);
     }
 
-    private void setupLineChart(JSONObject monthlyData) throws JSONException {
+    /*private void setupLineChart(JSONObject monthlyData) throws JSONException {
         List<Entry> entries = new ArrayList<>();
         List<String> labels = new ArrayList<>();
 
@@ -151,5 +155,51 @@ public class StaffBookStatisticsFragment extends Fragment {
         lineChart.getAxisRight().setEnabled(false);
         lineChart.getDescription().setEnabled(false);
         lineChart.invalidate(); // Refresh the chart
+    }*/
+    private void setupBarChart(JSONObject monthlyData) throws JSONException {
+        List<BarEntry> entries = new ArrayList<>();
+        List<String> labels = new ArrayList<>();
+
+        Iterator<String> keys = monthlyData.keys();
+        int index = 0;
+        while (keys.hasNext()) {
+            String month = keys.next();
+            labels.add(month);
+            entries.add(new BarEntry(index, monthlyData.getInt(month))); // Use BarEntry for bar charts
+            index++;
+        }
+
+        BarDataSet dataSet = new BarDataSet(entries, "Books Borrowed");
+        dataSet.setColor(getResources().getColor(R.color.dark_primary));
+        dataSet.setValueTextSize(10f);
+
+        BarData barData = new BarData(dataSet);
+        barData.setBarWidth(0.2f); // Set bar width
+
+        barChart.setData(barData);
+
+        XAxis xAxis = barChart.getXAxis();
+        xAxis.setValueFormatter(new ValueFormatter() {
+            @Override
+            public String getFormattedValue(float value) {
+                int index = (int) value;
+                if (index >= 0 && index < labels.size()) {
+                    return labels.get(index);
+                } else {
+                    return "";
+                }
+            }
+        });
+
+        xAxis.setGranularity(1f);
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        xAxis.setDrawGridLines(false);
+
+        barChart.getAxisRight().setEnabled(false); // Disable right axis
+        barChart.getAxisLeft().setDrawGridLines(false); // Optional: Disable left axis grid lines
+        barChart.getDescription().setEnabled(false);
+        barChart.setFitBars(true); // Makes the bars fit nicely in the chart
+        barChart.invalidate(); // Refresh the chart
     }
+
 }
