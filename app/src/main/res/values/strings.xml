@@ -11,6 +11,7 @@
     <string name="password">Password</string>
     <string name="logout">Logout</string>
     <string name="add_book">Add book</string>
+    <string name="download_book">Download Book</string>
 
     <string-array name="tts_languages">
         <item>English (US)</item>

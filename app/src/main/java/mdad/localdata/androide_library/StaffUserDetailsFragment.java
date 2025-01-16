@@ -12,6 +12,8 @@ import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -50,6 +52,7 @@ public class StaffUserDetailsFragment extends Fragment {
     private String username;
     private String createdAt;
 
+    private ImageButton btnBack;
     private TextView tvUsername, tvCreatedAt;
     private RecyclerView recyclerViewBorrowedBooks, recyclerViewUserReviews;
     private LineChart lineChart;
@@ -78,6 +81,7 @@ public class StaffUserDetailsFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_staff_user_details, container, false);
+        btnBack = rootView.findViewById(R.id.btnBack);
         tvUsername = rootView.findViewById(R.id.tvUsername);
         tvCreatedAt = rootView.findViewById(R.id.tvCreatedAt);
         recyclerViewBorrowedBooks = rootView.findViewById(R.id.recyclerViewBorrowedBooks);
@@ -93,6 +97,8 @@ public class StaffUserDetailsFragment extends Fragment {
         fetchBorrowedBooks();
         fetchUserReviews();
         fetchBorrowingStatistics();
+
+        btnBack.setOnClickListener(v->requireActivity().getSupportFragmentManager().popBackStack());
 
         return rootView;
     }

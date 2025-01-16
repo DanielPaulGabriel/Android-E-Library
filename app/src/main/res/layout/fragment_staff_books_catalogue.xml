@@ -17,19 +17,36 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/searchView"
-        android:layout_above="@id/fabAddBook"
         android:padding="8dp" />
 
-    <!-- Floating Action Button for Add Book -->
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fabAddBook"
+
+    <!-- Floating Action Button Container -->
+    <LinearLayout
+        android:id="@+id/fabContainer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
+        android:orientation="horizontal"
         android:layout_alignParentBottom="true"
-        android:layout_margin="16dp"
-        android:contentDescription="@string/add_book"
-        android:src="@drawable/ic_add" />
+        android:layout_alignParentEnd="true"
+        android:layout_margin="16dp">
+
+        <!-- Floating Action Button for Download -->
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fabCloudDownload"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:contentDescription="@string/download_book"
+            android:src="@drawable/ic_download" />
+
+        <!-- Floating Action Button for Add Book -->
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fabAddBook"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/add_book"
+            android:src="@drawable/ic_add" />
+    </LinearLayout>
 
     <!-- No Books Text -->
     <TextView
