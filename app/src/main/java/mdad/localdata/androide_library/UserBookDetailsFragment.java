@@ -117,7 +117,8 @@ public class UserBookDetailsFragment extends Fragment {
         btnListen.setOnClickListener(v ->{
             Fragment listenerViewFragment = ListenerViewFragment.newInstance(
                     bookId,
-                    coverUrl
+                    coverUrl,
+                    title
             );
             // Use the FragmentManager to replace the current fragment
             ((AppCompatActivity) requireContext())

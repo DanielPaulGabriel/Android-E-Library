@@ -1,9 +1,11 @@
 package mdad.localdata.androide_library;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
+import android.speech.tts.UtteranceProgressListener;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,20 +41,20 @@ public class ListenerViewFragment extends Fragment {
     private TextToSpeech tts;
     private Button btnPlayTTS, btnStopTTS;
     private Spinner spinnerLanguage, spinnerSpeed;
-    private String bookContent, coverUrl;
+    private String bookContent, coverUrl, title;
     private int currentPage = 1;
     private int totalPages = 0;
     private int bookId;
-
     public ListenerViewFragment() {
         // Required empty public constructor
     }
 
-    public static ListenerViewFragment newInstance(int bookId, String coverUrl) {
+    public static ListenerViewFragment newInstance(int bookId, String coverUrl, String title) {
         ListenerViewFragment fragment = new ListenerViewFragment();
         Bundle args = new Bundle();
         args.putInt("bookId", bookId);
         args.putString("coverUrl", coverUrl);
+        args.putString("title", title);
         fragment.setArguments(args);
         return fragment;
     }
@@ -63,6 +65,7 @@ public class ListenerViewFragment extends Fragment {
         if (getArguments() != null) {
             bookId = getArguments().getInt("bookId");
             coverUrl = getArguments().getString("coverUrl");
+            title = getArguments().getString("title");
         }
 
         // Initialize Text-to-Speech
@@ -119,11 +122,18 @@ public class ListenerViewFragment extends Fragment {
 
             // Load the page and then play the TTS
             loadPage(currentPage);
+
+            Intent serviceIntent = new Intent(getContext(), BookPlayerService.class);
+            serviceIntent.putExtra("bookContent", bookContent); // Pass the book content
+            serviceIntent.putExtra("bookTitle", title); // Pass the book title
+            requireContext().startService(serviceIntent);
         });
 
 
         btnStopTTS.setOnClickListener(v -> {
             pausePlayback();
+            Intent serviceIntent = new Intent(getContext(), BookPlayerService.class);
+            requireContext().stopService(serviceIntent);
         });
 
         seekBarPage.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -217,6 +227,18 @@ public class ListenerViewFragment extends Fragment {
                 etPageNumber.setText(String.valueOf(currentPage)); // Reset to the current page
             }
             return true;
+        });
+        tts.setOnUtteranceProgressListener(new UtteranceProgressListener() {
+            @Override
+            public void onStart(String utteranceId) { }
+
+            @Override
+            public void onDone(String utteranceId) {
+                tts.stop(); // Stop the service when TTS is done
+            }
+
+            @Override
+            public void onError(String utteranceId) { }
         });
 
         return rootView;
