@@ -31,7 +31,15 @@
             android:layout_weight="1"
             android:paddingBottom="16dp"
             android:scrollbars="vertical" />
-
+        <!-- Toggle Theme Button -->
+        <Button
+            android:id="@+id/btnToggleTheme"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:drawablePadding="8dp"
+            android:text="Toggle Theme"
+            android:padding="12dp" />
         <!-- Logout Button -->
         <Button
             android:id="@+id/btnLogout"
@@ -42,14 +50,6 @@
             android:text="Logout"
             android:padding="12dp" />
 
-        <!-- Toggle Theme Button -->
-        <Button
-            android:id="@+id/btnToggleTheme"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:drawablePadding="8dp"
-            android:text="Toggle Theme"
-            android:padding="12dp" />
+
     </LinearLayout>
 </ScrollView>

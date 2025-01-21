@@ -74,7 +74,7 @@ public class StaffBooksCataloguePopulateFragment extends Fragment {
     }
     private void populateGenreSpinner() {
         // Predefined genres
-        String[] genres = {"fiction", "romance", "mystery", "science", "fantasy"};
+        String[] genres = {"Fiction", "Science", "Fantasy"};
 
         // Create an ArrayAdapter for the Spinner
         ArrayAdapter<String> adapter = new ArrayAdapter<>(requireContext(),

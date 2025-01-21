@@ -100,7 +100,7 @@ public class StaffAccountsFragment extends Fragment {
             startActivity(new Intent(requireContext(), LoginActivity.class));
             requireActivity().finish();
         });
-        btnToggleTheme.setOnClickListener(v->{
+        /*btnToggleTheme.setOnClickListener(v->{
             int newMode = (currentMode == AppCompatDelegate.MODE_NIGHT_YES)
                     ? AppCompatDelegate.MODE_NIGHT_NO
                     : AppCompatDelegate.MODE_NIGHT_YES;
@@ -114,6 +114,19 @@ public class StaffAccountsFragment extends Fragment {
             // Provide feedback
             String theme = (newMode == AppCompatDelegate.MODE_NIGHT_YES) ? "Dark Mode" : "Light Mode";
             Toast.makeText(requireContext(), theme + " enabled", Toast.LENGTH_SHORT).show();
+        });*/
+        btnToggleTheme.setOnClickListener(v -> {
+            String[] themes = {"Light", "Dark", "System"};
+            int currentThemeIndex = getCurrentThemeIndex();
+
+            new AlertDialog.Builder(requireContext())
+                    .setTitle("Select Theme")
+                    .setSingleChoiceItems(themes, currentThemeIndex, (dialog, which) -> {
+                        setTheme(themes[which]);
+                        dialog.dismiss(); // Close the dialog after selection
+                    })
+                    .setNegativeButton("Cancel", null)
+                    .show();
         });
         btnCreateAccount.setOnClickListener(v -> {
             if (!isNetworkAvailable()) {
@@ -131,7 +144,49 @@ public class StaffAccountsFragment extends Fragment {
         });
         return rootView;
     }
+    private void setTheme(String theme) {
+        switch (theme) {
+            case "Light":
+                SharedPrefsManager.saveThemeMode(requireContext(), AppCompatDelegate.MODE_NIGHT_NO);
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                break;
 
+            case "Dark":
+                SharedPrefsManager.saveThemeMode(requireContext(), AppCompatDelegate.MODE_NIGHT_YES);
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                break;
+
+            case "System":
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q) {
+                    SharedPrefsManager.saveThemeMode(requireContext(), AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
+                } else {
+                    Toast.makeText(requireContext(), "System theme is not supported on your device.", Toast.LENGTH_SHORT).show();
+                    SharedPrefsManager.saveThemeMode(requireContext(), AppCompatDelegate.MODE_NIGHT_NO); // Fallback to Light theme
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                }
+                break;
+
+            default:
+                SharedPrefsManager.saveThemeMode(requireContext(), AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
+                break;
+        }
+
+        Toast.makeText(requireContext(), theme + " theme enabled", Toast.LENGTH_SHORT).show();
+    }
+    private int getCurrentThemeIndex() {
+        int mode = SharedPrefsManager.getThemeMode(requireContext());
+        switch (mode) {
+            case AppCompatDelegate.MODE_NIGHT_NO:
+                return 0; // Light
+            case AppCompatDelegate.MODE_NIGHT_YES:
+                return 1; // Dark
+            case AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM:
+            default:
+                return 2; // System
+        }
+    }
     private void loadStaffAccounts() {
         if (!isNetworkAvailable()) {
             handleNoData("No internet connection. Please check your connection.");

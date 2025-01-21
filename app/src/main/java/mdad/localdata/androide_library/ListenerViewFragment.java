@@ -293,7 +293,7 @@ public class ListenerViewFragment extends Fragment {
         SharedPreferences prefs = requireContext().getSharedPreferences("BookProgress", Context.MODE_PRIVATE);
         prefs.edit().putInt("book_" + bookId, currentPage).apply();
     }
-    private void pausePlayback() {
+    public void pausePlayback() {
         if (tts.isSpeaking()) {
             tts.stop();
             saveProgress();

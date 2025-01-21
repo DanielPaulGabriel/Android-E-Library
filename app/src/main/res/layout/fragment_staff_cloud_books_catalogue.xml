@@ -73,13 +73,41 @@
             android:layout_marginTop="16dp"
             android:textSize="16sp"
             android:textStyle="bold" />
-        <Spinner
+        <!--<Spinner
             android:id="@+id/spinnerGenre"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@android:drawable/btn_dropdown"
-            android:spinnerMode="dropdown"/>
+            android:background="@drawable/user_book_border"
+            android:
+            android:spinnerMode="dropdown"/>-->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="5dp"
+            android:layout_weight=".28"
+            android:background="@drawable/user_book_border"
+            android:orientation="horizontal">
 
+            <Spinner
+                android:id="@+id/spinnerGenre"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center"
+                android:background="@android:color/transparent"
+                android:gravity="center"
+                android:layout_marginLeft="5dp"
+                android:spinnerMode="dropdown" />
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_dropdown_arrow" />
+
+        </RelativeLayout>
         <Button
             android:id="@+id/btnFetchBooks"
             android:layout_width="match_parent"

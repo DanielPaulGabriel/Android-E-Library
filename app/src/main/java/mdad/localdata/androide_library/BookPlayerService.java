@@ -28,12 +28,9 @@ public class BookPlayerService extends Service {
     public void onCreate() {
         super.onCreate();
         createNotificationChannel();
-
-        // Initialize TTS
         tts = new TextToSpeech(this, status -> {
             if (status == TextToSpeech.SUCCESS) {
                 tts.setLanguage(Locale.US);
-                tts.speak(bookContent, TextToSpeech.QUEUE_FLUSH, null, null);
             }
         });
     }
@@ -126,7 +123,7 @@ public class BookPlayerService extends Service {
     }
     private void pauseTTS() {
         if (tts.isSpeaking()) {
-            tts.stop();
+
         }
     }
 

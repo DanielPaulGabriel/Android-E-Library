@@ -16,8 +16,11 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -35,6 +38,7 @@ import androidx.appcompat.app.AppCompatDelegate;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -42,7 +46,6 @@ public class ProfileFragment extends Fragment {
     private int currentMode;
     private EditText etUsername, etPassword;
     private Button btnEditCredentials, btnSaveChanges, btnCancel, btnLogout, btnDelete, btnToggleTheme;
-
     private static final String UPDATE_USER_DETAILS_URL = Constants.UPDATE_USER_DETAILS_URL;
     private static final String DELETE_USER_URL = Constants.DELETE_USER_URL;
     @SuppressLint("ClickableViewAccessibility")
@@ -62,7 +65,6 @@ public class ProfileFragment extends Fragment {
         btnToggleTheme = rootView.findViewById(R.id.btnToggleTheme);
 
         loadUserData();
-
 
         etPassword.setOnTouchListener((v, event) -> {
             if (event.getAction() == MotionEvent.ACTION_UP) {
@@ -85,7 +87,6 @@ public class ProfileFragment extends Fragment {
             }
             return false;
         });
-
 
         // Edit Credentials Button Listener
         btnEditCredentials.setOnClickListener(v -> {
@@ -149,7 +150,7 @@ public class ProfileFragment extends Fragment {
                     .setNegativeButton("No", null)
                     .show();
         });
-        btnToggleTheme.setOnClickListener(v -> {
+        /*btnToggleTheme.setOnClickListener(v -> {
             int newMode = (currentMode == AppCompatDelegate.MODE_NIGHT_YES)
                     ? AppCompatDelegate.MODE_NIGHT_NO
                     : AppCompatDelegate.MODE_NIGHT_YES;
@@ -163,11 +164,67 @@ public class ProfileFragment extends Fragment {
             // Provide feedback
             String theme = (newMode == AppCompatDelegate.MODE_NIGHT_YES) ? "Dark Mode" : "Light Mode";
             Toast.makeText(requireContext(), theme + " enabled", Toast.LENGTH_SHORT).show();
+        });*/
+
+        btnToggleTheme.setOnClickListener(v -> {
+            String[] themes = {"Light", "Dark", "System"};
+            int currentThemeIndex = getCurrentThemeIndex();
+
+            new AlertDialog.Builder(requireContext())
+                    .setTitle("Select Theme")
+                    .setSingleChoiceItems(themes, currentThemeIndex, (dialog, which) -> {
+                        setTheme(themes[which]);
+                        dialog.dismiss(); // Close the dialog after selection
+                    })
+                    .setNegativeButton("Cancel", null)
+                    .show();
         });
 
         return rootView;
     }
+    private void setTheme(String theme) {
+        switch (theme) {
+            case "Light":
+                SharedPrefsManager.saveThemeMode(requireContext(), AppCompatDelegate.MODE_NIGHT_NO);
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                break;
 
+            case "Dark":
+                SharedPrefsManager.saveThemeMode(requireContext(), AppCompatDelegate.MODE_NIGHT_YES);
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                break;
+
+            case "System":
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q) {
+                    SharedPrefsManager.saveThemeMode(requireContext(), AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
+                } else {
+                    Toast.makeText(requireContext(), "System theme is not supported on your device.", Toast.LENGTH_SHORT).show();
+                    SharedPrefsManager.saveThemeMode(requireContext(), AppCompatDelegate.MODE_NIGHT_NO); // Fallback to Light theme
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                }
+                break;
+
+            default:
+                SharedPrefsManager.saveThemeMode(requireContext(), AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
+                break;
+        }
+
+        Toast.makeText(requireContext(), theme + " theme enabled", Toast.LENGTH_SHORT).show();
+    }
+    private int getCurrentThemeIndex() {
+        int mode = SharedPrefsManager.getThemeMode(requireContext());
+        switch (mode) {
+            case AppCompatDelegate.MODE_NIGHT_NO:
+                return 0; // Light
+            case AppCompatDelegate.MODE_NIGHT_YES:
+                return 1; // Dark
+            case AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM:
+            default:
+                return 2; // System
+        }
+    }
     private void loadUserData() {
         String currentUsername = SharedPrefsManager.getUsername(requireContext());
         String currentPassword = SharedPrefsManager.getPassword(requireContext());
