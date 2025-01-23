@@ -53,13 +53,6 @@
             android:minHeight="48dp"
             android:paddingEnd="8dp" />
 
-        <Button
-            android:id="@+id/btnToggleTheme"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="Set App Theme"/>
-
         <!-- Edit and Save Buttons -->
         <Button
             android:id="@+id/btnEditCredentials"
@@ -67,6 +60,13 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:text="Edit Credentials" />
+
+        <Button
+            android:id="@+id/btnToggleTheme"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Set App Theme"/>
 
         <Button
             android:id="@+id/btnSaveChanges"

@@ -126,6 +126,7 @@ public class ListenerViewFragment extends Fragment {
             Intent serviceIntent = new Intent(getContext(), BookPlayerService.class);
             serviceIntent.putExtra("bookContent", bookContent); // Pass the book content
             serviceIntent.putExtra("bookTitle", title); // Pass the book title
+            serviceIntent.setAction("ACTION_PLAY");
             requireContext().startService(serviceIntent);
         });
 
@@ -133,6 +134,7 @@ public class ListenerViewFragment extends Fragment {
         btnStopTTS.setOnClickListener(v -> {
             pausePlayback();
             Intent serviceIntent = new Intent(getContext(), BookPlayerService.class);
+            serviceIntent.setAction("ACTION_PAUSE");
             requireContext().stopService(serviceIntent);
         });
 
@@ -185,7 +187,7 @@ public class ListenerViewFragment extends Fragment {
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                // Optional: Handle no selection
+                // Handle no selection
                 tts.setLanguage(Locale.US);
             }
         });

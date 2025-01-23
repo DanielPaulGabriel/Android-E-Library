@@ -28,7 +28,9 @@ public class RegisterActivity extends AppCompatActivity {
 
     private EditText etRegisterUsername, etRegisterPassword;
     private Button btnRegister;
-    private ImageButton btnBack;
+    //private ImageButton btnBack;
+    private TextView tvLogin;
+
     private static final String REGISTER_URL = Constants.REGISTER_URL;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +40,9 @@ public class RegisterActivity extends AppCompatActivity {
         etRegisterUsername = findViewById(R.id.etRegisterUsername);
         etRegisterPassword = findViewById(R.id.etRegisterPassword);
         btnRegister = findViewById(R.id.btnRegister);
-        btnBack = findViewById(R.id.btnBack);
+        //btnBack = findViewById(R.id.btnBack);
+        tvLogin = findViewById(R.id.tvLogin);
+
 
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -46,7 +50,13 @@ public class RegisterActivity extends AppCompatActivity {
                 registerUser();
             }
         });
-        btnBack.setOnClickListener(new View.OnClickListener() {
+        /*btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });*/
+        tvLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
