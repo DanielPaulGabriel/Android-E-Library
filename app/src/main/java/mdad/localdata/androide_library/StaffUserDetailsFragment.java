@@ -1,5 +1,6 @@
 package mdad.localdata.androide_library;
 
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -26,6 +27,7 @@ import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
@@ -240,8 +242,15 @@ public class StaffUserDetailsFragment extends Fragment {
 
             // Set up the chart
             lineChart.setData(lineData);
+
+            lineChart.getXAxis().setTextColor(Color.GRAY); // Set neutral grey color for X-axis labels
+            lineChart.getAxisLeft().setTextColor(Color.GRAY);
+            lineChart.getAxisRight().setTextColor(Color.GRAY);
+            lineChart.getLegend().setTextColor(Color.GRAY);
+
             lineChart.getXAxis().setValueFormatter(new IndexAxisValueFormatter(xLabels));
             lineChart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
+            lineChart.getXAxis().setAvoidFirstLastClipping(true);
             lineChart.getXAxis().setDrawGridLines(false);
             lineChart.getXAxis().setGranularity(1f);
             lineChart.getXAxis().setGranularityEnabled(true);

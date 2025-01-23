@@ -34,7 +34,7 @@ public class StaffBooksCataloguePopulateFragment extends Fragment {
     private Button btnFetchBooks;
     private ImageButton btnBack;
 
-    private static final String OPEN_LIBRARY_API = "https://openlibrary.org/search.json";
+    private static final String GUTENDEX_API = "http://gutendex.com/books";
 
     public StaffBooksCataloguePopulateFragment() {
         // Required empty public constructor
@@ -67,7 +67,7 @@ public class StaffBooksCataloguePopulateFragment extends Fragment {
         btnFetchBooks.setOnClickListener(v -> {
             String selectedGenre = spinnerGenre.getSelectedItem().toString();
             System.out.println("Selected Genre: "+selectedGenre);
-            fetchBooksFromOpenLibrary(selectedGenre);
+            fetchBooksFromGutendex(selectedGenre);
         });
 
         return rootView;
@@ -87,49 +87,58 @@ public class StaffBooksCataloguePopulateFragment extends Fragment {
         spinnerGenre.setAdapter(adapter);
     }
 
-    private void fetchBooksFromOpenLibrary(String genre) {
-        String url = OPEN_LIBRARY_API + "?subject=" + genre + "&limit=5";
+
+    private void fetchBooksFromGutendex(String genre) {
+        String url = GUTENDEX_API + "?topic=" + genre + "&languages=en&limit=1";
+        System.out.println("URL: "+url);
 
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
                 response -> {
                     try {
-                        JSONArray docs = response.getJSONArray("docs");
-                        if (docs.length() == 0) {
+                        System.out.println(response);
+                        JSONArray results = response.getJSONArray("results");
+                        if (results.length() == 0) {
                             Toast.makeText(requireContext(), "No books found for the selected genre.", Toast.LENGTH_SHORT).show();
                             return;
                         }
 
-                        for (int i = 0; i < docs.length(); i++) {
-                            JSONObject book = docs.getJSONObject(i);
+                        for (int i = 0; i < results.length(); i++) {
+                            JSONObject book = results.getJSONObject(i);
 
+                            // Extract book metadata
                             String title = book.optString("title", "No Title");
-                            System.out.println("Book Title: "+title);
-                            String author = book.optJSONArray("author_name") != null
-                                    ? book.getJSONArray("author_name").getString(0)
+                            JSONArray authorsArray = book.optJSONArray("authors");
+                            String author = (authorsArray != null && authorsArray.length() > 0)
+                                    ? authorsArray.getJSONObject(0).optString("name", "Unknown Author")
                                     : "Unknown Author";
-                            String summary = "Summary not available";
+                            String summary = "Summary not available"; // Gutendex does not provide summaries
                             String genreName = genre;
-                            String coverUrl = book.optString("cover_i") != null
-                                    ? "https://covers.openlibrary.org/b/id/" + book.getString("cover_i") + "-L.jpg"
-                                    : "";
+                            JSONObject formats = book.getJSONObject("formats");
+                            String coverUrl = formats.optString("image/jpeg", "");
+                            String contentUrl = formats.optString("text/plain", "");
 
-                            // Add the book to the local catalog or database
-                            saveBookToDatabase(title, author, genreName, summary, coverUrl);
+                            System.out.println("Book: "+title+author+summary+genre+coverUrl+contentUrl);
+
+                            // Save the book details
+                            saveBookToDatabase(title, author, genreName, summary, coverUrl, contentUrl);
                         }
 
-                        Toast.makeText(requireContext(), "5 books fetched and added to the catalog!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(requireContext(), "Books fetched and added to the catalog!", Toast.LENGTH_SHORT).show();
                     } catch (JSONException e) {
                         e.printStackTrace();
                         Toast.makeText(requireContext(), "Failed to parse book data", Toast.LENGTH_SHORT).show();
                     }
                 },
-                error -> Toast.makeText(requireContext(), "Error fetching books: " + error, Toast.LENGTH_SHORT).show());
+                error -> Toast.makeText(requireContext(), "Error fetching books: " + error.getMessage(), Toast.LENGTH_SHORT).show());
 
         Volley.newRequestQueue(requireContext()).add(request);
     }
 
-    private void saveBookToDatabase(String title, String author, String genre, String summary, String coverUrl) {
-        // Implement your logic to save the book details in the app's database or display it in the catalog
-        // Example: Insert into SQLite/Room DB
+
+
+    private void saveBookToDatabase(String title, String author, String genre, String summary, String coverUrl, String contentUrl) {
+        int quantity = 5;
+        System.out.println("Book: "+title+author+summary+genre+coverUrl+contentUrl);
+
     }
 }
