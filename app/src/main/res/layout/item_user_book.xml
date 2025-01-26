@@ -19,7 +19,11 @@
         android:layout_height="match_parent"
         android:layout_marginStart="8dp"
         android:paddingEnd="16dp">
-
+<LinearLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_centerVertical="true">
         <TextView
             android:id="@+id/tvBookTitle"
             android:layout_width="wrap_content"
@@ -52,16 +56,16 @@
             android:layout_below="@id/tvBorrowDate"
             android:text="Due: "
             android:textSize="12sp" />
+</LinearLayout>
 
         <!-- Button aligned to the middle of the right end -->
         <ImageView
-            android:id="@+id/btnBack"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_centerVertical="true"
             android:layout_alignParentEnd="true"
             android:src="@drawable/ic_arrow_forward"
-            android:contentDescription="@string/back_button"/>
+            android:contentDescription="Forward Arrow"/>
     </RelativeLayout>
 
 </LinearLayout>

@@ -25,6 +25,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.IMarker;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
@@ -242,11 +243,17 @@ public class StaffUserDetailsFragment extends Fragment {
 
             // Set up the chart
             lineChart.setData(lineData);
-
+            lineChart.setTouchEnabled(true);
+            lineChart.setDragEnabled(true);
+            lineChart.setScaleEnabled(true);
+            // Set the marker view
+            ChartMarkerView marker = new ChartMarkerView(getContext());
+            lineChart.setMarker(marker);
             lineChart.getXAxis().setTextColor(Color.GRAY); // Set neutral grey color for X-axis labels
             lineChart.getAxisLeft().setTextColor(Color.GRAY);
             lineChart.getAxisRight().setTextColor(Color.GRAY);
             lineChart.getLegend().setTextColor(Color.GRAY);
+            lineChart.setExtraOffsets(10, 10, 50, 0);
 
             lineChart.getXAxis().setValueFormatter(new IndexAxisValueFormatter(xLabels));
             lineChart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
@@ -254,7 +261,6 @@ public class StaffUserDetailsFragment extends Fragment {
             lineChart.getXAxis().setDrawGridLines(false);
             lineChart.getXAxis().setGranularity(1f);
             lineChart.getXAxis().setGranularityEnabled(true);
-            //lineChart.getXAxis().setLabelRotationAngle(45); // Rotate labels for readability
             lineChart.getXAxis().setTextSize(10);
             lineChart.setExtraBottomOffset(10f);
 

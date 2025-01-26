@@ -191,7 +191,7 @@ public class BookCatalogueFragment extends Fragment {
 
         if (filteredList.isEmpty()) {
             tvNoBooks.setVisibility(View.VISIBLE);
-            btnRetry.setVisibility(View.VISIBLE);
+            //btnRetry.setVisibility(View.VISIBLE);
             recyclerView.setVisibility(View.GONE);
         } else {
             tvNoBooks.setVisibility(View.GONE);

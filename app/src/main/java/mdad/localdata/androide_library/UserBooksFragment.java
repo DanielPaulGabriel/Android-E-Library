@@ -199,8 +199,7 @@ public class UserBooksFragment extends Fragment {
                     }
                 });
 
-        //RequestQueue queue = Volley.newRequestQueue(requireContext());
-        //queue.add(stringRequest);
+
         stringRequest.setTag(this);
         requestQueue.add(stringRequest);
     }

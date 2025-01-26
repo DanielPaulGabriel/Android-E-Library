@@ -51,7 +51,22 @@ public class ReviewsFragment extends Fragment {
     private List<Review> filteredReviewList = new ArrayList<>();
     private static final String GET_USER_REVIEWS_URL = Constants.GET_USER_REVIEWS_URL;
     private static final String DELETE_REVIEW_URL = Constants.DELETE_REVIEW_URL;
+    private int userId;
 
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        // Clear the existing reviews to prevent duplication
+        reviewList.clear();
+        filteredReviewList.clear();
+
+        // Reload the reviews when the fragment becomes visible
+        userId = SharedPrefsManager.getUserId(requireContext());
+        if (userId != -1) {
+            fetchReviews(userId);
+        }
+    }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -63,6 +78,12 @@ public class ReviewsFragment extends Fragment {
         btnRedirect = rootView.findViewById(R.id.btnRedirect);
         btnRetry = rootView.findViewById(R.id.btnRetry);
         searchView = rootView.findViewById(R.id.searchView);
+
+        /*int userId = SharedPrefsManager.getUserId(requireContext());
+        if (userId != -1) {
+            fetchReviews(userId);
+        }I*/
+
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             private final Handler handler = new Handler();
             private Runnable workRunnable;
@@ -98,11 +119,10 @@ public class ReviewsFragment extends Fragment {
             bottomNavigationView.setSelectedItemId(R.id.nav_catalog);
         });
 
-        int userId = SharedPrefsManager.getUserId(requireContext());
-        if (userId != -1) {
-            fetchReviews(userId);
-        }
+
         btnRetry.setOnClickListener(v->fetchReviews(userId));
+
+
         return rootView;
     }
 
@@ -249,8 +269,8 @@ public class ReviewsFragment extends Fragment {
 
         if (filteredReviewList.isEmpty()) {
             tvNoReviews.setVisibility(View.VISIBLE);
-            btnRedirect.setVisibility(View.VISIBLE);
-            searchView.setVisibility(View.GONE);
+            //btnRedirect.setVisibility(View.VISIBLE);
+            //searchView.setVisibility(View.GONE);
             recyclerView.setVisibility(View.GONE);
         } else {
             tvNoReviews.setVisibility(View.GONE);

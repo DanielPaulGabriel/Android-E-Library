@@ -100,14 +100,13 @@ public class EditReviewFragment extends Fragment {
         ivBookCover = view.findViewById(R.id.ivBookCover);
         tvBookTitle = view.findViewById(R.id.tvBookTitle);
         tvAuthorName = view.findViewById(R.id.tvAuthorName);
-        tvBookSummary = view.findViewById(R.id.tvBookSummary);
+        //tvBookSummary = view.findViewById(R.id.tvBookSummary);
 
         // Set existing review details
         etReviewText.setText(reviewText);
         ratingBar.setRating(rating);
         tvBookTitle.setText(title);
         tvAuthorName.setText(author);
-        tvBookSummary.setText(summary);
         Glide.with(requireContext())
                 .load(cover)
                 .placeholder(R.drawable.ic_placeholder)
