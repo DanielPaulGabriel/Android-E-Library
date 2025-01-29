@@ -1,4 +1,5 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
@@ -15,9 +16,16 @@
         android:text="Username"
         android:textSize="13sp" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="View" />
+        android:textColor="@android:color/white"
+        android:backgroundTint="#736ff5"
+        android:text="View"
+        app:icon="@drawable/ic_view"
+        app:iconSize="25dp"
+        app:iconTint="@android:color/white"
+        app:iconGravity="textStart"
+        app:iconPadding="8dp" />
 </LinearLayout>

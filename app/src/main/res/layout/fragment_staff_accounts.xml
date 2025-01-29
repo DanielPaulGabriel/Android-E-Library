@@ -1,5 +1,6 @@
 <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp">
@@ -12,15 +13,20 @@
         android:paddingBottom="16dp">
 
         <!-- Add Account Button -->
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btnCreateAccount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-
-            android:drawablePadding="8dp"
+            android:layout_marginTop="16dp"
+            android:textColor="@android:color/white"
+            android:backgroundTint="#736ff5"
             android:text="Add Staff Account"
-            android:padding="12dp" />
+            app:icon="@drawable/ic_add"
+            app:iconSize="25dp"
+            app:iconTint="@android:color/white"
+            app:iconGravity="textStart"
+            app:iconPadding="8dp" />
+
 
         <!-- Staff Accounts RecyclerView -->
         <androidx.recyclerview.widget.RecyclerView
@@ -32,23 +38,34 @@
             android:paddingBottom="16dp"
             android:scrollbars="vertical" />
         <!-- Toggle Theme Button -->
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btnToggleTheme"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:drawablePadding="8dp"
+            android:textColor="@android:color/white"
+            android:backgroundTint="#736ff5"
             android:text="Toggle Theme"
-            android:padding="12dp" />
+            app:icon="@drawable/ic_theme"
+            app:iconSize="25dp"
+            app:iconTint="@android:color/white"
+            app:iconGravity="textStart"
+            app:iconPadding="8dp" />
         <!-- Logout Button -->
-        <Button
+
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btnLogout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:drawablePadding="8dp"
+            android:textColor="@android:color/white"
+            android:backgroundTint="#736ff5"
             android:text="Logout"
-            android:padding="12dp" />
+            app:icon="@drawable/ic_logout"
+            app:iconSize="25dp"
+            app:iconTint="@android:color/white"
+            app:iconGravity="textStart"
+            app:iconPadding="8dp" />
 
 
     </LinearLayout>

@@ -1,4 +1,5 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp">
@@ -94,6 +95,7 @@
             android:layout_marginTop="16dp"
             android:textSize="16sp"
             android:textStyle="bold" />
+
         <TextView
             android:id="@+id/tvSummary"
             android:layout_width="match_parent"
@@ -101,34 +103,63 @@
             android:ems="10"
             android:scrollbars="vertical"/>
 
-        <Button
-            android:id="@+id/btnEdit"
-            android:layout_marginTop="8dp"
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnBookReviews"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Edit" />
-        <Button
+            android:layout_marginTop="8dp"
+            android:textColor="@android:color/white"
+            android:backgroundTint="#736ff5"
+            android:text="View Book Reviews"
+            app:icon="@drawable/ic_staff_reviews"
+            app:iconSize="25dp"
+            app:iconTint="@android:color/white"
+            app:iconGravity="textStart"
+            app:iconPadding="8dp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnBookStatistics"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:textColor="@android:color/white"
+            android:backgroundTint="#736ff5"
+            android:text="View Book Statistics"
+            app:icon="@drawable/ic_stats"
+            app:iconSize="25dp"
+            app:iconTint="@android:color/white"
+            app:iconGravity="textStart"
+            app:iconPadding="8dp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnEdit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:textColor="@android:color/white"
+            android:backgroundTint="#736ff5"
+            android:text="Edit"
+            app:icon="@drawable/ic_edit"
+            app:iconSize="25dp"
+            app:iconTint="@android:color/white"
+            app:iconGravity="textStart"
+            app:iconPadding="8dp" />
+
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btnDelete"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="Delete"
+            android:textColor="@android:color/white"
             android:backgroundTint="@android:color/holo_red_dark"
-            android:textColor="@android:color/white" />
-        <Button
-            android:id="@+id/btnBookReviews"
-            android:layout_marginTop="8dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="See Book Reviews"
-            android:backgroundTint="@android:color/holo_green_dark"/>
-        <Button
-            android:id="@+id/btnBookStatistics"
-            android:layout_marginTop="8dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="See Book Statistics"
-            android:backgroundTint="@android:color/holo_orange_dark"/>
+            android:text="Delete"
+            app:icon="@drawable/ic_delete"
+            app:iconSize="25dp"
+            app:iconTint="@android:color/white"
+            app:iconGravity="textStart"
+            app:iconPadding="8dp" />
+
+
     </LinearLayout>
     </RelativeLayout>
 </ScrollView>
