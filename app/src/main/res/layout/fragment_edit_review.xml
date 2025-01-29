@@ -1,4 +1,5 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -69,16 +70,31 @@
         android:gravity="top"
         android:padding="10dp" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnSave"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textColor="@android:color/white"
+        android:layout_marginTop="16dp"
         android:text="Save"
-        android:layout_marginTop="16dp" />
-    <Button
+        android:backgroundTint="#736ff5"
+        app:icon="@drawable/ic_save"
+        app:iconSize="25dp"
+        app:iconGravity="textStart"
+        app:iconTint="@android:color/white"
+        app:iconPadding="8dp" />
+
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnCancel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textColor="@android:color/white"
         android:layout_marginTop="16dp"
-        android:text="Cancel" />
+        android:text="Cancel"
+        android:backgroundTint="#736ff5"
+        app:icon="@drawable/ic_cancel"
+        app:iconSize="25dp"
+        app:iconGravity="textStart"
+        app:iconTint="@android:color/white"
+        app:iconPadding="8dp" />
 </LinearLayout>

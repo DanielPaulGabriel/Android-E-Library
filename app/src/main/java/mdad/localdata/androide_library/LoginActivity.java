@@ -3,11 +3,16 @@ package mdad.localdata.androide_library;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.Network;
 import android.net.NetworkCapabilities;
 import android.os.Bundle;
 import android.text.InputType;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.DynamicDrawableSpan;
+import android.text.style.ImageSpan;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -33,7 +38,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private EditText etUsername, etPassword;
     private Button btnLogin;
-    private TextView tvRegister;
+    private TextView tvRegister, tvLogin;
     private static final String LOGIN_URL = Constants.LOGIN_URL;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +64,15 @@ public class LoginActivity extends AppCompatActivity {
         etPassword = findViewById(R.id.etPassword);
         btnLogin = findViewById(R.id.btnLogin);
         tvRegister = findViewById(R.id.tvRegister);
+        tvLogin = findViewById(R.id.tvLogin);
+        SpannableString spannable = new SpannableString("  Login"); // Space for icon
+        Drawable drawable = getResources().getDrawable(R.mipmap.ic_launcher_lib);
+        //drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
+        drawable.setBounds(0, 0,100 ,100 );
+
+        ImageSpan imageSpan = new ImageSpan(drawable, DynamicDrawableSpan.ALIGN_BOTTOM);
+        spannable.setSpan(imageSpan, 0, 1, Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
+        tvLogin.setText(spannable);
 
         etPassword.setOnTouchListener((v, event) -> {
             if (event.getAction() == MotionEvent.ACTION_UP) {

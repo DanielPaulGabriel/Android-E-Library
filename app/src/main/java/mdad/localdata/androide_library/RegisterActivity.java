@@ -2,7 +2,12 @@ package mdad.localdata.androide_library;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.DynamicDrawableSpan;
+import android.text.style.ImageSpan;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -29,7 +34,7 @@ public class RegisterActivity extends AppCompatActivity {
     private EditText etRegisterUsername, etRegisterPassword;
     private Button btnRegister;
     //private ImageButton btnBack;
-    private TextView tvLogin;
+    private TextView tvLogin, tvRegister;
 
     private static final String REGISTER_URL = Constants.REGISTER_URL;
     @Override
@@ -42,6 +47,15 @@ public class RegisterActivity extends AppCompatActivity {
         btnRegister = findViewById(R.id.btnRegister);
         //btnBack = findViewById(R.id.btnBack);
         tvLogin = findViewById(R.id.tvLogin);
+        tvRegister = findViewById(R.id.tvRegister);
+        SpannableString spannable = new SpannableString("  Register"); // Space for icon
+        Drawable drawable = getResources().getDrawable(R.mipmap.ic_launcher_lib);
+        //drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
+        drawable.setBounds(0, 0,100 ,100 );
+
+        ImageSpan imageSpan = new ImageSpan(drawable, DynamicDrawableSpan.ALIGN_BOTTOM);
+        spannable.setSpan(imageSpan, 0, 1, Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
+        tvRegister.setText(spannable);
 
 
         btnRegister.setOnClickListener(new View.OnClickListener() {

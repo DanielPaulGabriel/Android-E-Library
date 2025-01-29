@@ -1,5 +1,6 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
@@ -93,25 +94,38 @@
             android:orientation="horizontal"
             android:layout_marginTop="12dp">
 
-            <Button
+
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnEdit"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:textColor="@android:color/white"
+                android:text="Edit"
+                android:backgroundTint="#736ff5"
                 android:layout_weight="1"
-                android:text="Edit" />
+                app:icon="@drawable/ic_edit"
+                app:iconSize="25dp"
+                app:iconGravity="textStart"
+                app:iconTint="@android:color/white"
+                app:iconPadding="8dp" />
 
             <View
                 android:layout_width="8dp"
                 android:layout_height="match_parent" />
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnDelete"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:textColor="@android:color/white"
                 android:text="Delete"
-                android:textColor="@color/white"
-                android:backgroundTint="@android:color/holo_red_dark" />
+                android:backgroundTint="@android:color/holo_red_dark"
+                android:layout_weight="1"
+                app:icon="@drawable/ic_delete"
+                app:iconSize="25dp"
+                app:iconGravity="textStart"
+                app:iconTint="@android:color/white"
+                app:iconPadding="8dp" />
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

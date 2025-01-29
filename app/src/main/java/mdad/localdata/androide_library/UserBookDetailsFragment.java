@@ -1,5 +1,7 @@
 package mdad.localdata.androide_library;
 
+import android.app.AlertDialog;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -46,7 +48,7 @@ public class UserBookDetailsFragment extends Fragment {
     private ImageView ivBookCover;
     private TextView tvTitle, tvAuthor, tvSummary;
     private ImageButton btnBack;
-    private Button btnRead, btnListen, btnReturn;
+    private Button btnRead, btnListen, btnReturn, btnShare;
 
     public static UserBookDetailsFragment newInstance(int bookId, int borrowId, String coverUrl, String contentUrl, String title, String author, String summary) {
         UserBookDetailsFragment fragment = new UserBookDetailsFragment();
@@ -89,6 +91,7 @@ public class UserBookDetailsFragment extends Fragment {
         btnRead = rootView.findViewById(R.id.btnReadBook);
         btnListen = rootView.findViewById(R.id.btnListenBook);
         btnReturn = rootView.findViewById(R.id.btnReturnBook);
+        btnShare = rootView.findViewById(R.id.btnShareBook);
         System.out.println("Book Path: "+ contentUrl);
 
         // Populate data
@@ -99,7 +102,20 @@ public class UserBookDetailsFragment extends Fragment {
 
         // Implement button actions (e.g., read, listen, or return the book)
         btnBack.setOnClickListener(v -> requireActivity().getSupportFragmentManager().popBackStack());
-        btnReturn.setOnClickListener(v -> returnBook(borrowId));
+        btnReturn.setOnClickListener(v -> {
+            new AlertDialog.Builder(requireContext())
+                    .setTitle("Return Book")
+                    .setMessage("Are you sure you want to return this book?")
+                    .setPositiveButton("Yes", (dialog, which) -> {
+                        returnBook(borrowId);
+                    })
+                    .setNegativeButton("No", (dialog, which) -> {
+                        // Dismiss the dialog
+                        dialog.dismiss();
+                    })
+                    .show();
+
+        });
         btnRead.setOnClickListener(v ->{
             Fragment readerViewFragment = ReaderViewFragment.newInstance(
                             title,
@@ -127,6 +143,13 @@ public class UserBookDetailsFragment extends Fragment {
                     .replace(R.id.fragment_container, listenerViewFragment)
                     .addToBackStack(null)
                     .commit();
+        });
+
+        btnShare.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                shareBook(title, author , getResources().getString(R.string.app_name));
+            }
         });
 
         return rootView;
@@ -168,6 +191,13 @@ public class UserBookDetailsFragment extends Fragment {
         RequestQueue queue = Volley.newRequestQueue(requireContext());
         queue.add(stringRequest);
 
+    }
+    private void shareBook(String bookTitle, String author, String appName) {
+        String message = "Hi, I'm currently reading '" + bookTitle + "' by '" + author + "' on " + appName + "! 📖📚";
+        Intent shareIntent = new Intent(Intent.ACTION_SEND);
+        shareIntent.setType("text/plain");
+        shareIntent.putExtra(Intent.EXTRA_TEXT, message);
+        startActivity(Intent.createChooser(shareIntent, "Share via"));
     }
 
 }

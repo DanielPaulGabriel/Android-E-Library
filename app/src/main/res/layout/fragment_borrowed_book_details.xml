@@ -59,26 +59,63 @@
                 android:textSize="14sp"
                 android:lineSpacingExtra="4dp" />
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnReadBook"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="Read" />
+                android:text="Read"
+                android:textColor="@android:color/white"
+                android:backgroundTint="#736ff5"
+                app:icon="@drawable/ic_borrowed_books"
+                app:iconGravity="textStart"
+                app:iconSize="25dp"
+                app:iconTint="@android:color/white"
+                app:iconPadding="8dp" />
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnListenBook"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:text="Listen" />
+                android:text="Listen"
+                app:icon="@drawable/ic_audiobook"
+                android:textColor="@android:color/white"
+                android:backgroundTint="#736ff5"
+                app:iconSize="25dp"
+                app:iconTint="@android:color/white"
+                app:iconGravity="textStart"
+                app:iconPadding="8dp" />
 
-            <Button
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnShareBook"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Share"
+                android:textColor="@android:color/white"
+                android:backgroundTint="#736ff5"
+                app:icon="@drawable/ic_share"
+                app:iconSize="25dp"
+                app:iconTint="@android:color/white"
+                app:iconGravity="textStart"
+                app:iconPadding="8dp" />
+
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnReturnBook"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:text="Return Book" />
+                android:text="Return"
+                android:textColor="@android:color/white"
+                android:backgroundTint="@android:color/holo_red_dark"
+                app:icon="@drawable/ic_return_book"
+                app:iconSize="25dp"
+                app:iconTint="@android:color/white"
+                app:iconGravity="textStart"
+                app:iconPadding="8dp" />
+
+
         </LinearLayout>
     </RelativeLayout>
 </ScrollView>

@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.net.ConnectivityManager;
 import android.net.Network;
 import android.net.NetworkCapabilities;
@@ -238,9 +239,6 @@ public class ProfileFragment extends Fragment {
         etPassword.setFocusable(isEnabled);
         etPassword.setFocusableInTouchMode(isEnabled);
 
-        // Optionally change background to make it visually clear
-        //etUsername.setBackgroundResource(isEnabled ? android.R.drawable.edit_text : android.R.color.transparent);
-        //etPassword.setBackgroundResource(isEnabled ? android.R.drawable.edit_text : android.R.color.transparent);
 
         if (isEnabled) {
             etUsername.setBackgroundResource(android.R.drawable.edit_text);
@@ -253,17 +251,20 @@ public class ProfileFragment extends Fragment {
             etUsername.setBackgroundResource(android.R.color.transparent);
             etPassword.setBackgroundResource(android.R.color.transparent);
 
-            if(currentMode == AppCompatDelegate.MODE_NIGHT_YES){
+            int nightModeFlags = requireContext().getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
+
+            if (nightModeFlags == Configuration.UI_MODE_NIGHT_YES) {
+                // Dark Mode
                 etUsername.setTextColor(ContextCompat.getColor(requireContext(), R.color.white));
                 etPassword.setTextColor(ContextCompat.getColor(requireContext(), R.color.white));
-            }
-            else{
+            } else {
+                // Light Mode
                 etUsername.setTextColor(ContextCompat.getColor(requireContext(), R.color.black));
                 etPassword.setTextColor(ContextCompat.getColor(requireContext(), R.color.black));
             }
-
         }
     }
+
 
     private void updateProfile(String username, String password) {
         int userId = SharedPrefsManager.getUserId(requireContext());

@@ -1,12 +1,13 @@
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:padding="16dp">
 
     <TextView
         android:fontFamily="@font/poppinsregular"
+        android:id="@+id/tvLogin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Login"
@@ -35,13 +36,19 @@
         android:inputType="textPassword"
         android:minHeight="48dp" />
 
-    <Button
-        android:fontFamily="@font/poppinsregular"
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnLogin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:text="Login"
-        android:layout_marginTop="16dp" />
+        android:textColor="@android:color/white"
+        android:backgroundTint="#736ff5"
+        app:icon="@drawable/ic_login"
+        app:iconGravity="textStart"
+        app:iconSize="25dp"
+        app:iconTint="@android:color/white"
+        app:iconPadding="8dp" />
 
     <TextView
         android:id="@+id/tvRegister"

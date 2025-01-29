@@ -69,13 +69,19 @@
                 android:lineSpacingExtra="4dp" />
 
             <!-- Borrow Button -->
-            <Button
-                android:fontFamily="@font/poppinsregular"
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnBorrow"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:textColor="@android:color/white"
+                android:backgroundTint="#736ff5"
                 android:text="Borrow"
-                android:layout_marginTop="16dp" />
+                app:icon="@drawable/ic_borrow_book"
+                app:iconSize="25dp"
+                app:iconTint="@android:color/white"
+                app:iconGravity="textStart"
+                app:iconPadding="8dp" />
 
             <!-- Divider -->
             <View
@@ -107,13 +113,19 @@
                 android:minHeight="48dp"/>
 
             <!-- Submit Button -->
-            <Button
-                android:fontFamily="@font/poppinsregular"
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnSubmitReview"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:text="@string/submit_rating" />
+                android:layout_marginTop="5dp"
+                android:textColor="@android:color/white"
+                android:text="Submit"
+                android:backgroundTint="#736ff5"
+                app:icon="@drawable/ic_submit"
+                app:iconSize="25dp"
+                app:iconGravity="textStart"
+                app:iconTint="@android:color/white"
+                app:iconPadding="8dp" />
 
             <!-- Divider -->
             <View

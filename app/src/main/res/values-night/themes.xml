@@ -1,6 +1,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Dark theme -->
     <style name="Base.Theme.AndroidELibrary" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="android:fontFamily">@font/poppinsregular</item>
         <!--<item name="colorPrimary">@color/dark_primary</item>
         <item name="colorOnPrimary">@color/dark_on_primary</item>
         <item name="android:windowBackground">@color/dark_background</item>

@@ -270,7 +270,9 @@ public class StaffUserDetailsFragment extends Fragment {
             lineChart.getLegend().setEnabled(true);
             lineChart.getLegend().setVerticalAlignment(Legend.LegendVerticalAlignment.TOP);
 
-            lineChart.animateX(1000);
+            //lineChart.animateX(1000);
+            lineChart.animateY(1000);
+
             lineChart.invalidate(); // Refresh the chart
         } catch (JSONException e) {
             e.printStackTrace();

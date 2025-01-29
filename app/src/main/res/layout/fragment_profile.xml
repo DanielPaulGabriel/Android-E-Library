@@ -54,50 +54,94 @@
             android:paddingEnd="8dp" />
 
         <!-- Edit and Save Buttons -->
-        <Button
+
+
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btnEditCredentials"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="Edit Credentials" />
+            android:textColor="@android:color/white"
+            android:text="Edit Credentials"
+            android:backgroundTint="#736ff5"
+            app:icon="@drawable/ic_edit"
+            app:iconSize="25dp"
+            app:iconGravity="textStart"
+            app:iconTint="@android:color/white"
+            app:iconPadding="8dp" />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btnToggleTheme"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="Set App Theme"/>
+            android:textColor="@android:color/white"
+            android:text="Set App Theme"
+            android:backgroundTint="#736ff5"
+            app:icon="@drawable/ic_theme"
+            app:iconSize="25dp"
+            app:iconGravity="textStart"
+            app:iconTint="@android:color/white"
+            app:iconPadding="8dp" />
 
-        <Button
+
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btnSaveChanges"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:visibility="gone"
-            android:text="Save Changes" />
-        <Button
+            android:textColor="@android:color/white"
+            android:text="Save Changes"
+            android:backgroundTint="#736ff5"
+            app:icon="@drawable/ic_save"
+            app:iconSize="25dp"
+            app:iconGravity="textStart"
+            app:iconTint="@android:color/white"
+            app:iconPadding="8dp" />
+
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btnCancel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:visibility="gone"
-            android:text="Cancel" />
+            android:textColor="@android:color/white"
+            android:text="Cancel"
+            android:backgroundTint="#736ff5"
+            app:icon="@drawable/ic_cancel"
+            app:iconSize="25dp"
+            app:iconGravity="textStart"
+            app:iconTint="@android:color/white"
+            app:iconPadding="8dp" />
 
         <!-- Logout Button -->
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btnLogout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="Logout" />
-        <Button
+            android:textColor="@android:color/white"
+            android:text="Logout"
+            android:backgroundTint="#736ff5"
+            app:icon="@drawable/ic_logout"
+            app:iconSize="25dp"
+            app:iconGravity="textStart"
+            app:iconTint="@android:color/white"
+            app:iconPadding="8dp" />
+
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btnDelete"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
+            android:textColor="@android:color/white"
             android:text="Delete Account"
             android:backgroundTint="@android:color/holo_red_dark"
-            android:textColor="@android:color/white" />
-
+            app:icon="@drawable/ic_delete"
+            app:iconSize="25dp"
+            app:iconGravity="textStart"
+            app:iconTint="@android:color/white"
+            app:iconPadding="8dp" />
     </LinearLayout>
 </ScrollView>

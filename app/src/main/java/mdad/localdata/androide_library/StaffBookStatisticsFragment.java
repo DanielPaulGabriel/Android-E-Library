@@ -1,5 +1,6 @@
 package mdad.localdata.androide_library;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,7 +18,9 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
@@ -172,12 +175,15 @@ public class StaffBookStatisticsFragment extends Fragment {
         BarDataSet dataSet = new BarDataSet(entries, "Books Borrowed");
         dataSet.setColor(getResources().getColor(R.color.dark_primary));
         dataSet.setValueTextSize(10f);
+        dataSet.setValueTextColor(Color.LTGRAY); // Adjust text color to match theme
+        dataSet.setDrawValues(false); // Disable value labels
 
         BarData barData = new BarData(dataSet);
         barData.setBarWidth(0.2f); // Set bar width
 
         barChart.setData(barData);
 
+        // Configure X Axis
         XAxis xAxis = barChart.getXAxis();
         xAxis.setValueFormatter(new ValueFormatter() {
             @Override
@@ -193,13 +199,43 @@ public class StaffBookStatisticsFragment extends Fragment {
 
         xAxis.setGranularity(1f);
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-        xAxis.setDrawGridLines(false);
+        xAxis.setTextColor(Color.GRAY); // Light gray text color
+        xAxis.setDrawGridLines(false); // Show grid lines
+        //xAxis.setGridColor(Color.DKGRAY); // Darker grid lines for visibility
 
-        barChart.getAxisRight().setEnabled(false); // Disable right axis
-        barChart.getAxisLeft().setDrawGridLines(false); // Optional: Disable left axis grid lines
+        // Configure Y Axis (Left)
+        YAxis leftAxis = barChart.getAxisLeft();
+        leftAxis.setTextColor(Color.GRAY);
+        leftAxis.setDrawGridLines(false); // Show grid lines
+        //leftAxis.setGridColor(Color.DKGRAY);
+
+        // Disable right Y Axis
+        barChart.getAxisRight().setEnabled(false);
+
+        // Customize Legend
+        barChart.getLegend().setTextColor(Color.GRAY);
+        barChart.getLegend().setVerticalAlignment(Legend.LegendVerticalAlignment.TOP);
+        barChart.getLegend().setOrientation(Legend.LegendOrientation.HORIZONTAL);
+        barChart.getLegend().setDrawInside(false);
+
+        // Add Marker
+        ChartMarkerView marker = new ChartMarkerView(getContext());
+        barChart.setMarker(marker);
+
+        // Add extra padding to prevent clipping
+        barChart.setExtraOffsets(10, 10, 50, 10);
+
+        // Enable animations
+        barChart.animateY(1500);
+
+        // Remove chart description
         barChart.getDescription().setEnabled(false);
+
         barChart.setFitBars(true); // Makes the bars fit nicely in the chart
-        barChart.invalidate(); // Refresh the chart
+
+        // Refresh the chart
+        barChart.invalidate();
     }
+
 
 }
