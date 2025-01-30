@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    android:id ="@+id/layoutFirst"
+<LinearLayout android:id="@+id/layoutFirst"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
 
-    android:layout_marginTop="1dp">
+    android:layout_marginTop="1dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <!-- Back Button (Arrow Icon) -->
     <ImageButton
@@ -61,11 +61,18 @@
         android:layout_marginTop="20dp"
         android:layout_below="@id/layoutSecond">
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnPlayTTS"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Play" />
+        android:textColor="@android:color/white"
+        android:backgroundTint="#736ff5"
+        android:text="Play"
+        app:icon="@drawable/ic_play"
+        app:iconSize="25dp"
+        app:iconTint="@android:color/white"
+        app:iconGravity="textStart"
+        app:iconPadding="8dp" />
     <EditText
         android:id="@+id/etPageNumber"
         android:layout_width="50dp"
@@ -74,12 +81,19 @@
         android:gravity="center"
         android:text="1" />
 
-    <Button
-        android:id="@+id/btnStopTTS"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Stop"
-        android:layout_marginStart="8dp" />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnStopTTS"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:textColor="@android:color/white"
+            android:backgroundTint="#736ff5"
+            android:text="Stop"
+            app:icon="@drawable/ic_pause"
+            app:iconSize="10dp"
+            app:iconTint="@android:color/white"
+            app:iconGravity="textStart"
+            app:iconPadding="8dp" />
 
     </LinearLayout>
 

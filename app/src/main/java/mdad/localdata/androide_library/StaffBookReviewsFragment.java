@@ -108,7 +108,7 @@ public class StaffBookReviewsFragment extends Fragment {
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
-                        Toast.makeText(getContext(), "Error parsing data", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(getContext(), "Error parsing data", Toast.LENGTH_SHORT).show();
                     }
                 },
                 error -> Toast.makeText(getContext(), "Error: " + error.getMessage(), Toast.LENGTH_SHORT).show());

@@ -1,6 +1,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:padding="16dp">
     <LinearLayout
@@ -46,11 +47,18 @@
         android:orientation="horizontal"
         android:gravity="center">
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btnPrevious"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Previous" />
+            android:textColor="@android:color/white"
+            android:backgroundTint="#736ff5"
+            android:text="Previous"
+            app:icon="@drawable/ic_arrow_back"
+            app:iconSize="25dp"
+            app:iconTint="@android:color/white"
+            app:iconGravity="textStart"
+            app:iconPadding="8dp" />
 
         <EditText
             android:id="@+id/etPageNumber"
@@ -60,10 +68,17 @@
             android:gravity="center"
             android:text="1" />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btnNext"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Next" />
+            android:textColor="@android:color/white"
+            android:backgroundTint="#736ff5"
+            android:text="Next"
+            app:icon="@drawable/ic_arrow_forward"
+            app:iconSize="25dp"
+            app:iconTint="@android:color/white"
+            app:iconGravity="textEnd"
+            app:iconPadding="8dp" />
     </LinearLayout>
 </LinearLayout>

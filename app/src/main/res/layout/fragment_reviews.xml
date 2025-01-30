@@ -1,5 +1,6 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -21,26 +22,40 @@
         android:gravity="center"
         android:textSize="16sp"
         android:padding="16dp" />
-    <Button
+
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnRedirect"
-        android:visibility="gone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:layout_below="@id/tvNoBooks"
+        android:textColor="@android:color/white"
+        android:backgroundTint="#736ff5"
         android:text="Browse Books"
-        android:layout_gravity="center"
-        android:layout_below="@id/tvNoBooks"
-        android:layout_marginTop="10dp"
-        />
-    <Button
+        app:icon="@drawable/ic_borrow_book"
+        app:iconSize="25dp"
+        app:iconTint="@android:color/white"
+        app:iconGravity="textStart"
+        app:iconPadding="8dp" />
+
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnRetry"
-        android:visibility="gone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Retry"
+        android:visibility="gone"
         android:layout_gravity="center"
-        android:layout_below="@id/tvNoBooks"
         android:layout_marginTop="10dp"
-        />
+        android:layout_below="@id/tvNoBooks"
+        android:textColor="@android:color/white"
+        android:backgroundTint="#736ff5"
+        android:text="Retry"
+        app:icon="@drawable/ic_retry"
+        app:iconSize="25dp"
+        app:iconTint="@android:color/white"
+        app:iconGravity="textStart"
+        app:iconPadding="8dp" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewUserReviews"

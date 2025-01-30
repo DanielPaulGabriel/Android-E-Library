@@ -129,7 +129,7 @@ public class StaffUserDetailsFragment extends Fragment {
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
-                        Toast.makeText(getContext(), "Failed to parse data", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(getContext(), "Failed to parse data", Toast.LENGTH_SHORT).show();
                     }
                 },
                 error -> Toast.makeText(getContext(), "Error fetching borrowed books", Toast.LENGTH_SHORT).show());
@@ -163,7 +163,7 @@ public class StaffUserDetailsFragment extends Fragment {
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
-                        Toast.makeText(getContext(), "Failed to parse data", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(getContext(), "Failed to parse data", Toast.LENGTH_SHORT).show();
                     }
                 },
                 error -> Toast.makeText(getContext(), "Error fetching reviews", Toast.LENGTH_SHORT).show());
@@ -186,7 +186,7 @@ public class StaffUserDetailsFragment extends Fragment {
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
-                        Toast.makeText(getContext(), "Failed to parse data", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(getContext(), "Failed to parse data", Toast.LENGTH_SHORT).show();
                     }
                 },
                 error -> Toast.makeText(getContext(), "Error fetching statistics", Toast.LENGTH_SHORT).show());

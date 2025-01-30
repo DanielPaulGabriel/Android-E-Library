@@ -1,5 +1,6 @@
 package mdad.localdata.androide_library;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -8,11 +9,13 @@ import android.net.ConnectivityManager;
 import android.net.Network;
 import android.net.NetworkCapabilities;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.InputType;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.DynamicDrawableSpan;
 import android.text.style.ImageSpan;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -21,6 +24,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -147,19 +151,34 @@ public class LoginActivity extends AppCompatActivity {
                                 SharedPrefsManager.savePassword(LoginActivity.this,password);
 
                                 String role = jsonObject.getString("role");
-                                if (role.equals("user")) {
-                                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
-                                } else if (role.equals("staff")) {
-                                    startActivity(new Intent(LoginActivity.this, StaffActivity.class));
-                                }
+
+                                // Show Lottie animation above all views
+                                /*LottieAnimationView lottieSuccess = findViewById(R.id.lottieSuccess);
+                                lottieSuccess.bringToFront(); // Moves the animation above all UI elements
+                                lottieSuccess.setVisibility(View.VISIBLE);
+                                btnLogin.setVisibility(View.GONE);
+                                tvRegister.setVisibility(View.GONE);
+                                lottieSuccess.playAnimation();*/
+
+                                showSuccessDialog(); // Show animated alert
+
+                                // Delay transition to the next activity
+                                new Handler().postDelayed(() -> {
+                                    Intent intent;
+                                    if (role.equals("user")) {
+                                        intent = new Intent(LoginActivity.this, MainActivity.class);
+                                    } else {
+                                        intent = new Intent(LoginActivity.this, StaffActivity.class);
+                                    }
+                                    startActivity(intent);
+                                    finish();
+                                }, 2000);
 
                                 SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
                                 SharedPreferences.Editor editor = sharedPreferences.edit();
                                 editor.putBoolean("isLoggedIn", true);
-                                editor.putString("userRole", role); // Save the role (e.g., "user" or "staff")
+                                editor.putString("userRole", role); // Save role (e.g., "user" or "staff")
                                 editor.apply();
-
-                                finish();
                             } else {
                                 Toast.makeText(LoginActivity.this, jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
                             }
@@ -201,4 +220,26 @@ public class LoginActivity extends AppCompatActivity {
         }
         return false;
     }
+    private void showSuccessDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.CustomDialogStyle);
+        LayoutInflater inflater = getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.dialog_success, null);
+        builder.setView(dialogView);
+
+        AlertDialog alertDialog = builder.create();
+
+        // Find the Lottie animation view
+        LottieAnimationView lottieSuccess = dialogView.findViewById(R.id.lottieSuccess);
+        lottieSuccess.setVisibility(View.VISIBLE);
+        lottieSuccess.playAnimation();
+
+        // Show the dialog
+        alertDialog.show();
+
+        // Automatically dismiss the dialog after 2 seconds
+        new Handler().postDelayed(() -> {
+            alertDialog.dismiss();
+        }, 2000);
+    }
+
 }

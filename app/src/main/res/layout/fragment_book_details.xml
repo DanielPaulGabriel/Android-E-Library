@@ -144,7 +144,14 @@
                 android:textSize="16sp"
                 android:textStyle="bold"
                 android:layout_marginTop="16dp"/>
-
+            <TextView
+                android:fontFamily="@font/poppinsregular"
+                android:id="@+id/tvNoReviews"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:text="There are currently no existing book reviews"
+                android:textSize="14sp" />
             <!-- RecyclerView for displaying reviews -->
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerViewReviews"
