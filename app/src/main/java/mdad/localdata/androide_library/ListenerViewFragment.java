@@ -124,17 +124,18 @@ public class ListenerViewFragment extends Fragment {
             loadPage(currentPage);
 
             Intent serviceIntent = new Intent(getContext(), BookPlayerService.class);
-            serviceIntent.putExtra("bookContent", bookContent); // Pass the book content
-            serviceIntent.putExtra("bookTitle", title); // Pass the book title
-            serviceIntent.setAction("ACTION_PLAY");
+            serviceIntent.setAction(BookPlayerService.ACTION_PLAY);
+            serviceIntent.putExtra("bookContent", bookContent);
+            serviceIntent.putExtra("bookTitle", title);
             requireContext().startService(serviceIntent);
+
         });
 
 
         btnStopTTS.setOnClickListener(v -> {
             pausePlayback();
             Intent serviceIntent = new Intent(getContext(), BookPlayerService.class);
-            serviceIntent.setAction("ACTION_PAUSE");
+            serviceIntent.setAction(BookPlayerService.ACTION_PAUSE);
             requireContext().stopService(serviceIntent);
         });
 

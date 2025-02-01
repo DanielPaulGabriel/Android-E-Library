@@ -43,7 +43,7 @@ public class BookPlayerService extends Service {
         String bookTitle = intent.getStringExtra("bookTitle");
         String action = intent.getAction();
 
-        if (ACTION_PAUSE.equals(action)) {
+       /*if (ACTION_PAUSE.equals(action)) {
             pauseTTS();
             updateNotification(bookTitle, true); // Update the notification to show the play button
         } else if (ACTION_PLAY.equals(action)) {
@@ -53,53 +53,36 @@ public class BookPlayerService extends Service {
             // Default case: Start playing the book
             updateNotification(bookTitle, false); // Show the pause button
             speakText(bookContent); // Start TTS
-        }
+        }*/
+        updateNotification(bookTitle); // Show the pause button
 
         return START_NOT_STICKY;
     }
 
-    private void updateNotification(String bookTitle, boolean isPaused) {
-        Intent pauseIntent = new Intent(this, BookPlayerService.class);
-        pauseIntent.setAction("ACTION_PAUSE");
-        PendingIntent pausePendingIntent = PendingIntent.getService(
-                this, 0, pauseIntent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE
-        );
-
-        Intent playIntent = new Intent(this, BookPlayerService.class);
-        playIntent.setAction("ACTION_PLAY");
-        PendingIntent playPendingIntent = PendingIntent.getService(
-                this, 0, playIntent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE
-        );
-
+    private void updateNotification(String bookTitle) {
+        Intent resultIntent = new Intent(this, MainActivity.class);
+        resultIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        PendingIntent pendingIntent = PendingIntent.getActivity(
+                this, 0, resultIntent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, CHANNEL_ID)
+                .setContentIntent(pendingIntent)
                 .setContentTitle("Playing Book")
                 .setContentText(bookTitle)
                 .setSmallIcon(R.drawable.ic_borrowed_books)
                 .setPriority(NotificationCompat.PRIORITY_LOW)
-                .setOnlyAlertOnce(true)
-                .addAction(
-                        isPaused ? R.drawable.ic_play : R.drawable.ic_pause,
-                        isPaused ? "Play" : "Pause",
-                        isPaused ? playPendingIntent : pausePendingIntent
-                );
+                .setOngoing(true)
+                .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+                .setOnlyAlertOnce(true);
+
 
         Notification notification = notificationBuilder.build();
         startForeground(1, notification);
     }
 
-    private void speakText(String bookContent) {
-        if (tts != null && bookContent != null && !bookContent.isEmpty()) {
-            tts.speak(bookContent, TextToSpeech.QUEUE_FLUSH, null, null);
-        }
-    }
-
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (tts != null) {
-            tts.stop();
-            tts.shutdown();
-        }
+
     }
 
     @Nullable
@@ -117,17 +100,6 @@ public class BookPlayerService extends Service {
         NotificationManager manager = getSystemService(NotificationManager.class);
         if (manager != null) {
             manager.createNotificationChannel(serviceChannel);
-        }
-    }
-    private void pauseTTS() {
-        if (tts.isSpeaking()) {
-
-        }
-    }
-
-    private void resumeTTS() {
-        if (bookContent != null) {
-            tts.speak(bookContent, TextToSpeech.QUEUE_FLUSH, null, null);
         }
     }
 }

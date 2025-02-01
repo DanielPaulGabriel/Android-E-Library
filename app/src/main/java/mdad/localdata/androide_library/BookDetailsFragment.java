@@ -72,6 +72,7 @@ public class BookDetailsFragment extends Fragment {
     private static final String BORROW_URL = Constants.BORROW_BOOK_URL;
     private static final String SUBMIT_REVIEW_URL = Constants.CREATE_REVIEW_URL;
     private static final String GET_BOOK_REVIEWS_URL = Constants.GET_ALL_BOOK_REVIEWS_URL;
+    private static final String GET_BORROW_STATUS = Constants.GET_BORROW_STATUS;
 
     public BookDetailsFragment() {
         // Required empty public constructor
@@ -134,7 +135,7 @@ public class BookDetailsFragment extends Fragment {
         btnBorrow.setOnClickListener(v -> borrowBook(bookId, userId));
 
         btnSubmitReview.setOnClickListener(v -> submitReview());
-
+        fetchBorrowStatus(bookId, userId);
         fetchReviews(bookId);
 
         return rootView;
@@ -153,6 +154,7 @@ public class BookDetailsFragment extends Fragment {
                                 //Toast.makeText(requireContext(), jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
                                 btnBorrow.setEnabled(false);
                                 btnBorrow.setText("Borrowed");
+                                btnBorrow.setBackgroundColor(getResources().getColor(R.color.grey_disabled));
                                 String due_date = jsonObject.getString("due_date");
                                 sendNotification("Book Borrowed", "Your borrowed book is due on \"" + due_date);
                             } else {
@@ -181,6 +183,36 @@ public class BookDetailsFragment extends Fragment {
                 return params;
             }
         };
+
+        RequestQueue queue = Volley.newRequestQueue(requireContext());
+        queue.add(stringRequest);
+    }
+
+    private void fetchBorrowStatus(int bookId, int userId) {
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, GET_BORROW_STATUS+ "?user_id="+userId+"&book_id="+bookId,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+                            if (jsonObject.getBoolean("success")) {
+                                btnBorrow.setEnabled(false);
+                                btnBorrow.setText("Borrowed");
+                                btnBorrow.setBackgroundColor(getResources().getColor(R.color.grey_disabled));
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            //Toast.makeText(requireContext(), "JSON Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                },
+
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(requireContext(), "Volley Error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
 
         RequestQueue queue = Volley.newRequestQueue(requireContext());
         queue.add(stringRequest);

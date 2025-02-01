@@ -31,6 +31,7 @@ public class Constants {
         public static final String BORROW_BOOK_URL = BASE_URL + "/elibrary/borrowed_books/borrowBook.php";
         public static final String RETURN_BOOK_URL = BASE_URL + "/elibrary/borrowed_books/returnBook.php";
         public static final String GET_BORROWING_STATISTICS = BASE_URL + "/elibrary/borrowed_books/getBorrowingStatistics.php";
+        public static final String GET_BORROW_STATUS = BASE_URL + "/elibrary/borrowed_books/getBorrowStatus.php";
         public static final String GET_USER_BORROW_HISTORY_URL = BASE_URL + "/elibrary/borrowed_books/getUserBorrowHistory.php";
         public static final String GET_OVERDUE_BOOKS_URL = BASE_URL + "/elibrary/borrowed_books/getOverdueBooks.php";
 
