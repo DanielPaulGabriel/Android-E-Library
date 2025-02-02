@@ -10,23 +10,37 @@
         android:orientation="horizontal"
         android:gravity="center_vertical"
         android:padding="8dp">
-    <ImageButton
-        android:id="@+id/btnBack"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_marginEnd="8dp"
-        android:background="?attr/selectableItemBackgroundBorderless"
-        android:src="@drawable/ic_arrow_back"
-        android:contentDescription="@string/back_button" />
-    <TextView
-        android:id="@+id/tvTitle"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:textAlignment="center"
-        android:gravity="center"
-        android:textSize="20sp"
-        android:text="Title" />
+
+        <!-- Back Button -->
+        <ImageButton
+            android:id="@+id/btnBack"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginEnd="8dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/ic_arrow_back"
+            android:contentDescription="@string/back_button" />
+
+        <!-- Title (Takes up full remaining space) -->
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textAlignment="center"
+            android:textSize="20sp"
+            android:text="Title" />
+
+        <!-- Settings Button -->
+        <ImageButton
+            android:id="@+id/btnSettings"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="8dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/ic_settings"
+            android:contentDescription="Settings" />
     </LinearLayout>
     <com.github.barteksc.pdfviewer.PDFView
         android:id="@+id/pdfViewer"
@@ -45,17 +59,29 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:gravity="center">
+        android:gravity="center"
+        android:weightSum="7">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnFirst"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="@android:color/white"
+            android:backgroundTint="#736ff5"
+            android:layout_marginEnd="5dp"
+            android:text="First" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnPrevious"
-            android:layout_width="wrap_content"
+            android:layout_width="35dp"
             android:layout_height="wrap_content"
+            android:layout_weight="2"
             android:textColor="@android:color/white"
             android:backgroundTint="#736ff5"
-            android:text="Previous"
+            android:text=""
             app:icon="@drawable/ic_arrow_back"
-            app:iconSize="25dp"
+            app:iconSize="15dp"
             app:iconTint="@android:color/white"
             app:iconGravity="textStart"
             app:iconPadding="8dp" />
@@ -70,15 +96,28 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnNext"
-            android:layout_width="wrap_content"
+            android:layout_width="35dp"
             android:layout_height="wrap_content"
+            android:layout_weight="2"
             android:textColor="@android:color/white"
             android:backgroundTint="#736ff5"
-            android:text="Next"
+            android:text=""
             app:icon="@drawable/ic_arrow_forward"
-            app:iconSize="25dp"
+            app:iconSize="15dp"
             app:iconTint="@android:color/white"
             app:iconGravity="textEnd"
             app:iconPadding="8dp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnLast"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="@android:color/white"
+            android:backgroundTint="#736ff5"
+            android:layout_marginStart="5dp"
+            android:text="Last" />
     </LinearLayout>
+
+
 </LinearLayout>

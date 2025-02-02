@@ -12,10 +12,12 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
 
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import android.app.AlertDialog;
@@ -33,6 +35,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.android.volley.Request;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
@@ -261,7 +264,8 @@ public class StaffAccountsFragment extends Fragment {
                         try {
                             JSONObject jsonObject = new JSONObject(response);
                             if (jsonObject.getBoolean("success")) {
-                                Toast.makeText(requireContext(), "Account deleted successfully.", Toast.LENGTH_SHORT).show();
+                                showSuccessDialog("Account deleted successfully!");
+                                //Toast.makeText(requireContext(), "Account deleted successfully.", Toast.LENGTH_SHORT).show();
                                 loadStaffAccounts();
                             } else {
                                 Toast.makeText(requireContext(), jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
@@ -285,7 +289,29 @@ public class StaffAccountsFragment extends Fragment {
         }
 
     }
+    private void showSuccessDialog(String msg) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(requireContext(), R.style.CustomDialogStyle);
+        LayoutInflater inflater = getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.dialog_success, null);
+        builder.setView(dialogView);
 
+        AlertDialog alertDialog = builder.create();
+
+        // Find the Lottie animation view
+        LottieAnimationView lottieSuccess = dialogView.findViewById(R.id.lottieSuccess);
+        TextView tvSuccessMessage = dialogView.findViewById(R.id.tvSuccessMessage);
+        tvSuccessMessage.setText(msg);
+        lottieSuccess.setVisibility(View.VISIBLE);
+        lottieSuccess.playAnimation();
+
+        // Show the dialog
+        alertDialog.show();
+
+        // Automatically dismiss the dialog after 2 seconds
+        new Handler().postDelayed(() -> {
+            alertDialog.dismiss();
+        }, 2000);
+    }
     private void handleNoData(String message) {
         if (!isAdded()) return; // Ensure fragment is attached
         if (message == null || message.trim().isEmpty()) {

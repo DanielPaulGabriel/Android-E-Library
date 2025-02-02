@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.OpenableColumns;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -20,11 +22,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 //import com.android.volley.Request;
+import com.airbnb.lottie.LottieAnimationView;
 import com.android.volley.RequestQueue;
 //import com.android.volley.Response;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
@@ -214,8 +218,17 @@ public class StaffEditDeleteBookFragment extends Fragment {
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                 requireActivity().runOnUiThread(() -> {
                     if (response.isSuccessful()) {
-                        Toast.makeText(requireContext(), "Book updated successfully!", Toast.LENGTH_SHORT).show();
-                        requireActivity().getSupportFragmentManager().popBackStack();
+                        //Toast.makeText(requireContext(), "Book updated successfully!", Toast.LENGTH_SHORT).show();
+                        showSuccessDialog("Book updated successfully!");
+                        Fragment staffBookCatalogueFragment = StaffBooksCatalogueFragment.newInstance();
+                        // Use the FragmentManager to replace the current fragment
+                        ((AppCompatActivity) requireContext())
+                                .getSupportFragmentManager()
+                                .beginTransaction()
+                                .replace(R.id.fragment_container, staffBookCatalogueFragment)
+                                .addToBackStack(null)
+                                .commit();
+
                     } else {
                         Toast.makeText(requireContext(), "Failed to update book.", Toast.LENGTH_SHORT).show();
                     }
@@ -223,7 +236,29 @@ public class StaffEditDeleteBookFragment extends Fragment {
             }
         });
     }
+    private void showSuccessDialog(String msg) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(requireContext(), R.style.CustomDialogStyle);
+        LayoutInflater inflater = getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.dialog_success, null);
+        builder.setView(dialogView);
 
+        AlertDialog alertDialog = builder.create();
+
+        // Find the Lottie animation view
+        LottieAnimationView lottieSuccess = dialogView.findViewById(R.id.lottieSuccess);
+        TextView tvSuccessMessage = dialogView.findViewById(R.id.tvSuccessMessage);
+        tvSuccessMessage.setText(msg);
+        lottieSuccess.setVisibility(View.VISIBLE);
+        lottieSuccess.playAnimation();
+
+        // Show the dialog
+        alertDialog.show();
+
+        // Automatically dismiss the dialog after 2 seconds
+        new Handler().postDelayed(() -> {
+            alertDialog.dismiss();
+        }, 2000);
+    }
     private byte[] readBytesFromUri(Uri uri) throws IOException {
         try (InputStream inputStream = requireContext().getContentResolver().openInputStream(uri)) {
             if (inputStream == null) {

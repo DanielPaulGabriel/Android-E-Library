@@ -123,7 +123,8 @@ public class EditStaffAccountFragment extends Fragment {
                     try {
                         JSONObject jsonObject = new JSONObject(response);
                         if (jsonObject.getBoolean("success")) {
-                            Toast.makeText(requireContext(), "Staff details updated successfully!", Toast.LENGTH_SHORT).show();
+                            showSuccessDialog("Staff details updated successfully!");
+                            //Toast.makeText(requireContext(), "Staff details updated successfully!", Toast.LENGTH_SHORT).show();
                             requireActivity().getSupportFragmentManager().popBackStack();
                         } else {
                             Toast.makeText(requireContext(), jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
@@ -149,6 +150,28 @@ public class EditStaffAccountFragment extends Fragment {
 
         Volley.newRequestQueue(requireContext()).add(request);
     }
+    private void showSuccessDialog(String msg) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(requireContext(), R.style.CustomDialogStyle);
+        LayoutInflater inflater = getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.dialog_success, null);
+        builder.setView(dialogView);
 
+        AlertDialog alertDialog = builder.create();
+
+        // Find the Lottie animation view
+        LottieAnimationView lottieSuccess = dialogView.findViewById(R.id.lottieSuccess);
+        TextView tvSuccessMessage = dialogView.findViewById(R.id.tvSuccessMessage);
+        tvSuccessMessage.setText(msg);
+        lottieSuccess.setVisibility(View.VISIBLE);
+        lottieSuccess.playAnimation();
+
+        // Show the dialog
+        alertDialog.show();
+
+        // Automatically dismiss the dialog after 2 seconds
+        new Handler().postDelayed(() -> {
+            alertDialog.dismiss();
+        }, 2000);
+    }
 
 }
