@@ -18,5 +18,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:fontFamily="@font/poppinsregular"
+        app:labelVisibilityMode="selected"
         app:menu="@menu/staff_bottom_nav_menu" />
 </RelativeLayout>

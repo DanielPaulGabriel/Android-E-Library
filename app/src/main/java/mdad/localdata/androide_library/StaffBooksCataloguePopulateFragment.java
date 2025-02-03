@@ -104,14 +104,14 @@ public class StaffBooksCataloguePopulateFragment extends Fragment {
 
                         for (int i = 0; i < results.length(); i++) {
                             JSONObject book = results.getJSONObject(i);
-
+                            System.out.println(book);
                             // Extract book metadata
                             String title = book.optString("title", "No Title");
                             JSONArray authorsArray = book.optJSONArray("authors");
                             String author = (authorsArray != null && authorsArray.length() > 0)
                                     ? authorsArray.getJSONObject(0).optString("name", "Unknown Author")
                                     : "Unknown Author";
-                            String summary = "Summary not available"; // Gutendex does not provide summaries
+                            String summary = book.optString("summaries", "No Summary");
                             String genreName = genre;
                             JSONObject formats = book.getJSONObject("formats");
                             String coverUrl = formats.optString("image/jpeg", "");
@@ -129,7 +129,15 @@ public class StaffBooksCataloguePopulateFragment extends Fragment {
                         Toast.makeText(requireContext(), "Failed to parse book data", Toast.LENGTH_SHORT).show();
                     }
                 },
-                error -> Toast.makeText(requireContext(), "Error fetching books: " + error.getMessage(), Toast.LENGTH_SHORT).show());
+                error -> {
+                    if (error.networkResponse != null) {
+                        System.out.println("Error Code: " + error.networkResponse.statusCode);
+                        System.out.println("Error Data: " + new String(error.networkResponse.data));
+                    } else {
+                        System.out.println("Network error: " + error.getMessage());
+                    }
+                    Toast.makeText(requireContext(), "Error fetching books", Toast.LENGTH_SHORT).show();
+                });
 
         Volley.newRequestQueue(requireContext()).add(request);
     }

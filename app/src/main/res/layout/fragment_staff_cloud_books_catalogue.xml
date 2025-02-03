@@ -44,35 +44,6 @@
             android:textColor="@android:color/darker_gray"
             android:paddingBottom="8dp"/>
 
-        <!--<TextView
-            android:id="@+id/tvTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Title"
-            android:textSize="16sp"
-            android:textStyle="bold" />
-        <EditText
-            android:id="@+id/etTitle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Title (Optional)"
-            android:inputType="text" />
-
-        <TextView
-            android:id="@+id/tvAuthor"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Author"
-            android:layout_marginTop="16dp"
-            android:textSize="16sp"
-            android:textStyle="bold" />
-        <EditText
-            android:id="@+id/etAuthor"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Author (Optional)"
-            android:inputType="text" /> -->
-
         <TextView
             android:id="@+id/tvGenre"
             android:layout_width="wrap_content"
@@ -81,13 +52,7 @@
             android:layout_marginTop="16dp"
             android:textSize="16sp"
             android:textStyle="bold" />
-        <!--<Spinner
-            android:id="@+id/spinnerGenre"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/user_book_border"
-            android:
-            android:spinnerMode="dropdown"/>-->
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
