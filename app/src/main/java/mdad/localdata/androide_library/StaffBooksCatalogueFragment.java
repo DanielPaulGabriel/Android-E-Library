@@ -56,7 +56,7 @@ public class StaffBooksCatalogueFragment extends Fragment {
         searchView = rootView.findViewById(R.id.searchView);
         btnRetry = rootView.findViewById(R.id.btnRetry);
         fabAddBook = rootView.findViewById(R.id.fabAddBook);
-        fabCloudDownload = rootView.findViewById(R.id.fabCloudDownload);
+        //fabCloudDownload = rootView.findViewById(R.id.fabCloudDownload);
 
 
         int spacingInPixels = getResources().getDimensionPixelSize(R.dimen.grid_spacing);
@@ -93,7 +93,7 @@ public class StaffBooksCatalogueFragment extends Fragment {
         });
 
         // Cloud Download functionality
-        fabCloudDownload.setOnClickListener(v -> {
+        /*fabCloudDownload.setOnClickListener(v -> {
             // Open AddBookFragment or show Add Book Dialog
             Fragment staffBookCataloguePopulateFragment = StaffBooksCataloguePopulateFragment.newInstance();
             requireActivity().getSupportFragmentManager()
@@ -101,7 +101,7 @@ public class StaffBooksCatalogueFragment extends Fragment {
                     .replace(R.id.fragment_container, staffBookCataloguePopulateFragment)
                     .addToBackStack(null)
                     .commit();
-        });
+        });*/
 
         return rootView;
     }

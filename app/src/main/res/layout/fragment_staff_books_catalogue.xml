@@ -32,7 +32,7 @@
         android:layout_alignParentEnd="true"
         android:layout_margin="16dp">
 
-        <!-- Floating Action Button for Download -->
+        <!-- Floating Action Button for Download
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fabCloudDownload"
             android:layout_width="wrap_content"
@@ -41,7 +41,7 @@
             android:contentDescription="@string/download_book"
             android:src="@drawable/ic_download"
             app:backgroundTint="#736ff5"
-            app:tint="@color/white"/>
+            app:tint="@color/white"/>-->
 
         <!-- Floating Action Button for Add Book -->
         <com.google.android.material.floatingactionbutton.FloatingActionButton

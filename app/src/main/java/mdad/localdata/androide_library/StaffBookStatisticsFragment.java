@@ -107,7 +107,7 @@ public class StaffBookStatisticsFragment extends Fragment {
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
-                        Toast.makeText(getContext(), "Failed to parse data", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(getContext(), "Failed to parse data", Toast.LENGTH_SHORT).show();
                     }
                 },
                 error -> Toast.makeText(getContext(), "Error fetching statistics", Toast.LENGTH_SHORT).show());
