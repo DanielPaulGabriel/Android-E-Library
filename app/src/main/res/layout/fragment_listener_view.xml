@@ -68,11 +68,25 @@
         android:textColor="@android:color/white"
         android:backgroundTint="#736ff5"
         android:text="Play"
+        android:layout_marginEnd="8dp"
         app:icon="@drawable/ic_play"
         app:iconSize="25dp"
         app:iconTint="@android:color/white"
         app:iconGravity="textStart"
         app:iconPadding="8dp" />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnPrevious"
+            android:layout_width="35dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:textColor="@android:color/white"
+            android:backgroundTint="#736ff5"
+            android:text=""
+            app:icon="@drawable/ic_arrow_back"
+            app:iconSize="15dp"
+            app:iconTint="@android:color/white"
+            app:iconGravity="textStart"
+            app:iconPadding="8dp" />
     <EditText
         android:id="@+id/etPageNumber"
         android:layout_width="50dp"
@@ -80,6 +94,19 @@
         android:inputType="number"
         android:gravity="center"
         android:text="1" />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnNext"
+            android:layout_width="35dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:textColor="@android:color/white"
+            android:backgroundTint="#736ff5"
+            android:text=""
+            app:icon="@drawable/ic_arrow_forward"
+            app:iconSize="15dp"
+            app:iconTint="@android:color/white"
+            app:iconGravity="textEnd"
+            app:iconPadding="8dp" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnStopTTS"

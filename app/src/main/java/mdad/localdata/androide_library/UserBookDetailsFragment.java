@@ -9,6 +9,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +20,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -26,6 +28,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -48,7 +51,7 @@ public class UserBookDetailsFragment extends Fragment {
     private ImageView ivBookCover;
     private TextView tvTitle, tvAuthor, tvSummary;
     private ImageButton btnBack;
-    private Button btnRead, btnListen, btnReturn, btnShare;
+    private Button btnRead, btnListen, btnReview, btnReturn, btnShare;
 
     public static UserBookDetailsFragment newInstance(int bookId, int borrowId, String coverUrl, String contentUrl, String title, String author, String summary) {
         UserBookDetailsFragment fragment = new UserBookDetailsFragment();
@@ -90,6 +93,7 @@ public class UserBookDetailsFragment extends Fragment {
         btnBack = rootView.findViewById(R.id.btnBack);
         btnRead = rootView.findViewById(R.id.btnReadBook);
         btnListen = rootView.findViewById(R.id.btnListenBook);
+        btnReview = rootView.findViewById(R.id.btnReview);
         btnReturn = rootView.findViewById(R.id.btnReturnBook);
         btnShare = rootView.findViewById(R.id.btnShareBook);
         System.out.println("Book Path: "+ contentUrl);
@@ -144,7 +148,24 @@ public class UserBookDetailsFragment extends Fragment {
                     .addToBackStack(null)
                     .commit();
         });
+        btnReview.setOnClickListener(v->{
+            BottomNavigationView bottomNavigationView = requireActivity().findViewById(R.id.bottom_navigation);
+            bottomNavigationView.setSelectedItemId(R.id.nav_catalog);
+            Fragment bookDetailsFragment = BookDetailsFragment.newInstance(
+                    bookId,
+                    coverUrl,
+                    title,
+                    author,
+                    summary
+            );
 
+            requireActivity().getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragment_container, bookDetailsFragment)
+                    .addToBackStack(null)
+                    .commit();
+
+        });
         btnShare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -162,7 +183,8 @@ public class UserBookDetailsFragment extends Fragment {
                         try {
                             JSONObject jsonObject = new JSONObject(response);
                             if (jsonObject.getBoolean("success")) {
-                                Toast.makeText(requireContext(), jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
+                                //Toast.makeText(requireContext(), jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
+                                showSuccessDialog(jsonObject.getString("message"));
                                 requireActivity().getSupportFragmentManager().popBackStack();
                             } else {
                                 Toast.makeText(requireContext(), jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
@@ -199,5 +221,27 @@ public class UserBookDetailsFragment extends Fragment {
         shareIntent.putExtra(Intent.EXTRA_TEXT, message);
         startActivity(Intent.createChooser(shareIntent, "Share via"));
     }
+    private void showSuccessDialog(String msg) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(requireContext(), R.style.CustomDialogStyle);
+        LayoutInflater inflater = getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.dialog_success, null);
+        builder.setView(dialogView);
 
+        AlertDialog alertDialog = builder.create();
+
+        // Find the Lottie animation view
+        LottieAnimationView lottieSuccess = dialogView.findViewById(R.id.lottieSuccess);
+        TextView tvSuccessMessage = dialogView.findViewById(R.id.tvSuccessMessage);
+        tvSuccessMessage.setText(msg);
+        lottieSuccess.setVisibility(View.VISIBLE);
+        lottieSuccess.playAnimation();
+
+        // Show the dialog
+        alertDialog.show();
+
+        // Automatically dismiss the dialog after 2 seconds
+        new Handler().postDelayed(() -> {
+            alertDialog.dismiss();
+        }, 2000);
+    }
 }

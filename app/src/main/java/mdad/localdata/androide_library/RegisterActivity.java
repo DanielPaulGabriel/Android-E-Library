@@ -6,11 +6,13 @@ import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.InputType;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.DynamicDrawableSpan;
 import android.text.style.ImageSpan;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -60,6 +62,28 @@ public class RegisterActivity extends AppCompatActivity {
         ImageSpan imageSpan = new ImageSpan(drawable, DynamicDrawableSpan.ALIGN_BOTTOM);
         spannable.setSpan(imageSpan, 0, 1, Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
         tvRegister.setText(spannable);
+
+        etRegisterPassword.setOnTouchListener((v, event) -> {
+            if (event.getAction() == MotionEvent.ACTION_UP) {
+                // Check if the touch event is within the bounds of the drawableEnd
+                if (event.getRawX() >= (etRegisterPassword.getRight() - etRegisterPassword.getCompoundDrawables()[2].getBounds().width())) {
+                    // Toggle password visibility
+                    if (etRegisterPassword.getInputType() == InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD) {
+                        // Switch to hidden password
+                        etRegisterPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                        etRegisterPassword.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_not_visible_grey, 0);
+                    } else {
+                        // Switch to visible password
+                        etRegisterPassword.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+                        etRegisterPassword.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_visible_grey, 0);
+                    }
+                    // Move the cursor to the end of the text
+                    etRegisterPassword.setSelection(etRegisterPassword.getText().length());
+                    return true;
+                }
+            }
+            return false;
+        });
 
 
         btnRegister.setOnClickListener(new View.OnClickListener() {

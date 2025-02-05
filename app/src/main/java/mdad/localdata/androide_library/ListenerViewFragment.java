@@ -39,7 +39,7 @@ public class ListenerViewFragment extends Fragment {
     private EditText etPageNumber;
     private SeekBar seekBarPage;
     private TextToSpeech tts;
-    private Button btnPlayTTS, btnStopTTS;
+    private Button btnPlayTTS, btnStopTTS, btnPrevious, btnNext;
     private Spinner spinnerLanguage, spinnerSpeed;
     private String bookContent, coverUrl, title;
     private int currentPage = 1;
@@ -88,6 +88,8 @@ public class ListenerViewFragment extends Fragment {
         btnBack = rootView.findViewById(R.id.btnBack);
         btnPlayTTS = rootView.findViewById(R.id.btnPlayTTS);
         btnStopTTS = rootView.findViewById(R.id.btnStopTTS);
+        btnPrevious = rootView.findViewById(R.id.btnPrevious);
+        btnNext = rootView.findViewById(R.id.btnNext);
         ivBookCover = rootView.findViewById(R.id.ivBookCover);
         etPageNumber = rootView.findViewById(R.id.etPageNumber);
         seekBarPage = rootView.findViewById(R.id.seekBarPage);
@@ -103,7 +105,25 @@ public class ListenerViewFragment extends Fragment {
         //loadPage(1);
 
         btnBack.setOnClickListener(v->requireActivity().getSupportFragmentManager().popBackStack());
+        btnPrevious.setOnClickListener(v -> {
+            if (tts.isSpeaking()) {
+                tts.stop();
+            }
+            if (currentPage > 1) {
+                currentPage--;
+                loadPage(currentPage);
+            }
+        });
 
+        btnNext.setOnClickListener(v -> {
+            if (tts.isSpeaking()) {
+                tts.stop();
+            }
+            if (currentPage < totalPages) {
+                currentPage++;
+                loadPage(currentPage);
+            }
+        });
         btnPlayTTS.setOnClickListener(v -> {
             // Check if there is saved progress
             SharedPreferences prefs1 = requireContext().getSharedPreferences("BookProgress", Context.MODE_PRIVATE);

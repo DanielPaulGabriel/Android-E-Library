@@ -86,6 +86,19 @@
                 app:iconTint="@android:color/white"
                 app:iconGravity="textStart"
                 app:iconPadding="8dp" />
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnReview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Review"
+                app:icon="@drawable/ic_staff_reviews"
+                android:textColor="@android:color/white"
+                android:backgroundTint="#736ff5"
+                app:iconSize="25dp"
+                app:iconTint="@android:color/white"
+                app:iconGravity="textStart"
+                app:iconPadding="8dp" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnShareBook"
