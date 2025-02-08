@@ -236,7 +236,7 @@ public class BookDetailsFragment extends Fragment {
                         try {
                             JSONObject jsonObject = new JSONObject(response);
                             if (jsonObject.getBoolean("success")) {
-
+                                tvNoReviews.setVisibility(View.GONE);
                                 // Create a new Review object and add it to the adapter's list
                                 Review newReview = new Review(
                                         jsonObject.getInt("review_id"), // Get review ID from the response

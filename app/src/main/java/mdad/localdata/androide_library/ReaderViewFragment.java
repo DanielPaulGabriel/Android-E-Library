@@ -93,6 +93,7 @@ public class ReaderViewFragment extends Fragment {
         etPageNumber = rootView.findViewById(R.id.etPageNumber);
         tvContent.setMovementMethod(new android.text.method.ScrollingMovementMethod());
         tvTitle.setText(bookTitle);
+        //pdfViewer = rootView.findViewById(R.id.pdfViewer);
 
         btnSettings = rootView.findViewById(R.id.btnSettings);
 
@@ -106,6 +107,7 @@ public class ReaderViewFragment extends Fragment {
         String bgColor = prefs.getString("bg_color", "#FFFFFF");
 
         applyReaderSettings(fontSize, lineSpacing, fontType, bgColor);
+        loadPage(currentPage);
 
         btnPrevious.setOnClickListener(v -> {
             if (currentPage > 1) {
@@ -139,7 +141,6 @@ public class ReaderViewFragment extends Fragment {
             loadPage(totalPages);
         });
 
-        loadPage(currentPage);
 
         return rootView;
     }
@@ -182,7 +183,7 @@ public class ReaderViewFragment extends Fragment {
         }
     }
 
-    private void openTextSettingsDialog() { // Options menu config
+    private void openTextSettingsDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
         LayoutInflater inflater = requireActivity().getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.dialog_text_settings, null);
@@ -264,3 +265,4 @@ public class ReaderViewFragment extends Fragment {
 
 
 }
+

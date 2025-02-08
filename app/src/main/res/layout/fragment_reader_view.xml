@@ -42,11 +42,7 @@
             android:src="@drawable/ic_settings"
             android:contentDescription="Settings" />
     </LinearLayout>
-    <com.github.barteksc.pdfviewer.PDFView
-        android:id="@+id/pdfViewer"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1" />
+
     <TextView
         android:id="@+id/tvContent"
         android:layout_width="match_parent"
@@ -121,3 +117,4 @@
 
 
 </LinearLayout>
+
