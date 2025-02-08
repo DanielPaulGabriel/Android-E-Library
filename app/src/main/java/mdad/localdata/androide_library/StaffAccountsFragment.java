@@ -55,8 +55,6 @@ public class StaffAccountsFragment extends Fragment {
     private List<StaffAccount> staffList = new ArrayList<>();
     private static final String GET_ALL_STAFF_URL = Constants.GET_ALL_USERS_URL;
     private static final String DELETE_STAFF_URL = Constants.DELETE_USER_URL;
-    private static final String EDIT_STAFF_URL = Constants.UPDATE_USER_DETAILS_URL;
-    private static final String CREATE_STAFF_URL = Constants.CREATE_STAFF_URL;
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     private String mParam1;
@@ -103,21 +101,7 @@ public class StaffAccountsFragment extends Fragment {
             startActivity(new Intent(requireContext(), LoginActivity.class));
             requireActivity().finish();
         });
-        /*btnToggleTheme.setOnClickListener(v->{
-            int newMode = (currentMode == AppCompatDelegate.MODE_NIGHT_YES)
-                    ? AppCompatDelegate.MODE_NIGHT_NO
-                    : AppCompatDelegate.MODE_NIGHT_YES;
 
-            // Save new theme mode
-            SharedPrefsManager.saveThemeMode(requireContext(), newMode);
-
-            // Apply new theme mode
-            AppCompatDelegate.setDefaultNightMode(newMode);
-
-            // Provide feedback
-            String theme = (newMode == AppCompatDelegate.MODE_NIGHT_YES) ? "Dark Mode" : "Light Mode";
-            Toast.makeText(requireContext(), theme + " enabled", Toast.LENGTH_SHORT).show();
-        });*/
         btnToggleTheme.setOnClickListener(v -> {
             String[] themes = {"Light", "Dark", "System"};
             int currentThemeIndex = getCurrentThemeIndex();

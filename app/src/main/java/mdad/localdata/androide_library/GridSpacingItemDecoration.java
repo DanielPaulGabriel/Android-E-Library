@@ -5,6 +5,7 @@ import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+// Book catalog grid layout class
 public class GridSpacingItemDecoration extends RecyclerView.ItemDecoration {
     private final int spanCount;
     private final int spacing;

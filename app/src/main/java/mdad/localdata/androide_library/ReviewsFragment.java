@@ -43,7 +43,7 @@ import java.util.Map;
 public class ReviewsFragment extends Fragment {
 
     private RecyclerView recyclerView;
-    private ReviewAdapter reviewAdapter;
+    private UserReviewAdapter reviewAdapter;
     private TextView tvNoReviews;
     private SearchView searchView;
     private Button btnRedirect, btnRetry;
@@ -120,7 +120,11 @@ public class ReviewsFragment extends Fragment {
         });
 
 
-        btnRetry.setOnClickListener(v->fetchReviews(userId));
+        btnRetry.setOnClickListener(v->{
+            BottomNavigationView bottomNavigationView = requireActivity().findViewById(R.id.bottom_navigation);
+            bottomNavigationView.setSelectedItemId(R.id.nav_reviews);
+            //fetchReviews(userId);
+        });
 
 
         return rootView;
@@ -161,7 +165,7 @@ public class ReviewsFragment extends Fragment {
                                 if(!filteredReviewList.isEmpty()){
                                     searchView.setVisibility(View.VISIBLE);
                                 }
-                                UserReviewAdapter adapter = new UserReviewAdapter(filteredReviewList, new UserReviewAdapter.OnReviewActionListener() {
+                                reviewAdapter = new UserReviewAdapter(filteredReviewList, new UserReviewAdapter.OnReviewActionListener() {
                                     @Override
                                     public void onEditReview(Review review) {
                                         Fragment editReviewFragment = EditReviewFragment.newInstance(
@@ -191,7 +195,7 @@ public class ReviewsFragment extends Fragment {
                                                 .show();
                                     }
                                 });
-                                recyclerView.setAdapter(adapter);
+                                recyclerView.setAdapter(reviewAdapter);
                             } else {
                                 tvNoReviews.setVisibility(View.VISIBLE);
                                 btnRedirect.setVisibility(View.VISIBLE);
@@ -262,6 +266,7 @@ public class ReviewsFragment extends Fragment {
             for (Review review : reviewList) {
                 if (review.getTitle().toLowerCase().contains(query.toLowerCase()) ||
                         review.getAuthor().toLowerCase().contains(query.toLowerCase())) {
+                    System.out.println("Filtered Review"+review.getTitle());
                     filteredReviewList.add(review);
                 }
             }
@@ -277,11 +282,11 @@ public class ReviewsFragment extends Fragment {
             btnRedirect.setVisibility(View.GONE);
             searchView.setVisibility(View.VISIBLE);;
             recyclerView.setVisibility(View.VISIBLE);
-            if (reviewAdapter != null) {
-                reviewAdapter.notifyDataSetChanged();
-            }
-        }
 
+        }
+        if (reviewAdapter != null) {
+            reviewAdapter.notifyDataSetChanged();
+        }
         //reviewAdapter.updateReviews(filteredReviewList);
     }
 

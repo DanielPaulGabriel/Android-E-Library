@@ -71,12 +71,14 @@ public class ListenerViewFragment extends Fragment {
         // Initialize Text-to-Speech
         tts = new TextToSpeech(requireContext(), status -> {
             if (status == TextToSpeech.SUCCESS) {
+                // Default settings
                 tts.setLanguage(Locale.US);
                 tts.setSpeechRate(1.0f);
             } else {
                 Toast.makeText(requireContext(), "TTS initialization failed!", Toast.LENGTH_SHORT).show();
             }
         });
+        // Retrieve saved book progress
         SharedPreferences prefs = requireContext().getSharedPreferences("BookProgress", Context.MODE_PRIVATE);
         currentPage = prefs.getInt("book_" + bookId, 1); // Default to page 1 if not found
     }
@@ -101,10 +103,8 @@ public class ListenerViewFragment extends Fragment {
         Glide.with(this).load(coverUrl+"?t="+System.currentTimeMillis()).into(ivBookCover);
 
 
-        // Fetch the first page
-        //loadPage(1);
+        btnBack.setOnClickListener(v->requireActivity().getSupportFragmentManager().popBackStack()); // Return to previous fragment
 
-        btnBack.setOnClickListener(v->requireActivity().getSupportFragmentManager().popBackStack());
         btnPrevious.setOnClickListener(v -> {
             if (tts.isSpeaking()) {
                 tts.stop();
@@ -124,11 +124,11 @@ public class ListenerViewFragment extends Fragment {
                 loadPage(currentPage);
             }
         });
+
         btnPlayTTS.setOnClickListener(v -> {
             // Check if there is saved progress
             SharedPreferences prefs1 = requireContext().getSharedPreferences("BookProgress", Context.MODE_PRIVATE);
             int savedPage = prefs1.getInt("book_" + bookId, -1); // Default to -1 if no saved progress
-            System.out.println("Saved page: " + savedPage);
 
             if (savedPage == -1) {
                 // No saved progress
@@ -143,9 +143,8 @@ public class ListenerViewFragment extends Fragment {
             // Load the page and then play the TTS
             loadPage(currentPage);
 
+            // Start book player service
             Intent serviceIntent = new Intent(getContext(), BookPlayerService.class);
-            serviceIntent.setAction(BookPlayerService.ACTION_PLAY);
-            serviceIntent.putExtra("bookContent", bookContent);
             serviceIntent.putExtra("bookTitle", title);
             requireContext().startService(serviceIntent);
 
@@ -155,10 +154,10 @@ public class ListenerViewFragment extends Fragment {
         btnStopTTS.setOnClickListener(v -> {
             pausePlayback();
             Intent serviceIntent = new Intent(getContext(), BookPlayerService.class);
-            serviceIntent.setAction(BookPlayerService.ACTION_PAUSE);
             requireContext().stopService(serviceIntent);
         });
 
+        // Progress Bar listener
         seekBarPage.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -182,6 +181,7 @@ public class ListenerViewFragment extends Fragment {
             }
         });
 
+        // TTS language dropdown list
         spinnerLanguage.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -213,6 +213,7 @@ public class ListenerViewFragment extends Fragment {
             }
         });
 
+        // TTS speech rate dropdown list
         spinnerSpeed.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -235,7 +236,7 @@ public class ListenerViewFragment extends Fragment {
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                // Optional: Handle no selection\
+                // Handle no selection
                 tts.setSpeechRate(1.0f);
             }
         });
@@ -267,9 +268,9 @@ public class ListenerViewFragment extends Fragment {
         return rootView;
     }
 
-    private void loadPage(int pageNumber) {
+    private void loadPage(int pageNumber) { // Function to play selected page
         setPlayButtonState(false); // Disable play button during loading
-        String url = Constants.GET_BOOK_TEXT_URL + "?book_id=" + bookId + "&page_number=" + pageNumber;
+        String url = Constants.GET_BOOK_TEXT_URL + "?book_id=" + bookId + "&page_number=" + pageNumber; // GET Request url params (book ID and page number)
         StringRequest request = new StringRequest(Request.Method.GET, url,
                 response -> {
                     try {
@@ -283,10 +284,10 @@ public class ListenerViewFragment extends Fragment {
                             etPageNumber.setText(String.valueOf(pageNumber));
                             etPageNumber.clearFocus();
                             InputMethodManager imm = (InputMethodManager) requireContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-                            imm.hideSoftInputFromWindow(etPageNumber.getWindowToken(), 0);
+                            imm.hideSoftInputFromWindow(etPageNumber.getWindowToken(), 0); // hides the soft keyboard
                             // Ensure content is available before starting TTS
                             if (bookContent != null && !bookContent.trim().isEmpty()) {
-                                tts.speak(bookContent, TextToSpeech.QUEUE_FLUSH, null, null);
+                                tts.speak(bookContent, TextToSpeech.QUEUE_FLUSH, null, null); // Start TTS
                             } else {
                                 Toast.makeText(requireContext(), "No content to read.", Toast.LENGTH_SHORT).show();
                             }
@@ -314,7 +315,7 @@ public class ListenerViewFragment extends Fragment {
 
     private void saveProgress() {
         SharedPreferences prefs = requireContext().getSharedPreferences("BookProgress", Context.MODE_PRIVATE);
-        prefs.edit().putInt("book_" + bookId, currentPage).apply();
+        prefs.edit().putInt("book_" + bookId, currentPage).apply(); // Save current page
     }
     public void pausePlayback() {
         if (tts.isSpeaking()) {
@@ -332,7 +333,7 @@ public class ListenerViewFragment extends Fragment {
         saveProgress();
     }
 
-    private boolean isValidPage(int pageNumber) {
+    private boolean isValidPage(int pageNumber) { // Check if page number does not exceed total number of pages
         return pageNumber > 0 && pageNumber <= totalPages;
     }
 

@@ -2,9 +2,9 @@ package mdad.localdata.androide_library;
 
 public class Constants {
     // Base URL
-    public static final String BASE_URL = "http://192.168.86.250";
+    public static final String BASE_URL = ""; // Enter Server IP Address Here
 
-    // Endpoints
+    // Server Endpoints
         // Users
         public static final String LOGIN_URL = BASE_URL + "/elibrary/users/loginUser.php";
         public static final String REGISTER_URL = BASE_URL + "/elibrary/users/registerUser.php";

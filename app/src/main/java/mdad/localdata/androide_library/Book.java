@@ -7,8 +7,8 @@ public class Book {
     private String genre;
     private String summary;
     private int quantity;
-    private String contentPath;
-    private String coverPath;
+    private String contentPath; // Points to book content file location in the server
+    private String coverPath; // Points to book cover image file location in the server
 
     // Constructor
     public Book(int bookId, String title, String author, String genre, String summary, int quantity, String contentPath, String coverPath) {
@@ -46,7 +46,6 @@ public class Book {
     public int getQuantity() {
         return quantity;
     }
-
     public String getContentPath() {
         return contentPath;
     }

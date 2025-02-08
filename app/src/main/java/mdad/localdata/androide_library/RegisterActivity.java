@@ -51,14 +51,13 @@ public class RegisterActivity extends AppCompatActivity {
         etRegisterUsername = findViewById(R.id.etRegisterUsername);
         etRegisterPassword = findViewById(R.id.etRegisterPassword);
         btnRegister = findViewById(R.id.btnRegister);
-        //btnBack = findViewById(R.id.btnBack);
         tvLogin = findViewById(R.id.tvLogin);
         tvRegister = findViewById(R.id.tvRegister);
+
+        // Add app icon to Register Header
         SpannableString spannable = new SpannableString("  Register"); // Space for icon
         Drawable drawable = getResources().getDrawable(R.mipmap.ic_launcher_lib);
-        //drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
         drawable.setBounds(0, 0,100 ,100 );
-
         ImageSpan imageSpan = new ImageSpan(drawable, DynamicDrawableSpan.ALIGN_BOTTOM);
         spannable.setSpan(imageSpan, 0, 1, Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
         tvRegister.setText(spannable);
@@ -92,12 +91,7 @@ public class RegisterActivity extends AppCompatActivity {
                 registerUser();
             }
         });
-        /*btnBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });*/
+
         tvLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -110,6 +104,7 @@ public class RegisterActivity extends AppCompatActivity {
         final String username = etRegisterUsername.getText().toString().trim();
         final String password = etRegisterPassword.getText().toString().trim();
 
+        // Input validation
         if (username.isEmpty() && password.isEmpty()) {
             Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
             return;
@@ -143,9 +138,6 @@ public class RegisterActivity extends AppCompatActivity {
                                     finish();
                                 }, 2000);
 
-                                //Toast.makeText(RegisterActivity.this, jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
-                                //startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
-                                //finish();
                             } else {
                                 Toast.makeText(RegisterActivity.this, jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
                             }

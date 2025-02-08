@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+// User Activity
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -13,7 +14,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         int savedThemeMode = SharedPrefsManager.getThemeMode(this);
         AppCompatDelegate.setDefaultNightMode(savedThemeMode);
-        //AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
         setContentView(R.layout.activity_main);
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
@@ -23,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
             loadFragment(new BookCatalogueFragment());
         }
 
+        // Bottom Nav Bar
         bottomNavigationView.setOnItemSelectedListener(item -> {
             Fragment selectedFragment = null;
 

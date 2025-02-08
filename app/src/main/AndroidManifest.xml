@@ -2,11 +2,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> <!--Used to check if user's device is connected to the internet -->
+    <uses-permission android:name="android.permission.INTERNET" /> <!--Used to allow volley to make requests to the server -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" /> <!--Used to display notifications-->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" /> <!--Used to allow user to play book while app is minimized -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK"/> <!--Used to allow user to play book while app is minimized -->
 
     <application
         android:allowBackup="true"
@@ -23,27 +23,26 @@
 
         <activity
             android:name=".StaffActivity"
-            android:exported="true" />
+            android:exported="true" /> <!--Host Activity for the staff side -->
         <activity
             android:name=".RegisterActivity"
-            android:exported="false" />
+            android:exported="false" />  <!--Activity for user registration -->
         <activity
             android:name=".MainActivity"
-            android:exported="true" />
+            android:exported="true" />  <!--Host Activity for the user side -->
         <activity
             android:name=".LoginActivity"
-            android:exported="true">
+            android:exported="true">  <!--Activity for user login -->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.LAUNCHER" />  <!--Set Startup Activity -->
             </intent-filter>
         </activity>
 
         <service
             android:name=".BookPlayerService"
             android:foregroundServiceType="mediaPlayback"
-            android:exported="false"/>
+            android:exported="false"/> <!--Used to allow user to play book while app is minimized -->
     </application>
 
 </manifest>

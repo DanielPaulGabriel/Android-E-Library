@@ -151,21 +151,6 @@ public class ProfileFragment extends Fragment {
                     .setNegativeButton("No", null)
                     .show();
         });
-        /*btnToggleTheme.setOnClickListener(v -> {
-            int newMode = (currentMode == AppCompatDelegate.MODE_NIGHT_YES)
-                    ? AppCompatDelegate.MODE_NIGHT_NO
-                    : AppCompatDelegate.MODE_NIGHT_YES;
-
-            // Save new theme mode
-            SharedPrefsManager.saveThemeMode(requireContext(), newMode);
-
-            // Apply new theme mode
-            AppCompatDelegate.setDefaultNightMode(newMode);
-
-            // Provide feedback
-            String theme = (newMode == AppCompatDelegate.MODE_NIGHT_YES) ? "Dark Mode" : "Light Mode";
-            Toast.makeText(requireContext(), theme + " enabled", Toast.LENGTH_SHORT).show();
-        });*/
 
         btnToggleTheme.setOnClickListener(v -> {
             String[] themes = {"Light", "Dark", "System"};
@@ -183,7 +168,7 @@ public class ProfileFragment extends Fragment {
 
         return rootView;
     }
-    private void setTheme(String theme) {
+    private void setTheme(String theme) { // Theme spinner function
         switch (theme) {
             case "Light":
                 SharedPrefsManager.saveThemeMode(requireContext(), AppCompatDelegate.MODE_NIGHT_NO);

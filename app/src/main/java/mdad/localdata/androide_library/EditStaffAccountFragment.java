@@ -76,6 +76,7 @@ public class EditStaffAccountFragment extends Fragment {
         btnSubmit.setOnClickListener(v -> updateStaffDetails());
         btnCancel.setOnClickListener(v -> requireActivity().getSupportFragmentManager().popBackStack());
 
+        // Password visibility toggle
         etPassword.setOnTouchListener((v, event) -> {
             if (event.getAction() == MotionEvent.ACTION_UP) {
                 // Check if the touch event is within the bounds of the drawableEnd

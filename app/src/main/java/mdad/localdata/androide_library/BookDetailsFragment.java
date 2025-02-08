@@ -69,10 +69,10 @@ public class BookDetailsFragment extends Fragment {
     private EditText editReviewText;
     private RecyclerView recyclerView;
     private ReviewAdapter reviewAdapter;
-    private static final String BORROW_URL = Constants.BORROW_BOOK_URL;
-    private static final String SUBMIT_REVIEW_URL = Constants.CREATE_REVIEW_URL;
-    private static final String GET_BOOK_REVIEWS_URL = Constants.GET_ALL_BOOK_REVIEWS_URL;
-    private static final String GET_BORROW_STATUS = Constants.GET_BORROW_STATUS;
+    private static final String BORROW_URL = Constants.BORROW_BOOK_URL; // API endpoint to borrow book
+    private static final String SUBMIT_REVIEW_URL = Constants.CREATE_REVIEW_URL; // API endpoint to submit review
+    private static final String GET_BOOK_REVIEWS_URL = Constants.GET_ALL_BOOK_REVIEWS_URL; // API endpoint to fetch all book reviews
+    private static final String GET_BORROW_STATUS = Constants.GET_BORROW_STATUS; // API endpoint to check if book is borrowed by current user
 
     public BookDetailsFragment() {
         // Required empty public constructor
@@ -91,7 +91,7 @@ public class BookDetailsFragment extends Fragment {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) { // Fragment instantiation parameters
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             bookId = getArguments().getInt(ARG_BOOK_ID);
@@ -106,6 +106,7 @@ public class BookDetailsFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_book_details, container, false);
 
+        // Instantiate UI view objects
         btnBack = rootView.findViewById(R.id.btnBack);
         ivBookCover = rootView.findViewById(R.id.ivBookCover);
         tvBookTitle = rootView.findViewById(R.id.tvBookTitle);
@@ -121,48 +122,43 @@ public class BookDetailsFragment extends Fragment {
 
         // Retrieve Id of logged in user
         userId = SharedPrefsManager.getUserId(requireContext());
-        //System.out.println("BorrowBook user id input:"+ userId);
 
-
-        Glide.with(this).load(coverUrl+"?t="+System.currentTimeMillis()).into(ivBookCover);
+        // Load book cover using cover url
+        Glide.with(this).load(coverUrl+"?t="+System.currentTimeMillis()).into(ivBookCover); // Add timestamp to circumvent image caching causing book cover to not update
         tvBookTitle.setText(title);
         tvBookAuthor.setText(author);
         tvBookDescription.setText(description);
 
 
-        btnBack.setOnClickListener(v -> requireActivity().getSupportFragmentManager().popBackStack());
+        btnBack.setOnClickListener(v -> requireActivity().getSupportFragmentManager().popBackStack()); // Navigate user to previous fragment
 
-        btnBorrow.setOnClickListener(v -> borrowBook(bookId, userId));
+        btnBorrow.setOnClickListener(v -> borrowBook(bookId, userId)); // Borrow book on click listener
 
-        btnSubmitReview.setOnClickListener(v -> submitReview());
-        fetchBorrowStatus(bookId, userId);
-        fetchReviews(bookId);
+        btnSubmitReview.setOnClickListener(v -> submitReview()); // Submit review on click listener
+        fetchBorrowStatus(bookId, userId); // Check if user has borrowed book
+        fetchReviews(bookId); // Fetch book reviews
 
         return rootView;
     }
 
-    private void borrowBook(int bookId, int userId) {
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, BORROW_URL,
+    private void borrowBook(int bookId, int userId) { // Function to borrow book
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, BORROW_URL, // Volley POST request to borrow bookk
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         try {
-                            //Log.d("BorrowBookResponse", response);
                             JSONObject jsonObject = new JSONObject(response);
                             if (jsonObject.getBoolean("success")) {
-                                showSuccessDialog("Book Borrowed Successfully!");
-                                //Toast.makeText(requireContext(), jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
-                                btnBorrow.setEnabled(false);
-                                btnBorrow.setText("Borrowed");
-                                btnBorrow.setBackgroundColor(getResources().getColor(R.color.grey_disabled));
+                                showSuccessDialog("Book Borrowed Successfully!"); // Display animated success dialog
+                                btnBorrow.setEnabled(false); // Disable borrow button
+                                btnBorrow.setText("Borrowed"); // Set Button to "Borrowed"
+                                btnBorrow.setBackgroundColor(getResources().getColor(R.color.grey_disabled)); // Disable borrow button
                                 String due_date = jsonObject.getString("due_date");
-                                sendNotification("Book Borrowed", "Your borrowed book is due on \"" + due_date);
-                            } else {
+                                sendNotification("Book Borrowed", "Your borrowed book is due on \"" + due_date); // Display book due date in notification
+                            } else { // Error Handling
                                 Toast.makeText(requireContext(), jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
-                                //btnBorrow.setEnabled(false);
-                                //btnBorrow.setText("Borrow");
                             }
-                        } catch (JSONException e) {
+                        } catch (JSONException e) { // Error Handling
                             e.printStackTrace();
                             Toast.makeText(requireContext(), "JSON Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                         }
@@ -171,12 +167,12 @@ public class BookDetailsFragment extends Fragment {
 
                 new Response.ErrorListener() {
                     @Override
-                    public void onErrorResponse(VolleyError error) {
+                    public void onErrorResponse(VolleyError error) { // Error Handling
                         Toast.makeText(requireContext(), "Volley Error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 }) {
             @Override
-            protected Map<String, String> getParams() {
+            protected Map<String, String> getParams() { // POST parameters
                 Map<String, String> params = new HashMap<>();
                 params.put("user_id", String.valueOf(userId));
                 params.put("book_id", String.valueOf(bookId));
@@ -188,7 +184,7 @@ public class BookDetailsFragment extends Fragment {
         queue.add(stringRequest);
     }
 
-    private void fetchBorrowStatus(int bookId, int userId) {
+    private void fetchBorrowStatus(int bookId, int userId) { // Function to check if user has is currently borrowing book
         StringRequest stringRequest = new StringRequest(Request.Method.GET, GET_BORROW_STATUS+ "?user_id="+userId+"&book_id="+bookId,
                 new Response.Listener<String>() {
                     @Override
@@ -196,18 +192,17 @@ public class BookDetailsFragment extends Fragment {
                         try {
                             JSONObject jsonObject = new JSONObject(response);
                             if (jsonObject.getBoolean("success")) {
-                                btnBorrow.setEnabled(false);
-                                btnBorrow.setText("Borrowed");
-                                btnBorrow.setBackgroundColor(getResources().getColor(R.color.grey_disabled));
+                                btnBorrow.setEnabled(false); // Disable borrow button
+                                btnBorrow.setText("Borrowed"); // Set Button to "Borrowed"
+                                btnBorrow.setBackgroundColor(getResources().getColor(R.color.grey_disabled)); // Disable borrow button
                             }
-                        } catch (JSONException e) {
+                        } catch (JSONException e) { // Error Handling
                             e.printStackTrace();
-                            //Toast.makeText(requireContext(), "JSON Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     }
                 },
 
-                new Response.ErrorListener() {
+                new Response.ErrorListener() { // Error Handling
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         Toast.makeText(requireContext(), "Volley Error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
@@ -218,7 +213,7 @@ public class BookDetailsFragment extends Fragment {
         queue.add(stringRequest);
     }
 
-    private void submitReview() {
+    private void submitReview() { // Function to submit book review
         // Get user input
         final String reviewText = editReviewText.getText().toString().trim();
         final float rating = bookRatingBar.getRating();
@@ -234,16 +229,13 @@ public class BookDetailsFragment extends Fragment {
         }
 
         // Send request to server
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, SUBMIT_REVIEW_URL,
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, SUBMIT_REVIEW_URL, // Volley POST request to submit review
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         try {
-                            Log.d("SubmitReviewResponse", response);
                             JSONObject jsonObject = new JSONObject(response);
                             if (jsonObject.getBoolean("success")) {
-                                // Notify the user
-                                //Toast.makeText(requireContext(), "Review Submitted Successfully!", Toast.LENGTH_SHORT).show();
 
                                 // Create a new Review object and add it to the adapter's list
                                 Review newReview = new Review(
@@ -263,11 +255,11 @@ public class BookDetailsFragment extends Fragment {
                                 editReviewText.setText("");
                                 bookRatingBar.setRating(0);
 
-                                showSuccessDialog("Review Submitted Successfully!");
-                            } else {
+                                showSuccessDialog("Review Submitted Successfully!"); // Display animated success alert dialog
+                            } else { // Error handling
                                 Toast.makeText(requireContext(), jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
                             }
-                        } catch (JSONException e) {
+                        } catch (JSONException e) { // Error handling
                             e.printStackTrace();
                             Toast.makeText(requireContext(), "Error processing response: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                         }
@@ -296,11 +288,10 @@ public class BookDetailsFragment extends Fragment {
 
     // Fetch reviews from the server and populate RecyclerView
     private void fetchReviews(int bookId) {
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, GET_BOOK_REVIEWS_URL + "?book_id=" + bookId,
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, GET_BOOK_REVIEWS_URL + "?book_id=" + bookId, // Add book id to Volley GET request params
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        // Log.d("fetchServerResponse", response);
                         try {
                             JSONObject jsonObject = new JSONObject(response);
                             if (jsonObject.getBoolean("success")) {
@@ -338,7 +329,6 @@ public class BookDetailsFragment extends Fragment {
                             e.printStackTrace();
                             tvReviewsTitle.setText("No Book Reviews Found");
                             tvNoReviews.setVisibility(View.VISIBLE);
-                            //Toast.makeText(requireContext(), "Error loading reviews", Toast.LENGTH_SHORT).show();
                         }
                     }
                 },

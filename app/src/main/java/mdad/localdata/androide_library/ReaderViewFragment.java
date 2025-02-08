@@ -41,7 +41,6 @@ import java.net.URL;
 
 public class ReaderViewFragment extends Fragment {
     private View rootView;
-    private PDFView pdfViewer;
     private static final String ARG_TITLE = "bookTitle";
     private static final String ARG_CONTENT = "contentUrl";
     private static final String ARG_BOOK_ID = "bookId";
@@ -94,7 +93,6 @@ public class ReaderViewFragment extends Fragment {
         etPageNumber = rootView.findViewById(R.id.etPageNumber);
         tvContent.setMovementMethod(new android.text.method.ScrollingMovementMethod());
         tvTitle.setText(bookTitle);
-        pdfViewer = rootView.findViewById(R.id.pdfViewer);
 
         btnSettings = rootView.findViewById(R.id.btnSettings);
 
@@ -108,16 +106,6 @@ public class ReaderViewFragment extends Fragment {
         String bgColor = prefs.getString("bg_color", "#FFFFFF");
 
         applyReaderSettings(fontSize, lineSpacing, fontType, bgColor);
-
-        if (bookContent.endsWith(".pdf")) {
-            //loadPdf(bookContent);
-            pdfViewer.setVisibility(View.GONE);
-            loadPage(currentPage);
-
-        }else{
-            pdfViewer.setVisibility(View.GONE);
-            loadPage(currentPage);
-        }
 
         btnPrevious.setOnClickListener(v -> {
             if (currentPage > 1) {
@@ -151,6 +139,7 @@ public class ReaderViewFragment extends Fragment {
             loadPage(totalPages);
         });
 
+        loadPage(currentPage);
 
         return rootView;
     }
@@ -181,39 +170,6 @@ public class ReaderViewFragment extends Fragment {
         Volley.newRequestQueue(requireContext()).add(request);
     }
 
-    private void loadPdf(String pdfUrl) {
-        new Thread(() -> {
-            try {
-                // Download the PDF file
-                File pdfFile = downloadFile(pdfUrl, "book.pdf");
-                if (pdfFile != null) {
-                    requireActivity().runOnUiThread(() -> pdfViewer.fromFile(pdfFile).load());
-                    tvContent.setVisibility(View.GONE);
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }).start();
-    }
-    private File downloadFile(String fileUrl, String fileName) throws Exception {
-        URL url = new URL(fileUrl);
-        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-        connection.connect();
-
-        InputStream inputStream = connection.getInputStream();
-        File file = new File(requireContext().getCacheDir(), fileName);
-        FileOutputStream outputStream = new FileOutputStream(file);
-
-        byte[] buffer = new byte[1024];
-        int bytesRead;
-        while ((bytesRead = inputStream.read(buffer)) != -1) {
-            outputStream.write(buffer, 0, bytesRead);
-        }
-        outputStream.close();
-        inputStream.close();
-
-        return file;
-    }
     private boolean isValidPage(int pageNumber) {
         return pageNumber > 0 && pageNumber <= totalPages;
     }
@@ -226,7 +182,7 @@ public class ReaderViewFragment extends Fragment {
         }
     }
 
-    private void openTextSettingsDialog() {
+    private void openTextSettingsDialog() { // Options menu config
         AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
         LayoutInflater inflater = requireActivity().getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.dialog_text_settings, null);

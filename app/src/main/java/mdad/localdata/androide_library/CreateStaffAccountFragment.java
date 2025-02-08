@@ -38,7 +38,7 @@ import java.util.Map;
 public class CreateStaffAccountFragment extends Fragment {
     private EditText etUsername,etPassword;
     private Button btnSubmit, btnCancel;
-    private static final String CREATE_STAFF_URL = Constants.CREATE_STAFF_URL;
+    private static final String CREATE_STAFF_URL = Constants.CREATE_STAFF_URL; // API endpoint to create staff account
 
     public CreateStaffAccountFragment() {
         // Required empty public constructor
@@ -66,6 +66,7 @@ public class CreateStaffAccountFragment extends Fragment {
         btnSubmit.setOnClickListener(v->createStaff());
         btnCancel.setOnClickListener(v-> requireActivity().getSupportFragmentManager().popBackStack());
 
+        // Password Visibility Toggle
         etPassword.setOnTouchListener((v, event) -> {
             if (event.getAction() == MotionEvent.ACTION_UP) {
                 // Check if the touch event is within the bounds of the drawableEnd
@@ -94,6 +95,7 @@ public class CreateStaffAccountFragment extends Fragment {
         final String username = etUsername.getText().toString().trim();
         final String password = etPassword.getText().toString().trim();
 
+        // Input validation
         if (username.isEmpty() && password.isEmpty()) {
             Toast.makeText(requireContext(), "Please fill in all fields", Toast.LENGTH_SHORT).show();
             return;
@@ -120,8 +122,7 @@ public class CreateStaffAccountFragment extends Fragment {
                             JSONObject jsonObject = new JSONObject(response);
                             if (jsonObject.getBoolean("success")) {
                                 showSuccessDialog(jsonObject.getString("message"));
-                                //Toast.makeText(requireContext(), jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
-                                requireActivity().getSupportFragmentManager().popBackStack();
+                                requireActivity().getSupportFragmentManager().popBackStack(); // Return to previous fragment
                             } else {
                                 Toast.makeText(requireContext(), jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
                             }
@@ -161,7 +162,7 @@ public class CreateStaffAccountFragment extends Fragment {
         // Find the Lottie animation view
         LottieAnimationView lottieSuccess = dialogView.findViewById(R.id.lottieSuccess);
         TextView tvSuccessMessage = dialogView.findViewById(R.id.tvSuccessMessage);
-        tvSuccessMessage.setText(msg);
+        tvSuccessMessage.setText(msg); // Set display text to String parameter
         lottieSuccess.setVisibility(View.VISIBLE);
         lottieSuccess.playAnimation();
 

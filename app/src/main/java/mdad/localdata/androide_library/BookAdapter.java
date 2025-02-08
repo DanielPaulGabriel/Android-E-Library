@@ -16,13 +16,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 
 import java.util.List;
-
+// Adapter for Book Recycler View
 public class BookAdapter extends RecyclerView.Adapter<BookAdapter.BookViewHolder> {
     private Context context;
     private List<Book> bookList;
-    private OnBookActionListener listener;
+    private OnBookActionListener listener; // Event listener for each book item
 
-    private static final String BASE_URL = Constants.BASE_URL;
+    private static final String BASE_URL = Constants.BASE_URL; // Server IP Address
     public BookAdapter(Context context, List<Book> bookList) {
         this.context = context;
         this.bookList = bookList;
@@ -40,7 +40,7 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.BookViewHolder
     @NonNull
     @Override
     public BookViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_book, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.item_book, parent, false); // Set layout file of Book Item
         return new BookViewHolder(view);
     }
 
@@ -60,24 +60,6 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.BookViewHolder
                 .into(holder.ivBookCover);
 
         // Handle item click
-       /* holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Fragment bookDetailsFragment = BookDetailsFragment.newInstance(
-                        book.getBookId(),
-                        BASE_URL + book.getCoverPath(),
-                        book.getTitle(),
-                        book.getAuthor(),
-                        book.getSummary()
-                );
-
-                ((AppCompatActivity) context).getSupportFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.fragment_container, bookDetailsFragment)
-                        .addToBackStack(null)
-                        .commit();
-            }
-        }*/
         holder.itemView.setOnClickListener(v -> {
             if (listener != null) {
                 listener.onBookClick(book);

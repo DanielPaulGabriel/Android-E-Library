@@ -1,6 +1,6 @@
 package mdad.localdata.androide_library;
 
-// GenreHeader class
+// GenreHeader class for borrowed books tab
 public class GenreHeader implements ListItem {
     private String genre;
 

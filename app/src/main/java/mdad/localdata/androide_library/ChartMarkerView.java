@@ -8,6 +8,7 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.utils.MPPointF;
 
+// Used to display tooltip when graph data point is clicked
 public class ChartMarkerView extends MarkerView {
 
     private final TextView tvContent;
@@ -25,6 +26,7 @@ public class ChartMarkerView extends MarkerView {
         super.refreshContent(e, highlight);
     }
 
+    // Text offset
     @Override
     public MPPointF getOffset() {
         if (mOffset == null) {

@@ -55,9 +55,9 @@ public class LoginActivity extends AppCompatActivity {
 
         if (isLoggedIn) {
             if (userRole.equals("user")) {
-                startActivity(new Intent(this, MainActivity.class));
+                startActivity(new Intent(this, MainActivity.class)); // Navigate to User page
             } else if (userRole.equals("staff")) {
-                startActivity(new Intent(this, StaffActivity.class));
+                startActivity(new Intent(this, StaffActivity.class)); // Navigate to Staff page
             }
             finish(); // Close the LoginActivity
         }
@@ -69,15 +69,16 @@ public class LoginActivity extends AppCompatActivity {
         btnLogin = findViewById(R.id.btnLogin);
         tvRegister = findViewById(R.id.tvRegister);
         tvLogin = findViewById(R.id.tvLogin);
+
+        // Add app icon to Login Header
         SpannableString spannable = new SpannableString("  Login"); // Space for icon
         Drawable drawable = getResources().getDrawable(R.mipmap.ic_launcher_lib);
-        //drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
         drawable.setBounds(0, 0,100 ,100 );
-
         ImageSpan imageSpan = new ImageSpan(drawable, DynamicDrawableSpan.ALIGN_BOTTOM);
         spannable.setSpan(imageSpan, 0, 1, Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
         tvLogin.setText(spannable);
 
+        // Password visibility toggle
         etPassword.setOnTouchListener((v, event) -> {
             if (event.getAction() == MotionEvent.ACTION_UP) {
                 // Check if the touch event is within the bounds of the drawableEnd
@@ -128,6 +129,7 @@ public class LoginActivity extends AppCompatActivity {
         final String username = etUsername.getText().toString().trim();
         final String password = etPassword.getText().toString().trim();
 
+        // Input validation
         if (username.isEmpty() || password.isEmpty()) {
             Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
             return;
@@ -141,27 +143,16 @@ public class LoginActivity extends AppCompatActivity {
                             JSONObject jsonObject = new JSONObject(response);
                             if (jsonObject.getBoolean("success")) {
 
+                                // Store login details
                                 int userId = jsonObject.getInt("user_id");
                                 SharedPrefsManager.saveUserId(LoginActivity.this, userId);
-
                                 String username = jsonObject.getString("username");
                                 SharedPrefsManager.saveUsername(LoginActivity.this, username);
-
                                 String password = jsonObject.getString("password");
                                 SharedPrefsManager.savePassword(LoginActivity.this,password);
 
                                 String role = jsonObject.getString("role");
-
-                                // Show Lottie animation above all views
-                                /*LottieAnimationView lottieSuccess = findViewById(R.id.lottieSuccess);
-                                lottieSuccess.bringToFront(); // Moves the animation above all UI elements
-                                lottieSuccess.setVisibility(View.VISIBLE);
-                                btnLogin.setVisibility(View.GONE);
-                                tvRegister.setVisibility(View.GONE);
-                                lottieSuccess.playAnimation();*/
-
                                 showSuccessDialog(); // Show animated alert
-
                                 // Delay transition to the next activity
                                 new Handler().postDelayed(() -> {
                                     Intent intent;
@@ -176,7 +167,7 @@ public class LoginActivity extends AppCompatActivity {
 
                                 SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
                                 SharedPreferences.Editor editor = sharedPreferences.edit();
-                                editor.putBoolean("isLoggedIn", true);
+                                editor.putBoolean("isLoggedIn", true); // set login state to logged in
                                 editor.putString("userRole", role); // Save role (e.g., "user" or "staff")
                                 editor.apply();
                             } else {
@@ -208,7 +199,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
 
-    private boolean isNetworkAvailable() {
+    private boolean isNetworkAvailable() { // Cehck if user's device has network access
         ConnectivityManager connectivityManager =
                 (ConnectivityManager) LoginActivity.this.getSystemService(Context.CONNECTIVITY_SERVICE);
         if (connectivityManager != null) {

@@ -50,7 +50,7 @@ public class EditReviewFragment extends Fragment {
     private float rating;
     private String reviewText;
 
-    private TextView tvBookTitle,tvAuthorName, tvBookSummary;
+    private TextView tvBookTitle,tvAuthorName;
     private ImageView ivBookCover;
 
     private EditText etReviewText;
@@ -90,17 +90,16 @@ public class EditReviewFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_edit_review, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_edit_review, container, false);
 
-        etReviewText = view.findViewById(R.id.etReviewText);
-        ratingBar = view.findViewById(R.id.ratingBar);
-        btnSave = view.findViewById(R.id.btnSave);
-        btnCancel = view.findViewById(R.id.btnCancel);
+        etReviewText = rootView.findViewById(R.id.etReviewText);
+        ratingBar = rootView.findViewById(R.id.ratingBar);
+        btnSave = rootView.findViewById(R.id.btnSave);
+        btnCancel = rootView.findViewById(R.id.btnCancel);
 
-        ivBookCover = view.findViewById(R.id.ivBookCover);
-        tvBookTitle = view.findViewById(R.id.tvBookTitle);
-        tvAuthorName = view.findViewById(R.id.tvAuthorName);
-        //tvBookSummary = view.findViewById(R.id.tvBookSummary);
+        ivBookCover = rootView.findViewById(R.id.ivBookCover);
+        tvBookTitle = rootView.findViewById(R.id.tvBookTitle);
+        tvAuthorName = rootView.findViewById(R.id.tvAuthorName);
 
         // Set existing review details
         etReviewText.setText(reviewText);
@@ -126,11 +125,11 @@ public class EditReviewFragment extends Fragment {
         });
 
         btnCancel.setOnClickListener(v -> {
-            requireActivity().getSupportFragmentManager().popBackStack();
+            requireActivity().getSupportFragmentManager().popBackStack(); // Return to previous fragment
         });
 
 
-        return view;
+        return rootView;
     }
 
     private void updateReview(int reviewId, String updatedReviewText, float updatedRating) {
